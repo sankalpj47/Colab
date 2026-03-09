@@ -15,14 +15,14 @@ Full-stack authentication starter with **Next.js** + **Express** + **Supabase** 
 
 ## Contents
 
-- [Features](features)
-- [Tech Stack](tech-stack)
-- [Project Structure](project-structure)
-- [Getting Started](getting-started)
-- [Environment Variables](environment-variables)
-- [Auth Flows](auth-flows)
-- [API Reference](api-reference)
-- [Contributing](contributing)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Auth Flows](#auth-flows)
+- [API Reference](#api-reference)
+- [Contributing](#contributing)
 
 ---
 
