@@ -1,27 +1,41 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  /* Core Palette */
-
-  --primary: #2563EB;
-  --primary-hover: #1D4ED8;
-
-  --background: #F8FAFC;
-  --canvas: #FFFFFF;
-
-  --text-primary: #0F172A;
+  --primary:        #2563EB;
+  --primary-hover:  #1D4ED8;
+  --background:     #F8FAFC;
+  --canvas:         #FFFFFF;
+  --text-primary:   #0F172A;
   --text-secondary: #64748B;
-
-  --border: #E2E8F0;
-  --hover: #F1F5F9;
-
-  --success: #22C55E;
-  --warning: #F59E0B;
-  --error: #EF4444;
+  --border:         #E2E8F0;
+  --hover:          #F1F5F9;
+  --success:        #22C55E;
+  --warning:        #F59E0B;
+  --error:          #EF4444;
 }
 
+.dark {
+  --primary:        #3B82F6;
+  --primary-hover:  #60A5FA;
+  --background:     #09090B;
+  --canvas:         #18181B;
+  --text-primary:   #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --border:         #27272A;
+  --hover:          #27272A;
+  --success:        #22C55E;
+  --warning:        #F59E0B;
+  --error:          #EF4444;
+}
+
+
 body {
-  margin: 0;
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }

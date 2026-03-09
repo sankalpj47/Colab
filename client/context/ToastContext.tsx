@@ -1,9 +1,9 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { CheckCircle, XCircle, Info, AlertTriangle, X } from "lucide-react";
+import { CheckCircle, XCircle, X } from "lucide-react";
 
-type ToastType = "success" | "error" | "info" | "warning";
+type ToastType = "success" | "error";
 
 interface Toast {
   id: string;
@@ -16,17 +16,13 @@ interface ToastContextType {
   showToast: (type: ToastType, message: string, duration?: number) => void;
   success: (message: string, duration?: number) => void;
   error: (message: string, duration?: number) => void;
-  info: (message: string, duration?: number) => void;
-  warning: (message: string, duration?: number) => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
-  }
+  if (!context) throw new Error("useToast must be used within a ToastProvider");
   return context;
 };
 
@@ -40,100 +36,79 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   const showToast = useCallback(
     (type: ToastType, message: string, duration: number = 5000) => {
       const id = crypto.randomUUID();
-
-      const newToast: Toast = {
-        id,
-        type,
-        message,
-        duration,
-      };
-
-      setToasts((prev) => [...prev, newToast]);
-
-      if (duration > 0) {
-        setTimeout(() => {
-          removeToast(id);
-        }, duration);
-      }
+      setToasts((prev) => [...prev, { id, type, message, duration }]);
+      if (duration > 0) setTimeout(() => removeToast(id), duration);
     },
     [removeToast]
   );
 
   const success = useCallback(
-    (message: string, duration?: number) =>
-      showToast("success", message, duration),
+    (message: string, duration?: number) => showToast("success", message, duration),
     [showToast]
   );
 
   const error = useCallback(
-    (message: string, duration?: number) =>
-      showToast("error", message, duration),
-    [showToast]
-  );
-
-  const info = useCallback(
-    (message: string, duration?: number) =>
-      showToast("info", message, duration),
-    [showToast]
-  );
-
-  const warning = useCallback(
-    (message: string, duration?: number) =>
-      showToast("warning", message, duration),
+    (message: string, duration?: number) => showToast("error", message, duration),
     [showToast]
   );
 
   const getToastStyles = (type: ToastType) => {
-    const styles: Record<
-      ToastType,
-      { bg: string; icon: React.ReactNode; text: string }
-    > = {
+    const styles: Record<ToastType, {
+      container: string;
+      icon: React.ReactNode;
+      text: string;
+      close: string;
+    }> = {
       success: {
-        bg: "bg-green-50 border-green-500",
-        icon: <CheckCircle className="w-5 h-5 text-green-500" />,
-        text: "text-green-800",
+        container: [
+          "border-l-4 border-[var(--success)]",
+          "bg-[#f0fdf4] text-[#166534]",           // light mode
+          "dark:bg-[#0d2117] dark:text-[#86efac]", // dark mode
+        ].join(" "),
+        icon: <CheckCircle className="w-5 h-5 text-(--success)" />,
+        text:  "text-[#166534] dark:text-[#86efac]",
+        close: "text-[#166534] dark:text-[#86efac] hover:opacity-70",
       },
       error: {
-        bg: "bg-red-50 border-red-500",
-        icon: <XCircle className="w-5 h-5 text-red-500" />,
-        text: "text-red-800",
-      },
-      info: {
-        bg: "bg-blue-50 border-blue-500",
-        icon: <Info className="w-5 h-5 text-blue-500" />,
-        text: "text-blue-800",
-      },
-      warning: {
-        bg: "bg-yellow-50 border-yellow-500",
-        icon: <AlertTriangle className="w-5 h-5 text-yellow-500" />,
-        text: "text-yellow-800",
+        container: [
+          "border-l-4 border-[var(--error)]",
+          "bg-[#fef2f2] text-[#991b1b]",
+          "dark:bg-[#2a0d0d] dark:text-[#fca5a5]",
+        ].join(" "),
+        icon: <XCircle className="w-5 h-5 text-(--error)" />,
+        text:  "text-[#991b1b] dark:text-[#fca5a5]",
+        close: "text-[#991b1b] dark:text-[#fca5a5] hover:opacity-70",
       },
     };
-
     return styles[type];
   };
 
   return (
-    <ToastContext.Provider value={{ showToast, success, error, info, warning }}>
+    <ToastContext.Provider value={{ showToast, success, error }}>
       {children}
 
       <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
         {toasts.map((toast) => {
           const styles = getToastStyles(toast.type);
-
           return (
             <div
               key={toast.id}
-              className={`${styles.bg} ${styles.text} border-l-4 rounded-lg shadow-lg p-4 min-w-75 max-w-md pointer-events-auto`}
+              className={`
+                ${styles.container}
+                rounded-lg shadow-lg p-4 min-w-75 max-w-md
+                pointer-events-auto
+                shadow-black/10 dark:shadow-black/40
+              `}
               style={{ animation: "slideIn 0.3s ease-out" }}
             >
               <div className="flex items-start gap-3">
                 <div className="shrink-0 mt-0.5">{styles.icon}</div>
-                <p className="flex-1 text-sm font-medium">{toast.message}</p>
-
+                <p className={`flex-1 text-sm font-medium ${styles.text}`}>
+                  {toast.message}
+                </p>
                 <button
                   onClick={() => removeToast(toast.id)}
-                  className="shrink-0 hover:opacity-70 transition-opacity"
+                  className={`shrink-0 transition-opacity ${styles.close}`}
                   aria-label="Close toast"
                 >
                   <X className="w-4 h-4" />
@@ -146,14 +121,8 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
 
       <style jsx global>{`
         @keyframes slideIn {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
+          from { transform: translateX(100%); opacity: 0; }
+          to   { transform: translateX(0);    opacity: 1; }
         }
       `}</style>
     </ToastContext.Provider>
