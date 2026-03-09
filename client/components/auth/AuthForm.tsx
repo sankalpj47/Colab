@@ -94,7 +94,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-(--background)">
-      {/* <ThemeToggle /> */}
+
       <div className="w-full max-w-md space-y-8">
         <div className="rounded-2xl p-8 space-y-5 shadow-sm bg-(--canvas) border border-(--border)">
           {/* Logo */}
