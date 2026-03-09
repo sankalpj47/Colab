@@ -23,9 +23,7 @@ addColors(customLevels.colors);
 
 const getISTTimestamp = () => {
   const date = new Date();
-  const istDate = new Date(
-    date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-  );
+  const istDate = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
 
   const year = istDate.getFullYear();
   const month = String(istDate.getMonth() + 1).padStart(2, "0");
@@ -43,11 +41,7 @@ const customFormat = printf(({ level, message, stack }) => {
   return `[${getISTTimestamp()}] [${levelUpper}]: ${message}${stackTrace}`;
 });
 
-const consoleFormat = combine(
-  errors({ stack: true }),
-  customFormat,
-  colorize({ all: true })
-);
+const consoleFormat = combine(errors({ stack: true }), customFormat, colorize({ all: true }));
 
 interface CustomLogger extends Logger {
   success: (msg: string) => void;
