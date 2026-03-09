@@ -45,7 +45,7 @@ body {
 @keyframes pageEnter {
   0% {
     opacity: 0;
-    transform: translateY(8px) scale(0.10);
+    transform: translateY(8px) scale(0.90);
     filter: blur(6px);
   }
 
