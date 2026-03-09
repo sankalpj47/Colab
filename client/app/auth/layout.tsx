@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     <SessionProvider>
       <ToastProvider>
         <AuthNavbar />
-        {children}
+        <main className="page-transition">{children}</main>
       </ToastProvider>
     </SessionProvider>
   );
