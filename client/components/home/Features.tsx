@@ -1,12 +1,38 @@
 "use client";
 
+import { Chrome, Github, Mail, Timer, ShieldCheck, Database } from "lucide-react";
+
 const features = [
-  { icon: "G", label: "Google OAuth", desc: "One-click sign in via Google" },
-  { icon: "GH", label: "GitHub OAuth", desc: "One-click sign in via GitHub" },
-  { icon: "✉", label: "Email + OTP", desc: "Passwordless login via 6-digit OTP" },
-  { icon: "⏱", label: "Redis OTP TTL", desc: "OTPs expire in 10 minutes automatically" },
-  { icon: "🔒", label: "JWT Sessions", desc: "Stateless, secure NextAuth sessions" },
-  { icon: "🗄", label: "Prisma + Supabase", desc: "Type-safe PostgreSQL via Prisma ORM" },
+  {
+    icon: Chrome,
+    label: "Google OAuth",
+    desc: "One-click sign in via Google",
+  },
+  {
+    icon: Github,
+    label: "GitHub OAuth",
+    desc: "One-click sign in via GitHub",
+  },
+  {
+    icon: Mail,
+    label: "Email + OTP",
+    desc: "Passwordless login via 6-digit OTP",
+  },
+  {
+    icon: Timer,
+    label: "Redis OTP TTL",
+    desc: "OTPs expire in 10 minutes automatically",
+  },
+  {
+    icon: ShieldCheck,
+    label: "JWT Sessions",
+    desc: "Stateless, secure NextAuth sessions",
+  },
+  {
+    icon: Database,
+    label: "Prisma + Supabase",
+    desc: "Type-safe PostgreSQL via Prisma ORM",
+  },
 ];
 
 const cornerClass: Record<number, string> = {
@@ -30,9 +56,9 @@ export default function Features() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px">
-        {features.map((f, index) => (
+        {features.map(({ icon: Icon, label, desc }, index) => (
           <div
-            key={f.label}
+            key={label}
             className={`p-6 transition-colors ${cornerClass[index] ?? ""}`}
             style={{ backgroundColor: "var(--canvas)" }}
             onMouseEnter={(e) => {
@@ -43,20 +69,23 @@ export default function Features() {
             }}
           >
             <div
-              className="w-8 h-8 flex items-center justify-center text-xs font-bold mb-4 border"
+              className="w-9 h-9 flex items-center justify-center mb-4 rounded-md border"
               style={{
-                color: "var(--primary)",
                 borderColor: "var(--border)",
                 backgroundColor: "var(--background)",
               }}
             >
-              {f.icon}
+              <Icon
+                className="w-4 h-4"
+                style={{ color: "var(--primary)" }}
+                strokeWidth={1.75}
+              />
             </div>
             <p className="text-sm font-semibold mb-1" style={{ color: "var(--text-primary)" }}>
-              {f.label}
+              {label}
             </p>
             <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              {f.desc}
+              {desc}
             </p>
           </div>
         ))}

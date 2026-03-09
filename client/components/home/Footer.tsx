@@ -27,19 +27,6 @@ export default function Footer() {
           GitHub
         </a>
         <div className="w-px h-3" style={{ backgroundColor: "var(--border)" }} />
-        <a
-          href="mailto:shivamkumardev01@gmail.com"
-          className="text-[11px] tracking-wider transition-colors"
-          style={{ color: "var(--text-secondary)" }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
-          }}
-        >
-          Contact
-        </a>
       </div>
     </footer>
   );
