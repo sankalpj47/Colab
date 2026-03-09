@@ -8,8 +8,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Draftly",
-  description: "Write beautifully with Draftly",
+  title: "AuthKit",
+  description:
+    "Full-stack auth boilerplate — Google, GitHub, and Email OTP. Clone it, configure your keys, ship in minutes.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
