@@ -36,11 +36,16 @@ const registerUserService = async (user: CreateUserInput): Promise<string | void
       logger.debug(`User already exists, logging in: ${user.email}`);
     }
 
-    return generateAuthToken({
+    const token = generateAuthToken({
       id: currentUser.id,
       role: currentUser.role,
     });
+
+    return token;
   } catch (err) {
+    logger.error(
+      "Error in registerUserService " + (err instanceof Error ? err.message : String(err))
+    );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
   }
 };

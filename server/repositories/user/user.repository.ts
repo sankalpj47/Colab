@@ -23,6 +23,7 @@ const insertUser = async (user: CreateUserInput): Promise<User | null> => {
         name: user.name,
         email: user.email,
         provider: user.provider,
+        ...(user.imageUrl !== undefined && { imageUrl: user.imageUrl }),
         ...(user.role !== undefined && { role: user.role }),
         ...(user.createdAt !== undefined && { createdAt: user.createdAt }),
         ...(user.updatedAt !== undefined && { updatedAt: user.updatedAt }),

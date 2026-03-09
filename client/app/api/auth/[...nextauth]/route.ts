@@ -1,4 +1,5 @@
 import {
+  BASE_BACKEND_URL,
   GITHUB_ID,
   GITHUB_SECRET,
   GOOGLE_CLIENT_ID,
@@ -7,6 +8,14 @@ import {
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import axios from "axios";
+
+interface AuthProfile {
+  name?: string;
+  email?: string;
+  picture?: string;
+  avatar_url?: string;
+}
 
 const handler = NextAuth({
   providers: [
@@ -14,7 +23,6 @@ const handler = NextAuth({
       clientId: GOOGLE_CLIENT_ID!,
       clientSecret: GOOGLE_CLIENT_SECRET!,
     }),
-
     GitHubProvider({
       clientId: GITHUB_ID!,
       clientSecret: GITHUB_SECRET!,
@@ -27,16 +35,46 @@ const handler = NextAuth({
 
   callbacks: {
     async signIn({ account, profile }) {
-      if (account && account.provider === "google") {
-        console.log("Google provider triggered");
-      }
+      try {
+        const imageUrl =
+          account?.provider === "google"
+            ? (profile as AuthProfile)?.picture
+            : (profile as AuthProfile)?.avatar_url;
 
-      if (account && account.provider === "github") {
-        console.log("Github provider triggered");
+        const response = await axios.post(`${BASE_BACKEND_URL}/auth/register`, {
+          name: profile?.name,
+          email: profile?.email,
+          provider: account?.provider?.toUpperCase(),
+          imageUrl: imageUrl || "",
+        });
+
+        if (account) {
+          account.backendToken = response.data.token;
+        }
+
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
       }
-      console.log("account", account);
-      console.log("Profile", profile);
-      return true;
+    },
+
+    async jwt({ token, account, profile }) {
+      if (account?.backendToken) {
+        token.accessToken = account.backendToken as string;
+      }
+      // Store image on first sign in
+      if (profile) {
+        token.image =
+          (profile as AuthProfile)?.picture || (profile as AuthProfile)?.avatar_url || null;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      session.accessToken = token.accessToken;
+      session.user.image = token.image as string;
+      return session;
     },
   },
 

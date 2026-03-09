@@ -18,6 +18,7 @@ model User {
   id       String       @id @default(uuid())
   name     String
   email    String       @unique
+  imageUrl String?
   provider AuthProvider
   role     UserRole     @default(USER)
 

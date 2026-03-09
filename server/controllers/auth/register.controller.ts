@@ -4,13 +4,13 @@ import registerUserService from "../../services/auth/register.service";
 
 const registerUserController: BodyController<CreateUserInput> = async (req, res, next) => {
   try {
-    const { name, email, provider } = req.body;
-    const token = await registerUserService({ name, email, provider });
+    const { name, email, provider, imageUrl } = req.body;
+    const token = await registerUserService({ name, email, provider, imageUrl: imageUrl ?? null });
 
     res.status(200).json({
       success: true,
       message: "User registered successfully",
-      data: token,
+      token: token,
     });
   } catch (err) {
     next(err);

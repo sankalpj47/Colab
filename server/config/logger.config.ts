@@ -4,17 +4,15 @@ const { combine, printf, colorize, errors } = format;
 
 const customColors = {
   error: "bold red",
-  warn: "bold yellow",
   success: "bold green",
-  debug: "bold blue",
+  debug: "bold yellow",
 };
 
 const customLevels = {
   levels: {
     error: 0,
-    warn: 1,
-    success: 2,
-    debug: 3,
+    success: 1,
+    debug: 2,
   },
   colors: customColors,
 };
@@ -41,7 +39,7 @@ const customFormat = printf(({ level, message, stack }) => {
   return `[${getISTTimestamp()}] [${levelUpper}]: ${message}${stackTrace}`;
 });
 
-const consoleFormat = combine(errors({ stack: true }), customFormat, colorize({ all: true }));
+const consoleFormat = combine(errors({ stack: true }), colorize({ all: true }), customFormat);
 
 interface CustomLogger extends Logger {
   success: (msg: string) => void;
