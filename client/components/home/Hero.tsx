@@ -5,18 +5,6 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <section className="mb-28">
-      <div className="flex items-center gap-2 mb-6">
-        <div
-          className="w-1.5 h-1.5 rounded-full animate-pulse"
-          style={{ backgroundColor: "var(--success)" }}
-        />
-        <span
-          className="text-[10px] tracking-[0.4em] uppercase"
-          style={{ color: "var(--success)" }}
-        >
-          Ready to clone
-        </span>
-      </div>
 
       <h1
         className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6"
@@ -39,7 +27,7 @@ export default function Hero() {
       <div className="flex flex-wrap items-center gap-3">
         <Link
           href="/auth/login"
-          className="group inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold tracking-wide transition-colors"
+          className="group inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold tracking-wide transition-colors rounded-sm"
           style={{ backgroundColor: "var(--primary)", color: "#ffffff" }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLElement).style.backgroundColor = "var(--primary-hover)";
@@ -55,7 +43,7 @@ export default function Hero() {
           href="https://github.com/SHIVAM-KUMAR-59/authkit"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 text-sm transition-colors border"
+          className="inline-flex items-center gap-2 px-6 py-3 text-sm transition-colors border rounded-sm"
           style={{ color: "var(--text-secondary)", borderColor: "var(--border)" }}
           onMouseEnter={(e) => {
             (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";

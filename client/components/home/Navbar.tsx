@@ -21,7 +21,7 @@ export default function Navbar() {
         href="https://github.com/SHIVAM-KUMAR-59/authkit"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[11px] tracking-[0.2em] uppercase px-3 py-1.5 transition-colors border"
+        className="text-[11px] tracking-[0.2em] uppercase px-3 py-1.5 transition-colors border rounded-md"
         style={{ color: "var(--text-secondary)", borderColor: "var(--border)" }}
         onMouseEnter={(e) => {
           (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";

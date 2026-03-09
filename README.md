@@ -1,4 +1,4 @@
-# 🔐 AuthKit
+# AuthKit
 
 > Production-ready authentication boilerplate for rapid integration — built for hackathons, side projects, and beyond.
 
