@@ -53,20 +53,23 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   const getToastStyles = (type: ToastType) => {
-    const styles: Record<ToastType, {
-      container: string;
-      icon: React.ReactNode;
-      text: string;
-      close: string;
-    }> = {
+    const styles: Record<
+      ToastType,
+      {
+        container: string;
+        icon: React.ReactNode;
+        text: string;
+        close: string;
+      }
+    > = {
       success: {
         container: [
           "border-l-4 border-[var(--success)]",
-          "bg-[#f0fdf4] text-[#166534]",           // light mode
+          "bg-[#f0fdf4] text-[#166534]", // light mode
           "dark:bg-[#0d2117] dark:text-[#86efac]", // dark mode
         ].join(" "),
         icon: <CheckCircle className="w-5 h-5 text-(--success)" />,
-        text:  "text-[#166534] dark:text-[#86efac]",
+        text: "text-[#166534] dark:text-[#86efac]",
         close: "text-[#166534] dark:text-[#86efac] hover:opacity-70",
       },
       error: {
@@ -76,7 +79,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
           "dark:bg-[#2a0d0d] dark:text-[#fca5a5]",
         ].join(" "),
         icon: <XCircle className="w-5 h-5 text-(--error)" />,
-        text:  "text-[#991b1b] dark:text-[#fca5a5]",
+        text: "text-[#991b1b] dark:text-[#fca5a5]",
         close: "text-[#991b1b] dark:text-[#fca5a5] hover:opacity-70",
       },
     };
@@ -103,9 +106,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
             >
               <div className="flex items-start gap-3">
                 <div className="shrink-0 mt-0.5">{styles.icon}</div>
-                <p className={`flex-1 text-sm font-medium ${styles.text}`}>
-                  {toast.message}
-                </p>
+                <p className={`flex-1 text-sm font-medium ${styles.text}`}>{toast.message}</p>
                 <button
                   onClick={() => removeToast(toast.id)}
                   className={`shrink-0 transition-opacity ${styles.close}`}
@@ -121,8 +122,14 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
 
       <style jsx global>{`
         @keyframes slideIn {
-          from { transform: translateX(100%); opacity: 0; }
-          to   { transform: translateX(0);    opacity: 1; }
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
         }
       `}</style>
     </ToastContext.Provider>

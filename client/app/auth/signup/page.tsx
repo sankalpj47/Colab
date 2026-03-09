@@ -11,17 +11,15 @@ export default function Page() {
   const [email, setEmail] = useState("");
 
   const handleEmail = () => console.log(email);
-  const handleGoogle = async () => await signIn('google');
-  const handleGithub = async () => await signIn('github');
+  const handleGoogle = async () => await signIn("google");
+  const handleGithub = async () => await signIn("github");
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-(--background)">
-      <ThemeToggle/>
+      <ThemeToggle />
       <div className="w-full max-w-md space-y-8">
-
         {/* Card */}
         <div className="rounded-2xl p-8 space-y-5 shadow-sm bg-(--canvas) border border-(--border)">
-
           {/* Logo */}
           <div className="text-center space-y-2">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-2 bg-(--primary)">
@@ -31,8 +29,7 @@ export default function Page() {
               Create your account
             </h1>
             <p className="text-sm text-(--text-secondary)">
-              Start writing with{' '}
-              <span className="font-semibold text-(--primary)">Draftly</span>
+              Start writing with <span className="font-semibold text-(--primary)">Draftly</span>
             </p>
           </div>
 
@@ -72,9 +69,9 @@ export default function Page() {
 
           {/* Footer */}
           <p className="text-center text-xs text-(--text-secondary)">
-            Already have an account?{' '}
-            
-              <a href="/login"
+            Already have an account?{" "}
+            <a
+              href="/login"
               className="font-medium text-(--primary) hover:text-(--primary-hover) transition-colors"
             >
               Sign in
