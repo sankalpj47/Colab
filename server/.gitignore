@@ -47,3 +47,6 @@ temp/
 # dotenv backups
 .env.local
 .env.prod
+
+#redis
+*.rdb

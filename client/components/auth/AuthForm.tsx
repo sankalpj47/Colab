@@ -6,6 +6,8 @@ import { signIn } from "next-auth/react";
 import GoogleButton from "@/components/auth/GoogleButton";
 import GithubButton from "@/components/auth/GithubButton";
 import OtpModal from "./OtpModal";
+import api, { getErrorMessage } from "@/utils/axios.util";
+import { useToast } from "@/context/ToastContext";
 
 type LoadingState = {
   google: boolean;
@@ -31,6 +33,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     email: false,
     otp: false,
   });
+  const { error, success } = useToast();
 
   const isAnyLoading = Object.values(loading).some(Boolean);
 
@@ -53,10 +56,20 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     if (!email.trim()) return;
     if (isSignup && !name.trim()) return;
     setLoadingKey("email", true);
-    // TODO: POST /auth/send-otp { email, name, isSignup }
-    await new Promise((r) => setTimeout(r, 800));
-    setLoadingKey("email", false);
-    setShowOtpModal(true);
+    try {
+      const response = await api.post("/auth/send-otp", {
+        email: email,
+        isSignup: isSignup,
+      });
+      console.log(response);
+      success("OTP sent successfully");
+      setShowOtpModal(true);
+    } catch (err: unknown) {
+      console.log(err);
+      error(getErrorMessage(err));
+    } finally {
+      setLoadingKey("email", false);
+    }
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -80,9 +93,23 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     if (code.length < 4) return;
     setLoadingKey("otp", true);
     // TODO: POST /auth/verify-otp { email, code, isSignup }
-    await new Promise((r) => setTimeout(r, 800));
-    setLoadingKey("otp", false);
-    console.log("OTP submitted:", { code, email, isSignup });
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        name: name, // only for signup
+        email: email,
+        otp: otp.join(""),
+        isSignup: isSignup ? "true" : "false", // pass as string — credentials only supports strings
+      });
+      if (result?.error) {
+        error("Invalid OTP");
+      }
+      success("OTP verified successfully");
+    } catch (err) {
+      error(getErrorMessage(err));
+    } finally {
+      setLoadingKey("otp", false);
+    }
   };
 
   const handleCloseModal = () => {

@@ -39,7 +39,7 @@ const customFormat = printf(({ level, message, stack }) => {
   return `[${getISTTimestamp()}] [${levelUpper}]: ${message}${stackTrace}`;
 });
 
-const consoleFormat = combine(errors({ stack: true }), colorize({ all: true }), customFormat);
+const consoleFormat = combine(errors({ stack: true }), customFormat, colorize({ all: true }));
 
 interface CustomLogger extends Logger {
   success: (msg: string) => void;

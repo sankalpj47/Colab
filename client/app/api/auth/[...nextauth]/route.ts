@@ -8,6 +8,7 @@ import {
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
 interface AuthProfile {
@@ -15,6 +16,13 @@ interface AuthProfile {
   email?: string;
   picture?: string;
   avatar_url?: string;
+}
+
+interface AuthUser {
+  id?: string;
+  name?: string | null;
+  email?: string;
+  backendToken?: string;
 }
 
 const handler = NextAuth({
@@ -27,6 +35,41 @@ const handler = NextAuth({
       clientId: GITHUB_ID!,
       clientSecret: GITHUB_SECRET!,
     }),
+    CredentialsProvider({
+      name: "OTP",
+      credentials: {
+        name: { label: "Name", type: "text" },
+        email: { label: "Email", type: "email" },
+        otp: { label: "OTP", type: "text" },
+        isSignup: { label: "Is Signup", type: "text" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.otp) return null;
+
+        try {
+          const response = await axios.post(`${BASE_BACKEND_URL}/auth/email`, {
+            name: credentials.name,
+            email: credentials.email,
+            otp: credentials.otp,
+            isSignup: credentials.isSignup === "true",
+          });
+          console.log(response);
+
+          const { token, name, email } = response.data.data;
+          if (!token) return null;
+
+          return {
+            id: email,
+            email,
+            name: name || null,
+            backendToken: token,
+          };
+        } catch (err) {
+          console.error(err);
+          return null;
+        }
+      },
+    }),
   ],
 
   session: {
@@ -35,6 +78,8 @@ const handler = NextAuth({
 
   callbacks: {
     async signIn({ account, profile }) {
+      if (account?.provider === "credentials") return true;
+
       try {
         const imageUrl =
           account?.provider === "google"
@@ -59,21 +104,33 @@ const handler = NextAuth({
       }
     },
 
-    async jwt({ token, account, profile }) {
-      if (account?.backendToken) {
+    async jwt({ token, account, profile, user }) {
+      // OAuth sign in
+      if (account?.provider !== "credentials" && account?.backendToken) {
         token.accessToken = account.backendToken as string;
       }
-      // Store image on first sign in
+
+      // Credentials sign in
+      if (account?.provider === "credentials" && user) {
+        token.accessToken = (user as AuthUser).backendToken;
+        token.name = user.name;
+        token.email = user.email;
+      }
+
+      // OAuth image
       if (profile) {
         token.image =
           (profile as AuthProfile)?.picture || (profile as AuthProfile)?.avatar_url || null;
       }
+
       return token;
     },
 
     async session({ session, token }) {
       session.accessToken = token.accessToken;
-      session.user.image = token.image as string;
+      session.user.image = (token.image as string) ?? null;
+      session.user.name = (token.name as string) ?? "";
+      session.user.email = (token.email as string) ?? session.user.email;
       return session;
     },
   },

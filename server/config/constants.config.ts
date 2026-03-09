@@ -15,6 +15,13 @@ const JWT_EXPIRY_TIME: StringValue = (process.env.JWT_EXPIRY_TIME || "7d") as St
 
 const ALLOWED_USER_ROLES = ["ADMIN", "USER"];
 const AUTH_PROVIDERS = ["GOOGLE", "GITHUB", "EMAIL"];
+const SMTP = {
+  user: process.env.EMAIL_USER,
+  pass: process.env.EMAIL_PASS,
+  port: process.env.SMTP_PORT,
+};
+
+const REDIS_URL = process.env.REDIS_URL;
 
 export {
   NODE_ENV,
@@ -24,4 +31,6 @@ export {
   JWT_EXPIRY_TIME,
   ALLOWED_USER_ROLES,
   AUTH_PROVIDERS,
+  SMTP,
+  REDIS_URL,
 };
