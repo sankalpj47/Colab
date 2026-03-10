@@ -8,7 +8,7 @@ import { Document } from "@/types/common";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,6 +18,7 @@ const Page = () => {
   const [document, setDocument] = useState<Document | null>(null);
   const [fetching, setFetching] = useState(true);
   const [editorContent, setEditorContent] = useState(document?.content ?? "");
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const fetchDocument = async () => {
     try {
@@ -34,16 +35,29 @@ const Page = () => {
 
   useEffect(() => {
     if (id) fetchDocument();
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (fetching) return <Loader />;
   if (!document) return null;
 
-  const handleEditorChange = (html: SetStateAction<string>) => {
-    setEditorContent(html);
-    console.log(html);
-  };
+  const handleSave = (content: string) => {
+    console.log("Saving content", content)
+  }
+
+const handleEditorChange = (html: string) => {
+  setEditorContent(html);
+
+  if (debounceRef.current) clearTimeout(debounceRef.current);
+
+  debounceRef.current = setTimeout(() => {
+    handleSave(html) // fires 2s after user stops typing
+  }, 2000);
+};
 
   return (
     <div
@@ -70,7 +84,7 @@ const Page = () => {
         {/* Header */}
         <DocumentHeader document={document} />
 
-        <DocumentEditor content={document.content} onChange={handleEditorChange} />
+        <DocumentEditor content={editorContent} onChange={handleEditorChange} />
       </div>
     </div>
   );
