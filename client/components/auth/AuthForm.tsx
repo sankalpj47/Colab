@@ -57,15 +57,13 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     if (isSignup && !name.trim()) return;
     setLoadingKey("email", true);
     try {
-      const response = await api.post("/auth/send-otp", {
+      await api.post("/auth/send-otp", {
         email: email,
         isSignup: isSignup,
       });
-      console.log(response);
       success("OTP sent successfully");
       setShowOtpModal(true);
     } catch (err: unknown) {
-      console.log(err);
       error(getErrorMessage(err));
     } finally {
       setLoadingKey("email", false);

@@ -24,9 +24,6 @@ const sendOtpService = async ({ email, isSignup }: { email: string; isSignup: bo
 
     await redis.set(`otp:${email}`, otp, "EX", 600);
     const check = await redis.get(`otp:${email}`);
-    console.log("SET key:", `otp:${email}`);
-    console.log("Stored OTP:", otp);
-    console.log("Immediate GET:", check);
 
     await sendMail({
       to: email,

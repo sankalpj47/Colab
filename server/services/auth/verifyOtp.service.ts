@@ -9,9 +9,8 @@ type VerifyOtpInput = {
 
 const verifyOtpService = async ({ email, otp }: VerifyOtpInput): Promise<boolean | void> => {
   try {
-    console.log("GET key:", `otp:${email}`);
+
     const storedOtp = await redis.get(`otp:${email}`);
-    console.log(storedOtp);
     if (!storedOtp) {
       throw new ApiError(400, "OTP expired or not found");
     }

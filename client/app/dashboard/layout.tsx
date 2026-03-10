@@ -13,9 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
-    console.log("Dashboard layout");
     if (status === "unauthenticated") {
-      console.log("Unauthenticated");
       setRedirecting(true);
       error("You are not logged in. Redirecting to login.");
       setTimeout(() => {
