@@ -1,8 +1,10 @@
 "use client";
 import { useToast } from "@/context/ToastContext";
+import api from "@/utils/axios.util";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Page = () => {
   const { data: session } = useSession();
@@ -20,6 +22,19 @@ const Page = () => {
       error("Error signing out, try again.")
     }
   }
+
+  const fetchAllDocuments = async () => {
+    try {
+      const response = await api.get('/document/all');
+      console.log(response)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    fetchAllDocuments()
+  }, [])
   return (
     <div>
       {session?.user.name}

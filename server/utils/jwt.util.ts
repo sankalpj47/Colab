@@ -1,5 +1,6 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { JWT_SECRET, JWT_EXPIRY_TIME } from "../config/constants.config";
+import { AuthTokenPayload, DecodeResult } from "./types/common.types";
 
 const generateAuthToken = (tokenPayload: { id: string; role: string }) => {
   const payload = {
@@ -14,13 +15,20 @@ const generateAuthToken = (tokenPayload: { id: string; role: string }) => {
   return jwt.sign(payload, secretKey, options);
 };
 
-const decodeAuthToken = (token: string) => {
+const decodeAuthToken = (token: string): DecodeResult => {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET!);
-    return { success: true, token: decoded };
-  } catch (err) {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & AuthTokenPayload;
+
+    if (!decoded.id || !decoded.role) {
+      return { success: false, token: null };
+    }
+
+    return {
+      success: true,
+      token: { id: decoded.id, role: decoded.role },
+    };
+  } catch {
     return { success: false, token: null };
   }
 };
-
 export { generateAuthToken, decodeAuthToken };

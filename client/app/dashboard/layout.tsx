@@ -6,14 +6,16 @@ import { useToast } from "@/context/ToastContext";
 import { useEffect, useState } from "react";
 import Loader from "@/components/ui/Loader";
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { status } = useSession();
   const router = useRouter();
   const { error } = useToast();
   const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
+    console.log("Dashboard layout")
     if (status === "unauthenticated") {
+      console.log("Unauthenticated")
       setRedirecting(true);
       error("You are not logged in. Redirecting to login.");
       setTimeout(() => {

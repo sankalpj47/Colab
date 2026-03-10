@@ -1,4 +1,13 @@
 import { Request, Response, NextFunction } from "express";
+import { User } from '@prisma/client';
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: User;
+    }
+  }
+}
 
 // Basic controller type
 export type Controller = (req: Request, res: Response, next: NextFunction) => Promise<void> | void;
