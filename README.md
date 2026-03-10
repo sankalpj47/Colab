@@ -31,7 +31,7 @@ Full-stack authentication starter with **Next.js** + **Express** + **Supabase** 
 - **Google OAuth** — one-click sign in with Google
 - **GitHub OAuth** — one-click sign in with GitHub
 - **Email + OTP** — passwordless login and signup via 6-digit OTP
-- ⏱**OTP Expiry** — OTPs stored in Redis with a 10-minute TTL
+- **OTP Expiry** — OTPs stored in Redis with a 10-minute TTL
 - **JWT Sessions** — stateless sessions via NextAuth JWT strategy
 - **Prisma + Supabase** — type-safe database access on PostgreSQL
 - **Nodemailer** — transactional OTP emails
