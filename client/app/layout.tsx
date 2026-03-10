@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import SessionContext from "@/context/SessionContext";
+import ServerToastProvider from "@/context/ServerToastProvider";
 
 const inter = Inter({
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Draftly",
-  description: "Write beautifully with Draftly",
+  title: "AuthKit",
+  description:
+    "Full-stack auth boilerplate — Google, GitHub, and Email OTP. Clone it, configure your keys, ship in minutes.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,7 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <SessionContext>
+            <ServerToastProvider>{children}</ServerToastProvider>
+          </SessionContext>
         </ThemeProvider>
       </body>
     </html>
