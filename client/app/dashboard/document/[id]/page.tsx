@@ -1,5 +1,6 @@
 "use client";
 
+import DocumentEditor from "@/components/dashboard/DocumentEditor";
 import DocumentHeader from "@/components/dashboard/DocumentHeader";
 import Loader from "@/components/ui/Loader";
 import { useToast } from "@/context/ToastContext";
@@ -7,7 +8,7 @@ import { Document } from "@/types/common";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +17,7 @@ const Page = () => {
 
   const [document, setDocument] = useState<Document | null>(null);
   const [fetching, setFetching] = useState(true);
+  const [editorContent, setEditorContent] = useState(document?.content ?? '');
 
   const fetchDocument = async () => {
     try {
@@ -37,6 +39,11 @@ const Page = () => {
 
   if (fetching) return <Loader />;
   if (!document) return null;
+
+  const handleEditorChange = (html: SetStateAction<string>) => {
+    setEditorContent(html)
+    console.log(html)
+  }
 
   return (
     <div
@@ -64,17 +71,7 @@ const Page = () => {
         {/* Header */}
         <DocumentHeader document={document} />
 
-        {/* Content placeholder */}
-        <div
-          className="w-full min-h-[60vh] rounded-md border p-6 text-sm leading-relaxed outline-none"
-          style={{
-            borderColor: "var(--border)",
-            backgroundColor: "var(--canvas)",
-            color: "var(--text-secondary)",
-          }}
-        >
-          {document.content ? document.content : "Start writing...."}
-        </div>
+        <DocumentEditor content={document.content} onChange={handleEditorChange} />
 
       </div>
     </div>
