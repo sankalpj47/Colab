@@ -23,7 +23,7 @@ const Page = () => {
   const fetchAllDocuments = async () => {
     try {
       setFetching(true);
-      const response = await api.get("/document/all");
+      const response = await api.get("/document");
       setDocuments(response.data.documents);
     } catch (err) {
       error(getErrorMessage(err));

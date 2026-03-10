@@ -7,7 +7,7 @@ import createDocumentController from "../controllers/document/create.controller"
 const router = Router();
 
 router.use(authMiddleware);
-router.get("/all", fetchAllDocumentController);
+router.get("/", fetchAllDocumentController);
 router.post("/", reqBodyMiddleware, createDocumentController);
 
 export default router;
