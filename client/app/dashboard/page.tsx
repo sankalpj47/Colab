@@ -18,7 +18,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [documents, setDocuments] = useState<Document[]>([]);
   const [fetching, setFetching] = useState(true);
-  const router = useRouter()
+  const router = useRouter();
 
   const fetchAllDocuments = async () => {
     try {
@@ -143,12 +143,12 @@ const Page = () => {
               <div className="flex flex-col gap-px">
                 {documents.map((doc, index) => (
                   <DocumentCard
-      key={doc.id}
-      doc={doc}
-      isFirst={index === 0}
-      isLast={index === documents.length - 1}
-      onClick={(doc) => router.push(`/dashboard/${doc.id}`)}
-    />
+                    key={doc.id}
+                    doc={doc}
+                    isFirst={index === 0}
+                    isLast={index === documents.length - 1}
+                    onClick={(doc) => router.push(`/dashboard/${doc.id}`)}
+                  />
                 ))}
               </div>
             )}

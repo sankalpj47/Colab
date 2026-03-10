@@ -7,6 +7,4 @@ interface Document {
   updatedAt: Date;
 }
 
-export type {
-    Document
-}
+export type { Document };
