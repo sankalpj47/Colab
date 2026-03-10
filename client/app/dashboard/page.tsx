@@ -18,6 +18,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [documents, setDocuments] = useState<Document[]>([]);
   const [fetching, setFetching] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
   const router = useRouter();
 
   const fetchAllDocuments = async () => {
@@ -55,6 +56,18 @@ const Page = () => {
     }
   };
 
+  const onDelete = async (id: string) => {
+    setDeleting(id)
+    try {
+      await api.delete(`document/${id}`)
+      success("Document deleted successfully.")
+    } catch (err) {
+      error(getErrorMessage(err));
+    } finally {
+      setDeleting(null)
+    }
+  }
+
   useEffect(() => {
     fetchAllDocuments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,16 +79,6 @@ const Page = () => {
       style={{ backgroundColor: "var(--background)", color: "var(--text-primary)" }}
     >
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-10">
-          <p
-            className="text-[10px] tracking-[0.4em] uppercase shrink-0"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            Documents
-          </p>
-          <div className="flex-1 h-px" style={{ backgroundColor: "var(--border)" }} />
-        </div>
 
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Create form */}
@@ -140,14 +143,14 @@ const Page = () => {
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col gap-px">
-                {documents.map((doc, index) => (
+              <div className="flex flex-col gap-2">
+                {documents.map((doc) => (
                   <DocumentCard
                     key={doc.id}
                     doc={doc}
-                    isFirst={index === 0}
-                    isLast={index === documents.length - 1}
-                    onClick={(doc) => router.push(`/dashboard/${doc.id}`)}
+                    onClick={(doc) => router.push(`/dashboard/document/${doc.id}`)}
+                    onDelete={onDelete}
+                    deleting={deleting === doc.id}
                   />
                 ))}
               </div>
