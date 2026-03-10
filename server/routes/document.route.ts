@@ -3,11 +3,13 @@ import fetchAllDocumentController from "../controllers/document/fetchAll.control
 import authMiddleware from "../middleware/auth.middleware";
 import reqBodyMiddleware from "../middleware/reqBody.middleware";
 import createDocumentController from "../controllers/document/create.controller";
+import deleteDocumentController from "../controllers/document/delete.controller";
 
 const router = Router();
 
 router.use(authMiddleware);
 router.get("/", fetchAllDocumentController);
 router.post("/", reqBodyMiddleware, createDocumentController);
+router.delete("/:id", deleteDocumentController)
 
 export default router;

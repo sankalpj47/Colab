@@ -61,6 +61,7 @@ const Page = () => {
     try {
       await api.delete(`document/${id}`)
       success("Document deleted successfully.")
+      await fetchAllDocuments();
     } catch (err) {
       error(getErrorMessage(err));
     } finally {

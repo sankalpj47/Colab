@@ -15,6 +15,20 @@ const findAllDocumentsByUser = async (userId: string) => {
   }
 };
 
+const findDocumentById = async (documentId: string) => {
+  try {
+    const document = await prisma.document.findUnique({
+      where: {
+        id: documentId
+      }
+    })
+
+    return document
+  } catch (err) {
+    throw err;
+  }
+}
+
 const insertDocument = async (input: CreateDocumentInput) => {
   try {
     const newDocument = await prisma.document.create({
@@ -30,4 +44,18 @@ const insertDocument = async (input: CreateDocumentInput) => {
   }
 };
 
-export { findAllDocumentsByUser, insertDocument };
+const deleteDocument = async (documentId: string) => {
+  try {
+    await prisma.document.delete({
+      where: {
+        id: documentId
+      }
+    })
+
+    return true
+  } catch (err) {
+    throw err
+  }
+}
+
+export { findAllDocumentsByUser, insertDocument, deleteDocument, findDocumentById };
