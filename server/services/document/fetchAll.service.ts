@@ -8,7 +8,7 @@ const fetchAllDocumentService = async (userId: string) => {
     return documents;
   } catch (err) {
     logger.error(
-      "Error in verifyOtpService: " + (err instanceof Error ? err.message : String(err))
+      "Error in fetchAllDocumentService: " + (err instanceof Error ? err.message : String(err))
     );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
   }

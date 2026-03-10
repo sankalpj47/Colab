@@ -21,7 +21,7 @@ const deleteDocumentService = async (documentId: string, userId: string): Promis
         return true;
     } catch (err) {
     logger.error(
-      "Error in createDocumentService: " + (err instanceof Error ? err.message : String(err))
+      "Error in deleteDocumentService: " + (err instanceof Error ? err.message : String(err))
     );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
     }

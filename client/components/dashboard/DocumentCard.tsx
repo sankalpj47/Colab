@@ -34,7 +34,7 @@ const DocumentCard = ({ doc, onClick, onDelete, deleting }: Props) => {
             {doc.title}
           </p>
           <p className="text-xs mt-0.5 truncate" style={{ color: "var(--text-secondary)" }}>
-            {doc.description ?? "No description"}
+            {doc.description ?? "No description provided"}
           </p>
         </div>
       </div>
