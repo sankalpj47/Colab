@@ -24,8 +24,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     }
 
     if (status === "unauthenticated") {
-    setRedirecting(false);
-  }
+      setRedirecting(false);
+    }
   }, [status, router]);
 
   if (status === "loading" || redirecting) {

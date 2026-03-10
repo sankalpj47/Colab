@@ -75,11 +75,7 @@ export default function Features() {
                 backgroundColor: "var(--background)",
               }}
             >
-              <Icon
-                className="w-4 h-4"
-                style={{ color: "var(--primary)" }}
-                strokeWidth={1.75}
-              />
+              <Icon className="w-4 h-4" style={{ color: "var(--primary)" }} strokeWidth={1.75} />
             </div>
             <p className="text-sm font-semibold mb-1" style={{ color: "var(--text-primary)" }}>
               {label}

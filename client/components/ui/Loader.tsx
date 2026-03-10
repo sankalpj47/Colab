@@ -12,7 +12,10 @@ const Loader = () => {
           style={{ borderColor: "var(--border)", borderTopColor: "var(--primary)" }}
         />
         {/* Inner diamond */}
-        <div className="absolute w-3 h-3 rotate-45 border" style={{ borderColor: "var(--primary)", backgroundColor: "var(--primary)" }} />
+        <div
+          className="absolute w-3 h-3 rotate-45 border"
+          style={{ borderColor: "var(--primary)", backgroundColor: "var(--primary)" }}
+        />
       </div>
 
       {/* Label */}
@@ -47,6 +50,6 @@ const Loader = () => {
       `}</style>
     </div>
   );
-}
+};
 
 export default Loader;

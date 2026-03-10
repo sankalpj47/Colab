@@ -21,9 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SessionContext>
-            <ServerToastProvider>
-              {children}
-            </ServerToastProvider>
+            <ServerToastProvider>{children}</ServerToastProvider>
           </SessionContext>
         </ThemeProvider>
       </body>
