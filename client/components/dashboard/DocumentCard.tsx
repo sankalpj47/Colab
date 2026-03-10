@@ -53,6 +53,6 @@ const DocumentCard = ({ doc, isFirst, isLast, onClick }: Props) => {
       </div>
     </div>
   );
-}
+};
 
-export default DocumentCard
+export default DocumentCard;

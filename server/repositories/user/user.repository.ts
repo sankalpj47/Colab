@@ -40,13 +40,13 @@ const findUserById = async (userId: string): Promise<User | null> => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: userId
-      }
-    })
+        id: userId,
+      },
+    });
     return user;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 export { findUserByEmail, insertUser, findUserById };

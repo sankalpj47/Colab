@@ -8,7 +8,7 @@ const fetchAllDocumentController: Controller = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "User registered successfully",
-      documents
+      documents,
     });
   } catch (err) {
     next(err);
