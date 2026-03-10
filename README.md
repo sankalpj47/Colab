@@ -142,7 +142,7 @@ cd authkit
 ```bash
 cd server
 npm install
-cp .env.example .env
+.env
 ```
 
 Fill in your `.env` — see [Environment Variables](#-environment-variables).
@@ -153,11 +153,19 @@ npm run dev
 
 Backend runs on `http://localhost:8000`
 
-### 3. Setup the frontend
+### 3. Setup the redis server
+```bash
+cd server # if you are not in server already
+redis-server
+```
+
+Redis runs on `PORT: 637`
+
+### 4. Setup the frontend
 ```bash
 cd client
 npm install
-cp .env.local.example .env.local
+.env.local
 ```
 
 Fill in your `.env.local`.
