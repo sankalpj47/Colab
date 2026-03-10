@@ -57,17 +57,17 @@ const Page = () => {
   };
 
   const onDelete = async (id: string) => {
-    setDeleting(id)
+    setDeleting(id);
     try {
-      await api.delete(`document/${id}`)
-      success("Document deleted successfully.")
+      await api.delete(`document/${id}`);
+      success("Document deleted successfully.");
       await fetchAllDocuments();
     } catch (err) {
       error(getErrorMessage(err));
     } finally {
-      setDeleting(null)
+      setDeleting(null);
     }
-  }
+  };
 
   useEffect(() => {
     fetchAllDocuments();
@@ -80,7 +80,6 @@ const Page = () => {
       style={{ backgroundColor: "var(--background)", color: "var(--text-primary)" }}
     >
       <div className="max-w-5xl mx-auto">
-
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Create form */}
           <div className="lg:w-80 shrink-0">

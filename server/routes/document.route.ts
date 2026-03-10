@@ -11,7 +11,7 @@ const router = Router();
 router.use(authMiddleware);
 router.get("/", fetchAllDocumentController);
 router.post("/", reqBodyMiddleware, createDocumentController);
-router.delete("/:id", deleteDocumentController)
-router.get("/:id", fetchOneDocumentController)
+router.delete("/:id", deleteDocumentController);
+router.get("/:id", fetchOneDocumentController);
 
 export default router;

@@ -17,7 +17,7 @@ const Page = () => {
 
   const [document, setDocument] = useState<Document | null>(null);
   const [fetching, setFetching] = useState(true);
-  const [editorContent, setEditorContent] = useState(document?.content ?? '');
+  const [editorContent, setEditorContent] = useState(document?.content ?? "");
 
   const fetchDocument = async () => {
     try {
@@ -41,9 +41,9 @@ const Page = () => {
   if (!document) return null;
 
   const handleEditorChange = (html: SetStateAction<string>) => {
-    setEditorContent(html)
-    console.log(html)
-  }
+    setEditorContent(html);
+    console.log(html);
+  };
 
   return (
     <div
@@ -51,7 +51,6 @@ const Page = () => {
       style={{ backgroundColor: "var(--background)", color: "var(--text-primary)" }}
     >
       <div className="max-w-3xl mx-auto">
-
         {/* Back */}
         <button
           onClick={() => router.back()}
@@ -72,7 +71,6 @@ const Page = () => {
         <DocumentHeader document={document} />
 
         <DocumentEditor content={document.content} onChange={handleEditorChange} />
-
       </div>
     </div>
   );

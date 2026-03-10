@@ -2,7 +2,7 @@ interface Document {
   id: string;
   title: string;
   description?: string;
-  content?: string
+  content?: string;
   ownerId: string;
   createdAt: Date;
   updatedAt: Date;

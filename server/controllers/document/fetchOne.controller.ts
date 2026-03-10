@@ -5,7 +5,11 @@ type FetchOneDocumentParams = {
   id: string;
 };
 
-const fetchOneDocumentController: ParamsController<FetchOneDocumentParams> = async (req, res, next) => {
+const fetchOneDocumentController: ParamsController<FetchOneDocumentParams> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const { id: documentId } = req.params;
     const userId = req.user?.id;
@@ -20,7 +24,7 @@ const fetchOneDocumentController: ParamsController<FetchOneDocumentParams> = asy
     res.status(200).json({
       success: true,
       message: "Document fetched successfully",
-      document: document
+      document: document,
     });
   } catch (err) {
     next(err);

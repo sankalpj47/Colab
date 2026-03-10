@@ -1,15 +1,15 @@
 // components/ui/Tooltip.tsx
-'use client'
+"use client";
 
-import { useState } from 'react'
+import { useState } from "react";
 
 interface Props {
-  label: string
-  children: React.ReactNode
+  label: string;
+  children: React.ReactNode;
 }
 
 const Tooltip = ({ label, children }: Props) => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
 
   return (
     <div
@@ -35,7 +35,7 @@ const Tooltip = ({ label, children }: Props) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Tooltip
+export default Tooltip;
