@@ -25,14 +25,26 @@ const ManageCollaboratorsModal = ({
   const [role, setRole] = useState<DocumentUserRole>("VIEWER");
   const [inviting, setInviting] = useState(false);
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
+  const [visible, setVisible] = useState(false); // ✅ animation state
 
   const selectedRole = ROLES.find((r) => r.value === role)!;
 
-  // lock background scroll
+  // ✅ trigger enter animation after mount
+  useEffect(() => {
+    requestAnimationFrame(() => setVisible(true));
+  }, []);
+
+  // ✅ lock background scroll
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
   }, []);
+
+  // ✅ animate out before calling onClose
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(onClose, 200);
+  };
 
   const handleInvite = async () => {
     if (!email.trim()) return;
@@ -52,8 +64,11 @@ const ManageCollaboratorsModal = ({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
-      onClick={onClose}
+      style={{
+        backgroundColor: visible ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0)",
+        transition: "background-color 0.2s ease",
+      }}
+      onClick={handleClose}
     >
       <div
         className="w-full max-w-md rounded-lg border font-mono flex flex-col"
@@ -61,6 +76,9 @@ const ManageCollaboratorsModal = ({
           backgroundColor: "var(--canvas)",
           borderColor: "var(--border)",
           maxHeight: "90vh",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.97)",
+          transition: "opacity 0.2s ease, transform 0.2s ease",
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -76,7 +94,7 @@ const ManageCollaboratorsModal = ({
             </h2>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             style={{ color: "var(--text-secondary)" }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLButtonElement).style.color = "var(--text-primary)")
@@ -89,7 +107,7 @@ const ManageCollaboratorsModal = ({
           </button>
         </div>
 
-        {/* People list — scrollable section */}
+        {/* People list — scrollable */}
         <div
           className="px-6 pt-4 pb-2 border-b shrink-0"
           style={{ borderColor: "var(--border)" }}
@@ -98,7 +116,6 @@ const ManageCollaboratorsModal = ({
             {collaborators.length}{" "}
             {collaborators.length === 1 ? "person" : "people"} with access
           </p>
-          {/* only this scrolls */}
           <div
             className="flex flex-col gap-1 overflow-y-auto pr-1"
             style={{ maxHeight: "200px" }}
@@ -184,13 +201,11 @@ const ManageCollaboratorsModal = ({
                         }}
                         className="w-full text-left px-3 py-2 transition-colors"
                         style={{
-                          backgroundColor:
-                            role === r.value ? "var(--hover)" : "transparent",
+                          backgroundColor: role === r.value ? "var(--hover)" : "transparent",
                           color: "var(--text-primary)",
                         }}
                         onMouseEnter={(e) =>
-                          ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                            "var(--hover)")
+                          ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--hover)")
                         }
                         onMouseLeave={(e) =>
                           ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
@@ -198,10 +213,7 @@ const ManageCollaboratorsModal = ({
                         }
                       >
                         <div className="text-xs font-semibold font-mono">{r.label}</div>
-                        <div
-                          className="text-xs font-mono"
-                          style={{ color: "var(--text-secondary)" }}
-                        >
+                        <div className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>
                           {r.description}
                         </div>
                       </button>
@@ -218,7 +230,7 @@ const ManageCollaboratorsModal = ({
               loading={inviting}
               loadingText="Sending..."
             >
-                Send Invite
+              Send Invite
             </PrimaryButton>
           </div>
         </div>

@@ -7,6 +7,7 @@ import { useToast } from "@/context/ToastContext";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import RoleDropdown from "./RoleDropdown";
 import { ROLE_COLORS, getInitials } from "./constants";
+import Image from "next/image";
 
 const roleIcons: Record<string, React.ReactNode> = {
   OWNER: <Crown size={11} />,
@@ -55,7 +56,9 @@ const CollaboratorRow = ({
           }}
         >
           {collaborator.user.imageUrl && !imgError ? (
-            <img
+            <Image
+              height={50}
+              width={50}
               src={collaborator.user.imageUrl}
               alt={collaborator.user.name}
               className="w-full h-full object-cover"

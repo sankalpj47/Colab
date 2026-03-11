@@ -4,6 +4,7 @@ import { useState } from "react";
 import { DocumentMember } from "@/types/common";
 import Tooltip from "@/components/ui/Tootip";
 import { ROLE_COLORS, getInitials, roleLabel } from "./constants";
+import Image from "next/image";
 
 const CollaboratorAvatar = ({ collaborator }: { collaborator: DocumentMember }) => {
   const [imgError, setImgError] = useState(false);
@@ -20,7 +21,9 @@ const CollaboratorAvatar = ({ collaborator }: { collaborator: DocumentMember }) 
         }}
       >
         {collaborator.user.imageUrl && !imgError ? (
-          <img
+          <Image
+            height={50}
+            width={50}
             src={collaborator.user.imageUrl}
             alt={collaborator.user.name}
             className="w-full h-full object-cover"
