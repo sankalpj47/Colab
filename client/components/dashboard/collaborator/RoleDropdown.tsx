@@ -38,7 +38,7 @@ const RoleDropdown = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative cursor-pointer">
       <button
         onClick={() => setOpen((o) => !o)}
         disabled={loading}
@@ -80,7 +80,7 @@ const RoleDropdown = ({
               <button
                 key={r.value}
                 onClick={() => handleChange(r.value)}
-                className="w-full text-left px-3 py-2 transition-colors"
+                className="w-full text-left px-3 py-2 transition-colors cursor-pointer"
                 style={{
                   backgroundColor: currentRole === r.value ? "var(--hover)" : "transparent",
                   color: "var(--text-primary)",

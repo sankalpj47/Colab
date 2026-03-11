@@ -6,7 +6,7 @@ const InviteButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-md border transition-colors duration-150"
+      className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-md border transition-colors duration-150 cursor-pointer"
       style={{
         borderColor: "var(--border)",
         color: "var(--text-secondary)",

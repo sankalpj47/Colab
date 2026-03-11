@@ -111,8 +111,7 @@ const ManageCollaboratorsModal = ({
             {collaborators.length === 1 ? "person" : "people"} with access
           </p>
           <div
-            className="flex flex-col gap-1 overflow-y-auto pr-1"
-            style={{ maxHeight: "200px" }}
+            className="flex flex-col gap-1 pr-1"
           >
             {collaborators.map((c) => (
               <CollaboratorRow
