@@ -116,7 +116,7 @@ const CollaboratorRow = ({
               {removing ? (
                 <span className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin block" />
               ) : (
-                <Trash2 size={13} />
+                <Trash2 size={13} className="cursor-pointer" />
               )}
             </button>
           </>

@@ -31,7 +31,7 @@ const updateDocumentUserRoleService = async (
     }
 
     if (document.ownerId !== userId) {
-      throw new ApiError(403, "You are not the owner of this document");
+      throw new ApiError(403, "You don't have the permission");
     }
 
     const documentUser = await findDocumentUser(documentId, documentUserId);

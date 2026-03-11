@@ -221,6 +221,7 @@ const ManageCollaboratorsModal = ({
             <PrimaryButton
               onClick={handleInvite}
               loading={inviting}
+              disabled={!email || inviting}
               loadingText="Sending..."
             >
               Send Invite
