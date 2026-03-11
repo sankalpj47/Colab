@@ -1,10 +1,12 @@
 import express from "express";
 import cors from "cors";
 import logger from "./config/logger.config";
+import http from 'http'
 import { ALLOWED_ORIGINS, PORT } from "./config/constants.config";
 import loggerMiddleware from "./middleware/logger.middleware";
 import apiRoutes from "./routes/api.route";
 import errorHandlerMiddleware from "./middleware/error.middleware";
+import initWebSocketServer from "./config/websocket.config";
 
 const app = express();
 
@@ -25,6 +27,9 @@ app.get("/health", (req, res) => {
   return res.status(200).json({ status: "ok" });
 });
 
-app.listen(PORT, () => {
+const server = http.createServer(app)
+initWebSocketServer(server)
+
+server.listen(PORT, () => {
   logger.success(`Server is running on PORT ${PORT}`);
 });
