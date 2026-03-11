@@ -1,9 +1,9 @@
-// DocumentEditor.tsx
 "use client";
 
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
-import { TextStyleKit } from "@tiptap/extension-text-style";
+import TextStyle from '@tiptap/extension-text-style'
+import Color from '@tiptap/extension-color'
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useEffect } from "react";
 import { MenuBar } from "./Menubar";
@@ -18,7 +18,8 @@ const DocumentEditor = ({
   const editor = useEditor({
     extensions: [
       StarterKit,
-      TextStyleKit,
+      TextStyle,
+      Color,
       Placeholder.configure({ placeholder: "Start writing..." }),
     ],
     content,
