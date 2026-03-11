@@ -33,7 +33,7 @@ const CollaboratorRow = ({
   const handleRemove = async () => {
     try {
       setRemoving(true);
-      await api.delete(`/document/${documentId}/collaborators/${collaborator.id}`);
+      await api.delete(`/document/${documentId}/collaborators/${collaborator.user.id}`);
       success("Collaborator removed");
       onRefresh();
     } catch (err) {
@@ -97,7 +97,7 @@ const CollaboratorRow = ({
           <>
             <RoleDropdown
               currentRole={collaborator.role as DocumentUserRole}
-              collaboratorId={collaborator.id}
+              collaboratorId={collaborator.user.id}
               documentId={documentId}
               onUpdated={onRefresh}
             />

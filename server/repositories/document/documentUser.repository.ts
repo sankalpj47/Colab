@@ -11,6 +11,16 @@ const findDocumentUser = async (documentId: string, userId: string) => {
           documentId,
         },
       },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            imageUrl: true,
+          },
+        },
+      },
     });
 
     return documentUser;
@@ -46,7 +56,17 @@ const updateDocumentUserRole = async (documentId: string, userId: string, role: 
       },
       data: {
         role: role
-      }
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            imageUrl: true,
+          },
+        },
+      },
     })
 
     return updatedUser

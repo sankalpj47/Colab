@@ -1,4 +1,3 @@
-import { DocumentUserRole } from "@prisma/client";
 import logger from "../../config/logger.config";
 import { findDocumentById } from "../../repositories/document/document.repository";
 import {
@@ -6,17 +5,7 @@ import {
   findDocumentUsersByDocument,
 } from "../../repositories/document/documentUser.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
-
-type DocumentMember = {
-  id: string;
-  role: DocumentUserRole | "OWNER";
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    imageUrl: string | null;
-  };
-};
+import { DocumentMember } from "../../utils/types/common.types";
 
 const fetchAllDocumentUsersService = async (
   documentId: string,
