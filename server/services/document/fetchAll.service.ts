@@ -5,7 +5,7 @@ import { handleServerError } from "../../utils/error.utils";
 const fetchAllDocumentService = async (userId: string) => {
   try {
     const documents = await findAllDocumentsByUser(userId);
-    logger.success(`Fetched all documents successfully`)
+    logger.success(`Fetched all documents successfully`);
     return documents;
   } catch (err) {
     logger.error(

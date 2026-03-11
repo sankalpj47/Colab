@@ -6,18 +6,13 @@ const ydocMap = new Map<string, Y.Doc>();
 const providerMap = new Map<string, WebsocketProvider>();
 const refCountMap = new Map<string, number>();
 
-export const getCollaborationInstance = (
-  documentId: string,
-  initialContent?: string
-) => {
+export const getCollaborationInstance = (documentId: string, initialContent?: string) => {
   if (!ydocMap.has(documentId)) {
     const ydoc = new Y.Doc();
 
     if (initialContent) {
       try {
-        const binary = Uint8Array.from(atob(initialContent), (c) =>
-          c.charCodeAt(0)
-        );
+        const binary = Uint8Array.from(atob(initialContent), (c) => c.charCodeAt(0));
         Y.applyUpdate(ydoc, binary);
       } catch (e) {
         console.error("Failed to rehydrate Yjs state:", e);

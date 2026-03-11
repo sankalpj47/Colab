@@ -29,7 +29,7 @@ const sendOtpService = async ({ email, isSignup }: { email: string; isSignup: bo
       subject: "Your OTP Code",
       html,
     });
-    logger.success(`OTP sent to ${email} successfully`)
+    logger.success(`OTP sent to ${email} successfully`);
     return;
   } catch (err) {
     logger.error("Error in sendOtpService " + (err instanceof Error ? err.message : String(err)));

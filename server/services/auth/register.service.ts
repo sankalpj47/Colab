@@ -41,7 +41,7 @@ const registerUserService = async (user: CreateUserInput): Promise<string | void
       role: currentUser.role,
     });
 
-    logger.success(`${user.name} registered via oauth successfully`)
+    logger.success(`${user.name} registered via oauth successfully`);
 
     return token;
   } catch (err) {

@@ -11,10 +11,7 @@ import { MenuBar } from "./Menubar";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import api from "@/utils/axios.util";
-import {
-  destroyCollaborationInstance,
-  getCollaborationInstance,
-} from "@/utils/collaboration.util";
+import { destroyCollaborationInstance, getCollaborationInstance } from "@/utils/collaboration.util";
 
 const DocumentEditor = ({
   documentId,
@@ -106,7 +103,6 @@ const DocumentEditor = ({
     return () => {
       destroyCollaborationInstance(documentId);
     };
-
   }, [documentId]);
 
   return (
@@ -121,10 +117,7 @@ const DocumentEditor = ({
         {/* hide toolbar for viewers */}
         {!isReadOnly && <MenuBar editor={editor!} />}
         {isReadOnly && (
-          <span
-            className="text-xs"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <span className="text-xs" style={{ color: "var(--text-secondary)" }}>
             View only
           </span>
         )}

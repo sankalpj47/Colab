@@ -21,7 +21,7 @@ const deleteDocumentService = async (
     }
 
     await deleteDocument(documentId);
-    logger.success(`Document title: ${document.title} deleted successfully`)
+    logger.success(`Document title: ${document.title} deleted successfully`);
     return true;
   } catch (err) {
     logger.error(

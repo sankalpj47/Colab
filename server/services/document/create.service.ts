@@ -16,7 +16,7 @@ const createDocumentService = async (input: CreateDocumentInput) => {
   try {
     validateUserInput(input);
     const newDocument = await insertDocument(input);
-    logger.success(`Document title: ${input.title} created successfully`)
+    logger.success(`Document title: ${input.title} created successfully`);
     return newDocument;
   } catch (err) {
     logger.error(

@@ -27,9 +27,7 @@ const Page = () => {
 
   const currentUser = {
     name: session?.user.name ?? "Anonymous",
-    color: generateUserColor(
-      session?.user.email ?? session?.user.name ?? "anonymous"
-    ),
+    color: generateUserColor(session?.user.email ?? session?.user.name ?? "anonymous"),
   };
 
   const fetchDocument = async () => {
