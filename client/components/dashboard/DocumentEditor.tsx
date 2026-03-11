@@ -105,6 +105,11 @@ const DocumentEditor = ({
     };
   }, [documentId]);
 
+  useEffect(() => {
+    if (!editor) return;
+    editor.setEditable(!isReadOnly);
+  }, [editor, isReadOnly]);
+
   return (
     <div
       className="border rounded-md"

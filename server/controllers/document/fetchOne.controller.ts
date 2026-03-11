@@ -20,7 +20,6 @@ const fetchOneDocumentController: ParamsController<FetchOneDocumentParams> = asy
     }
 
     const document = await fetchOneDocumentService(documentId, userId);
-
     res.status(200).json({
       success: true,
       message: "Document fetched successfully",

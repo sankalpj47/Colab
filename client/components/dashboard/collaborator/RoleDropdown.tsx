@@ -6,16 +6,19 @@ import { DocumentUserRole } from "@/types/common";
 import { useToast } from "@/context/ToastContext";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import { ROLES, roleLabel } from "./constants";
+import { getProviderForDocument } from "@/utils/collaboration.util";
 
 const RoleDropdown = ({
   currentRole,
   collaboratorId,
   documentId,
+  collaboratorEmail,
   onUpdated,
 }: {
   currentRole: DocumentUserRole;
   collaboratorId: string;
   documentId: string;
+  collaboratorEmail: string;
   onUpdated: () => void;
 }) => {
   const [open, setOpen] = useState(false);
@@ -30,6 +33,17 @@ const RoleDropdown = ({
     try {
       setLoading(true);
       await api.patch(`/document/${documentId}/collaborators/${collaboratorId}`, { role });
+
+      // broadcast new role for the affected user via awareness
+      // We store it keyed by userId so the affected tab can pick it up
+      const provider = getProviderForDocument(documentId);
+      if (provider) {
+        const current = provider.awareness.getLocalState() ?? {};
+        provider.awareness.setLocalState({
+          ...current,
+          roleUpdate: { email: collaboratorEmail, role }, // targeted update
+        });
+      }
       success("Role updated");
       onUpdated();
     } catch (err) {

@@ -25,7 +25,7 @@ const ManageCollaboratorsModal = ({
   const [role, setRole] = useState<DocumentUserRole>("VIEWER");
   const [inviting, setInviting] = useState(false);
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
-  const [visible, setVisible] = useState(false); // ✅ animation state
+  const [visible, setVisible] = useState(false); // animation state
 
   const selectedRole = ROLES.find((r) => r.value === role)!;
 

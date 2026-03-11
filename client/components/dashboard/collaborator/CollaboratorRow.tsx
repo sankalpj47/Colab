@@ -99,6 +99,7 @@ const CollaboratorRow = ({
               currentRole={collaborator.role as DocumentUserRole}
               collaboratorId={collaborator.user.id}
               documentId={documentId}
+              collaboratorEmail={collaborator.user.email}
               onUpdated={onRefresh}
             />
             <button

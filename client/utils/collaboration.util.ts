@@ -5,6 +5,7 @@ import { WEBSOCKET_URL } from "@/config/constants";
 const ydocMap = new Map<string, Y.Doc>();
 const providerMap = new Map<string, WebsocketProvider>();
 const refCountMap = new Map<string, number>();
+const awarenessListeners = new Map<string, Array<() => void>>();
 
 export const getCollaborationInstance = (documentId: string, initialContent?: string) => {
   if (!ydocMap.has(documentId)) {
@@ -23,17 +24,14 @@ export const getCollaborationInstance = (documentId: string, initialContent?: st
       connect: true,
     });
 
-    // provider.on("status", (event: { status: string }) => {
-    //   console.log("WebSocket status:", event.status);
-    // });
-
-    // provider.on("sync", (isSynced: boolean) => {
-    //   console.log("Yjs synced:", isSynced);
-    // });
-
     ydocMap.set(documentId, ydoc);
     providerMap.set(documentId, provider);
     refCountMap.set(documentId, 0);
+
+    // flush any pending listeners that registered before provider existed
+    const pending = awarenessListeners.get(documentId) ?? [];
+    pending.forEach((fn) => fn());
+    awarenessListeners.delete(documentId);
   }
 
   refCountMap.set(documentId, (refCountMap.get(documentId) ?? 0) + 1);
@@ -54,5 +52,66 @@ export const destroyCollaborationInstance = (documentId: string) => {
     ydocMap.get(documentId)?.destroy();
     ydocMap.delete(documentId);
     refCountMap.delete(documentId);
+    awarenessListeners.delete(documentId);
   }
+};
+
+export const setAwarenessRole = (documentId: string, role: string, email: string) => {
+  const provider = providerMap.get(documentId);
+  if (!provider) {
+    console.log("setAwarenessRole: no provider found for", documentId);
+    return;
+  }
+  const current = provider.awareness.getLocalState() ?? {};
+  provider.awareness.setLocalState({ ...current, role, email });
+  console.log("setAwarenessRole: set state", { role, email });
+};
+
+export const onAwarenessRoleChange = (
+  documentId: string,
+  email: string,
+  callback: (role: string) => void
+) => {
+  const register = () => {
+    const provider = providerMap.get(documentId);
+    if (!provider) return;
+
+    console.log("onAwarenessRoleChange: listening for email", email);
+
+    const handler = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider.awareness.getStates().forEach((state: any, clientId: number) => {
+        if (
+          clientId !== provider.awareness.clientID &&
+          state.roleUpdate?.email === email &&
+          state.roleUpdate?.role
+        ) {
+          console.log("role change detected:", state.roleUpdate.role);
+          callback(state.roleUpdate.role);
+        }
+      });
+    };
+
+    provider.awareness.on("change", handler);
+    return () => provider.awareness.off("change", handler);
+  };
+
+  // if provider already exists, register immediately
+  if (providerMap.has(documentId)) {
+    return register();
+  }
+
+  // otherwise queue it until provider is created
+  const pending = awarenessListeners.get(documentId) ?? [];
+  let cleanup: (() => void) | undefined;
+  pending.push(() => {
+    cleanup = register() ?? undefined;
+  });
+  awarenessListeners.set(documentId, pending);
+
+  return () => cleanup?.();
+};
+
+export const getProviderForDocument = (documentId: string) => {
+  return providerMap.get(documentId) ?? null;
 };

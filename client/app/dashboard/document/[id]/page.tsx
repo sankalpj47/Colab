@@ -15,6 +15,7 @@ import { ArrowLeft } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { onAwarenessRoleChange, setAwarenessRole } from "@/utils/collaboration.util";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,6 +60,23 @@ const Page = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    if (!id || !document || !session?.user.email) return;
+    setAwarenessRole(id, document.role, session.user.email);
+  }, [id, document, session]);
+
+  useEffect(() => {
+    if (!id || !session?.user) return;
+
+    const cleanup = onAwarenessRoleChange(id, session?.user.email, (newRole) => {
+      setIsReadOnly(newRole === "VIEWER");
+      setIsOwner(newRole === "OWNER");
+    });
+
+    return cleanup;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, session?.user.email]);
 
   useEffect(() => {
     if (id) {

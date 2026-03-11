@@ -35,7 +35,7 @@ const updateDocumentUserRoleService = async (
     }
 
     if (documentUserId === document.ownerId) {
-      throw new ApiError(400, "Cannot change the owner's role")
+      throw new ApiError(400, "Cannot change the owner's role");
     }
 
     const documentUser = await findDocumentUser(documentId, documentUserId);
