@@ -73,7 +73,7 @@ export const menuBarStateSelector = (ctx: { editor: Editor | null }): MenuBarSta
     isOrderedList: ctx.editor.isActive("orderedList"),
     isCodeBlock: ctx.editor.isActive("codeBlock"),
     isBlockquote: ctx.editor.isActive("blockquote"),
-    canUndo: ctx.editor.can().undo(),
-    canRedo: ctx.editor.can().redo(),
+    canUndo: false,
+    canRedo: false,
   };
 };

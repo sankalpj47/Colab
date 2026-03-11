@@ -8,9 +8,11 @@ import Loader from "@/components/ui/Loader";
 import { useToast } from "@/context/ToastContext";
 import { Document, DocumentSaving } from "@/types/common";
 import api, { getErrorMessage } from "@/utils/axios.util";
+import { generateUserColor } from "@/utils/common.util";
 import { ArrowLeft } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,18 +21,19 @@ const Page = () => {
 
   const [document, setDocument] = useState<Document | null>(null);
   const [fetching, setFetching] = useState(true);
-  const [editorContent, setEditorContent] = useState("");
   const [savingDocumentStatus, setSavingDocumentStatus] = useState<DocumentSaving>("saved");
+  const { data: session } = useSession();
 
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const currentUser = {
+    name: session?.user.name ?? "Anonymous",
+    color: generateUserColor(session?.user.email ?? session?.user.name ?? "anonymous"),
+  };
 
   const fetchDocument = async () => {
     try {
       setFetching(true);
       const response = await api.get(`/document/${id}`);
-      const doc = response.data.document;
-      setDocument(doc);
-      setEditorContent(doc.content ?? "");
+      setDocument(response.data.document);
     } catch (err) {
       error(getErrorMessage(err));
       router.replace("/dashboard");
@@ -41,34 +44,11 @@ const Page = () => {
 
   useEffect(() => {
     if (id) fetchDocument();
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (fetching) return <Loader />;
   if (!document) return null;
-
-  const handleSave = async (content: string) => {
-    setSavingDocumentStatus("saving");
-    try {
-      await api.patch(`/document/${id}/save`, { content });
-      setSavingDocumentStatus("saved");
-    } catch (err) {
-      error(getErrorMessage(err));
-      setSavingDocumentStatus("error");
-    }
-  };
-
-  const handleEditorChange = (html: string) => {
-    setEditorContent(html);
-    setSavingDocumentStatus("saving"); // ✅ immediate feedback while debouncing
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      handleSave(html);
-    }, 2000);
-  };
 
   return (
     <div
@@ -86,7 +66,12 @@ const Page = () => {
         <DocumentHeader document={document} />
 
         {/* Editor */}
-        <DocumentEditor content={editorContent} onChange={handleEditorChange} />
+        <DocumentEditor
+  documentId={id}
+  currentUser={currentUser}
+  initialContent={document.content ?? undefined}
+  onSaveStatusChange={setSavingDocumentStatus}
+/>
       </div>
     </div>
   );

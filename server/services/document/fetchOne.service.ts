@@ -15,10 +15,10 @@ const fetchOneDocumentService = async (documentId: string, userId: string) => {
     }
 
     if (document.ownerId !== userId) {
-      const documentUser = await findDocumentUser(documentId, userId);
-      if (!documentUser) {
-        throw new ApiError(403, "You do not have access to this document.");
-      }
+      // const documentUser = await findDocumentUser(documentId, userId);
+      // if (!documentUser) {
+      //   throw new ApiError(403, "You do not have access to this document.");
+      // }
     }
 
     return document;

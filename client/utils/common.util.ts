@@ -22,4 +22,14 @@ const formatRelativeTime = (date: Date | string) => {
   return `${diffInDays} day${diffInDays !== 1 ? "s" : ""} ago`;
 };
 
-export { formatRelativeTime };
+const generateUserColor = (seed: string): string => {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  // convert to hex
+  const color = Math.abs(hash) & 0x00ffffff;
+  return `#${color.toString(16).padStart(6, "0")}`;
+};
+
+export { formatRelativeTime, generateUserColor };
