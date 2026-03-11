@@ -8,6 +8,7 @@ import api, { getErrorMessage } from "@/utils/axios.util";
 import RoleDropdown from "./RoleDropdown";
 import { ROLE_COLORS, getInitials } from "./constants";
 import Image from "next/image";
+import { getProviderForDocument } from "@/utils/collaboration.util";
 
 const roleIcons: Record<string, React.ReactNode> = {
   OWNER: <Crown size={11} />,
@@ -34,6 +35,16 @@ const CollaboratorRow = ({
     try {
       setRemoving(true);
       await api.delete(`/document/${documentId}/collaborators/${collaborator.user.id}`);
+
+      // broadcast removal to affected user
+      const provider = getProviderForDocument(documentId);
+      if (provider) {
+        const current = provider.awareness.getLocalState() ?? {};
+        provider.awareness.setLocalState({
+          ...current,
+          removalUpdate: { email: collaborator.user.email },
+        });
+      }
       success("Collaborator removed");
       onRefresh();
     } catch (err) {

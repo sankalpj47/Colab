@@ -15,7 +15,11 @@ import { ArrowLeft } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { onAwarenessRoleChange, setAwarenessRole } from "@/utils/collaboration.util";
+import {
+  onAwarenessRemoval,
+  onAwarenessRoleChange,
+  setAwarenessRole,
+} from "@/utils/collaboration.util";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -77,6 +81,18 @@ const Page = () => {
     return cleanup;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, session?.user.email]);
+
+  useEffect(() => {
+    if (!id || !session?.user?.email) return;
+
+    const cleanup = onAwarenessRemoval(id, session.user.email, () => {
+      error("You have been removed from this document.");
+      router.replace("/dashboard");
+    });
+
+    return cleanup;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, session?.user?.email]);
 
   useEffect(() => {
     if (id) {

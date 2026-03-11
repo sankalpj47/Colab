@@ -112,6 +112,38 @@ export const onAwarenessRoleChange = (
   return () => cleanup?.();
 };
 
+export const onAwarenessRemoval = (documentId: string, email: string, callback: () => void) => {
+  const register = () => {
+    const provider = providerMap.get(documentId);
+    if (!provider) return;
+
+    const handler = () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider.awareness.getStates().forEach((state: any, clientId: number) => {
+        if (clientId !== provider.awareness.clientID && state.removalUpdate?.email === email) {
+          callback();
+        }
+      });
+    };
+
+    provider.awareness.on("change", handler);
+    return () => provider.awareness.off("change", handler);
+  };
+
+  if (providerMap.has(documentId)) {
+    return register();
+  }
+
+  const pending = awarenessListeners.get(documentId) ?? [];
+  let cleanup: (() => void) | undefined;
+  pending.push(() => {
+    cleanup = register() ?? undefined;
+  });
+  awarenessListeners.set(documentId, pending);
+
+  return () => cleanup?.();
+};
+
 export const getProviderForDocument = (documentId: string) => {
   return providerMap.get(documentId) ?? null;
 };
