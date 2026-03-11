@@ -23,9 +23,13 @@ router.get("/:id", fetchOneDocumentController);
 router.patch("/:id/save", reqBodyMiddleware, saveDocumentController);
 
 // Document user (collaborator) routes
-router.post("/:id/invite", reqBodyMiddleware, inviteDocumentUserController)
-router.get("/:id/collaborators", fetchAllDocumentUserController)
-router.patch("/:documentId/collaborators/:documentUserId", reqBodyMiddleware, updateDocumentUserRoleController)
-router.delete("/:documentId/collaborators/:documentUserId", removeDocumentUserController)
+router.post("/:id/invite", reqBodyMiddleware, inviteDocumentUserController);
+router.get("/:id/collaborators", fetchAllDocumentUserController);
+router.patch(
+  "/:documentId/collaborators/:documentUserId",
+  reqBodyMiddleware,
+  updateDocumentUserRoleController
+);
+router.delete("/:documentId/collaborators/:documentUserId", removeDocumentUserController);
 
 export default router;

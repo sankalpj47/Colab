@@ -10,7 +10,7 @@ type Document = {
 
 type DocumentSaving = "saving" | "saved" | "error";
 
-type DocumentUserRole = "VIEWER" | "EDITOR"
+type DocumentUserRole = "VIEWER" | "EDITOR";
 type DocumentMemberRole = DocumentUserRole | "OWNER";
 
 type DocumentMember = {

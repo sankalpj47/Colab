@@ -1,7 +1,10 @@
 import { DocumentUserRole } from "@prisma/client";
 import logger from "../../config/logger.config";
 import { findDocumentById } from "../../repositories/document/document.repository";
-import { createDocumentUser, findDocumentUser } from "../../repositories/document/documentUser.repository";
+import {
+  createDocumentUser,
+  findDocumentUser,
+} from "../../repositories/document/documentUser.repository";
 import { findUserByEmail } from "../../repositories/user/user.repository";
 import { isValidDocumentUserRole, isValidEmail } from "../../utils/common.util";
 import { ApiError, handleServerError } from "../../utils/error.utils";
@@ -62,19 +65,20 @@ const inviteDocumentUserService = async (
       inviteeName: user.name,
       documentTitle: document.title,
       role,
-      documentUrl: `${FRONTEND_URL}/dashboard/document/${documentId}`
-    }).then(() => {
-        logger.success(`Invite email sent successfully to ${email}`)
-    }).catch((err) => {
-      logger.error("Failed to send invite email: " + err.message);
-    });
+      documentUrl: `${FRONTEND_URL}/dashboard/document/${documentId}`,
+    })
+      .then(() => {
+        logger.success(`Invite email sent successfully to ${email}`);
+      })
+      .catch((err) => {
+        logger.error("Failed to send invite email: " + err.message);
+      });
 
-    logger.success(`DB updated for sending invite to ${user.name}`)
+    logger.success(`DB updated for sending invite to ${user.name}`);
     return; // return so controller can respond
   } catch (err) {
     logger.error(
-      "Error in inviteDocumentUserService: " +
-        (err instanceof Error ? err.message : String(err))
+      "Error in inviteDocumentUserService: " + (err instanceof Error ? err.message : String(err))
     );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
   }

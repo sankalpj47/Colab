@@ -6,10 +6,7 @@ import InviteButton from "@/components/dashboard/InviteButton";
 import SaveStatus from "@/components/dashboard/SaveStatus";
 import GhostButton from "@/components/ui/GhostButton";
 import Loader from "@/components/ui/Loader";
-import {
-  CollaboratorList,
-  ManageCollaboratorsModal,
-} from "@/components/dashboard/collaborator";
+import { CollaboratorList, ManageCollaboratorsModal } from "@/components/dashboard/collaborator";
 import { useToast } from "@/context/ToastContext";
 import { Document, DocumentMember, DocumentSaving } from "@/types/common";
 import api, { getErrorMessage } from "@/utils/axios.util";
@@ -30,15 +27,12 @@ const Page = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [collaborators, setCollaborators] = useState<DocumentMember[]>([]);
-  const [savingDocumentStatus, setSavingDocumentStatus] =
-    useState<DocumentSaving>("saved");
+  const [savingDocumentStatus, setSavingDocumentStatus] = useState<DocumentSaving>("saved");
   const { data: session } = useSession();
 
   const currentUser = {
     name: session?.user.name ?? "Anonymous",
-    color: generateUserColor(
-      session?.user.email ?? session?.user.name ?? "anonymous"
-    ),
+    color: generateUserColor(session?.user.email ?? session?.user.name ?? "anonymous"),
   };
 
   const fetchDocument = async () => {
@@ -88,9 +82,7 @@ const Page = () => {
           <GhostButton label="Back" icon={ArrowLeft} onClick={() => router.back()} />
           <div className="flex items-center gap-3">
             <CollaboratorList collaborators={collaborators} />
-            {isOwner && (
-              <InviteButton onClick={() => setModalOpen(true)} />
-            )}
+            {isOwner && <InviteButton onClick={() => setModalOpen(true)} />}
             <SaveStatus status={savingDocumentStatus} />
           </div>
         </div>

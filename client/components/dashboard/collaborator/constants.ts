@@ -21,5 +21,4 @@ export const getInitials = (name: string) => {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 };
 
-export const roleLabel = (role: DocumentMemberRole) =>
-  role.charAt(0) + role.slice(1).toLowerCase();
+export const roleLabel = (role: DocumentMemberRole) => role.charAt(0) + role.slice(1).toLowerCase();

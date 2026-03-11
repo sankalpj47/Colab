@@ -45,17 +45,21 @@ const createDocumentUser = async (documentUser: CreateDocumentUserInput) => {
   }
 };
 
-const updateDocumentUserRole = async (documentId: string, userId: string, role: DocumentUserRole) => {
+const updateDocumentUserRole = async (
+  documentId: string,
+  userId: string,
+  role: DocumentUserRole
+) => {
   try {
     const updatedUser = await prisma.documentUser.update({
       where: {
         userId_documentId: {
           userId: userId,
-          documentId: documentId
+          documentId: documentId,
         },
       },
       data: {
-        role: role
+        role: role,
       },
       include: {
         user: {
@@ -67,13 +71,13 @@ const updateDocumentUserRole = async (documentId: string, userId: string, role: 
           },
         },
       },
-    })
+    });
 
-    return updatedUser
+    return updatedUser;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 const deleteDocumentUser = async (documentId: string, userId: string) => {
   try {
@@ -81,16 +85,16 @@ const deleteDocumentUser = async (documentId: string, userId: string) => {
       where: {
         userId_documentId: {
           userId: userId,
-          documentId: documentId
-        }
-      }
-    })
+          documentId: documentId,
+        },
+      },
+    });
 
-    return deletedUser
+    return deletedUser;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
 const findDocumentUsersByDocument = async (documentId: string) => {
   try {
@@ -114,4 +118,10 @@ const findDocumentUsersByDocument = async (documentId: string) => {
   }
 };
 
-export { findDocumentUser, createDocumentUser, updateDocumentUserRole, deleteDocumentUser, findDocumentUsersByDocument,  };
+export {
+  findDocumentUser,
+  createDocumentUser,
+  updateDocumentUserRole,
+  deleteDocumentUser,
+  findDocumentUsersByDocument,
+};

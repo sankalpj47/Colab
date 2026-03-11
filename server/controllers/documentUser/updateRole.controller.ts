@@ -11,32 +11,39 @@ type UpdateDocumentUserRoleParams = {
   documentUserId: string;
 };
 
-const updateDocumentUserRoleController: BodyParamsController<UpdateDocumentUserRoleBody, UpdateDocumentUserRoleParams> = async (req, res, next) => {
-    try {
+const updateDocumentUserRoleController: BodyParamsController<
+  UpdateDocumentUserRoleBody,
+  UpdateDocumentUserRoleParams
+> = async (req, res, next) => {
+  try {
+    const { documentId, documentUserId } = req.params;
+    const { role } = req.body;
 
-        const { documentId, documentUserId } = req.params
-        const { role } = req.body
-
-            const userId = req.user?.id;
+    const userId = req.user?.id;
 
     if (!userId) {
       res.status(401).json({ success: false, message: "Unauthorized" });
       return;
     }
-        if (!role) {
+    if (!role) {
       res.status(400).json({ success: false, message: "Email and role are required" });
       return;
     }
-    const collaborator = await updateDocumentUserRoleService(documentId, userId, documentUserId, role);
+    const collaborator = await updateDocumentUserRoleService(
+      documentId,
+      userId,
+      documentUserId,
+      role
+    );
 
     res.status(200).json({
       success: true,
       message: `Access updated successfully`,
-      collaborator
+      collaborator,
     });
-    } catch (err) {
-        next(err)
-    }
-}
+  } catch (err) {
+    next(err);
+  }
+};
 
-export default updateDocumentUserRoleController
+export default updateDocumentUserRoleController;

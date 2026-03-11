@@ -14,9 +14,7 @@ const roleLabel = (role: DocumentUserRole) => {
 };
 
 const roleDescription = (role: DocumentUserRole) => {
-  return role === "EDITOR"
-    ? "You can read and edit this document."
-    : "You can read this document.";
+  return role === "EDITOR" ? "You can read and edit this document." : "You can read this document.";
 };
 
 export const sendInviteEmail = async ({

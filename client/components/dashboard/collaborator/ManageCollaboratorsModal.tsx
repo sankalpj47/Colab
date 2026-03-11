@@ -102,17 +102,11 @@ const ManageCollaboratorsModal = ({
         </div>
 
         {/* People list — scrollable */}
-        <div
-          className="px-6 pt-4 pb-2 border-b shrink-0"
-          style={{ borderColor: "var(--border)" }}
-        >
+        <div className="px-6 pt-4 pb-2 border-b shrink-0" style={{ borderColor: "var(--border)" }}>
           <p className="text-xs mb-3" style={{ color: "var(--text-secondary)" }}>
-            {collaborators.length}{" "}
-            {collaborators.length === 1 ? "person" : "people"} with access
+            {collaborators.length} {collaborators.length === 1 ? "person" : "people"} with access
           </p>
-          <div
-            className="flex flex-col gap-1 pr-1"
-          >
+          <div className="flex flex-col gap-1 pr-1">
             {collaborators.map((c) => (
               <CollaboratorRow
                 key={c.id}
@@ -173,10 +167,7 @@ const ManageCollaboratorsModal = ({
 
               {roleDropdownOpen && (
                 <>
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setRoleDropdownOpen(false)}
-                  />
+                  <div className="fixed inset-0 z-10" onClick={() => setRoleDropdownOpen(false)} />
                   <div
                     className="absolute right-0 bottom-full mb-1 rounded-md border z-20 overflow-hidden w-36"
                     style={{
@@ -198,7 +189,8 @@ const ManageCollaboratorsModal = ({
                           color: "var(--text-primary)",
                         }}
                         onMouseEnter={(e) =>
-                          ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--hover)")
+                          ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                            "var(--hover)")
                         }
                         onMouseLeave={(e) =>
                           ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
@@ -206,7 +198,10 @@ const ManageCollaboratorsModal = ({
                         }
                       >
                         <div className="text-xs font-semibold font-mono">{r.label}</div>
-                        <div className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>
+                        <div
+                          className="text-xs font-mono"
+                          style={{ color: "var(--text-secondary)" }}
+                        >
                           {r.description}
                         </div>
                       </button>

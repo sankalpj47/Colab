@@ -23,7 +23,10 @@ const RoleDropdown = ({
   const { success, error } = useToast();
 
   const handleChange = async (role: DocumentUserRole) => {
-    if (role === currentRole) { setOpen(false); return; }
+    if (role === currentRole) {
+      setOpen(false);
+      return;
+    }
     try {
       setLoading(true);
       await api.patch(`/document/${documentId}/collaborators/${collaboratorId}`, { role });

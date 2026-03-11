@@ -1,11 +1,18 @@
 import logger from "../../config/logger.config";
 import { findDocumentById } from "../../repositories/document/document.repository";
-import { deleteDocumentUser, findDocumentUser } from "../../repositories/document/documentUser.repository";
+import {
+  deleteDocumentUser,
+  findDocumentUser,
+} from "../../repositories/document/documentUser.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
 
-const removeDocumentUserService = async (documentId: string, userId: string, documentUserId: string): Promise<boolean | void> => {
-    try {
-            if (!documentId.trim()) {
+const removeDocumentUserService = async (
+  documentId: string,
+  userId: string,
+  documentUserId: string
+): Promise<boolean | void> => {
+  try {
+    if (!documentId.trim()) {
       throw new ApiError(400, "Document ID is required");
     }
 
@@ -24,15 +31,14 @@ const removeDocumentUserService = async (documentId: string, userId: string, doc
     }
 
     await deleteDocumentUser(documentId, documentUserId);
-    logger.success(`Document user: ${documentUser.user.name} removed from ${document.title}`)
-    return true
-    } catch (err) {
-            logger.error(
-      "Error in removeDocumentUserService: " +
-        (err instanceof Error ? err.message : String(err))
+    logger.success(`Document user: ${documentUser.user.name} removed from ${document.title}`);
+    return true;
+  } catch (err) {
+    logger.error(
+      "Error in removeDocumentUserService: " + (err instanceof Error ? err.message : String(err))
     );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
-    }
-}
+  }
+};
 
-export default removeDocumentUserService
+export default removeDocumentUserService;

@@ -9,7 +9,7 @@ import {
 import { isValidDocumentUserRole } from "../../utils/common.util";
 import { DocumentMember } from "../../utils/types/common.types";
 
-const updateDocumentUserRoleService = async ( 
+const updateDocumentUserRoleService = async (
   documentId: string,
   userId: string,
   documentUserId: string,
@@ -21,7 +21,7 @@ const updateDocumentUserRoleService = async (
     }
 
     if (!isValidDocumentUserRole(role)) {
-      logger.error(`Invalid user role: ${role}`)
+      logger.error(`Invalid user role: ${role}`);
       throw new ApiError(400, `Invalid user role`);
     }
 
@@ -44,7 +44,7 @@ const updateDocumentUserRoleService = async (
     }
 
     const updated = await updateDocumentUserRoleRepo(documentId, documentUserId, role);
-    logger.success(`Document user: ${updated.user.name} updated role: ${updated.role}`)
+    logger.success(`Document user: ${updated.user.name} updated role: ${updated.role}`);
     return updated;
   } catch (err) {
     logger.error(

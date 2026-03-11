@@ -5,7 +5,11 @@ type FetchAllDocumentUserParams = {
   id: string;
 };
 
-const fetchAllDocumentUserController: ParamsController<FetchAllDocumentUserParams> = async (req, res, next) => {
+const fetchAllDocumentUserController: ParamsController<FetchAllDocumentUserParams> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const { id: documentId } = req.params;
     const userId = req.user?.id;
@@ -20,7 +24,7 @@ const fetchAllDocumentUserController: ParamsController<FetchAllDocumentUserParam
     res.status(200).json({
       success: true,
       message: "Document users fetched successfully",
-      collaborators
+      collaborators,
     });
   } catch (err) {
     next(err);

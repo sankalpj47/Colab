@@ -22,4 +22,11 @@ type AuthTokenPayload = {
 
 type DecodeResult = { success: true; token: AuthTokenPayload } | { success: false; token: null };
 
-export type { CreateUserInput, CreateDocumentInput, DecodeResult, AuthTokenPayload, CreateDocumentUserInput, DocumentMember };
+export type {
+  CreateUserInput,
+  CreateDocumentInput,
+  DecodeResult,
+  AuthTokenPayload,
+  CreateDocumentUserInput,
+  DocumentMember,
+};

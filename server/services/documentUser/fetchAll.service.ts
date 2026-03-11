@@ -53,13 +53,12 @@ const fetchAllDocumentUsersService = async (
       },
     }));
 
-    logger.success(`All collaborators fetched for document: ${document.title}`)
+    logger.success(`All collaborators fetched for document: ${document.title}`);
     // owner always first
     return [ownerEntry, ...collaborators];
   } catch (err) {
     logger.error(
-      "Error in fetchAllDocumentUsersService: " +
-        (err instanceof Error ? err.message : String(err))
+      "Error in fetchAllDocumentUsersService: " + (err instanceof Error ? err.message : String(err))
     );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
   }
