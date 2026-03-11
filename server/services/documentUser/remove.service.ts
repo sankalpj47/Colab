@@ -25,10 +25,6 @@ const removeDocumentUserService = async (
       throw new ApiError(403, "You don't have the permission");
     }
 
-    if (documentUserId === document.ownerId) {
-      throw new ApiError(400, "Cannot change the owner's role")
-    }
-
     const documentUser = await findDocumentUser(documentId, documentUserId);
     if (!documentUser) {
       throw new ApiError(404, "User not found");
