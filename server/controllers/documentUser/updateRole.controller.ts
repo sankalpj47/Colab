@@ -27,7 +27,6 @@ const updateDocumentUserRoleController: BodyParamsController<UpdateDocumentUserR
       res.status(400).json({ success: false, message: "Email and role are required" });
       return;
     }
-    console.log("In controller", documentUserId)
     const collaborator = await updateDocumentUserRoleService(documentId, userId, documentUserId, role);
 
     res.status(200).json({

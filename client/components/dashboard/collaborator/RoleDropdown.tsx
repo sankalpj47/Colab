@@ -26,7 +26,6 @@ const RoleDropdown = ({
     if (role === currentRole) { setOpen(false); return; }
     try {
       setLoading(true);
-      console.log("collaborator", collaboratorId)
       await api.patch(`/document/${documentId}/collaborators/${collaboratorId}`, { role });
       success("Role updated");
       onUpdated();

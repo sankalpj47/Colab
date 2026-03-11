@@ -20,8 +20,6 @@ const updateDocumentUserRoleService = async (
       throw new ApiError(400, "Document ID is required");
     }
 
-    console.log("In service", documentUserId)
-
     if (!isValidDocumentUserRole(role)) {
       logger.error(`Invalid user role: ${role}`)
       throw new ApiError(400, `Invalid user role`);
