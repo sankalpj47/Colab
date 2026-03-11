@@ -31,12 +31,11 @@ const inviteDocumentUserController: BodyParamsController<InviteBody, InviteParam
       return;
     }
 
-    const documentUser = await inviteDocumentUserService(documentId, userId, email, role);
+    await inviteDocumentUserService(documentId, userId, email, role);
 
     res.status(201).json({
       success: true,
       message: `Invite sent to ${email}`,
-      documentUser,
     });
   } catch (err) {
     next(err);

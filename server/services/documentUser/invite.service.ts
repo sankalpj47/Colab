@@ -13,7 +13,7 @@ const inviteDocumentUserService = async (
   userId: string,
   email: string,
   role: DocumentUserRole
-) => {
+): Promise<void> => {
   try {
     if (!documentId.trim()) {
       throw new ApiError(400, "Document ID is required");
@@ -70,7 +70,7 @@ const inviteDocumentUserService = async (
     });
 
     logger.success(`DB updated for sending invite to ${user.name}`)
-    return documentUser; // return so controller can respond
+    return; // return so controller can respond
   } catch (err) {
     logger.error(
       "Error in inviteDocumentUserService: " +
