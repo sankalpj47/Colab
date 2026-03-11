@@ -29,15 +29,15 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
       return;
     }
 
-    logger.debug(`Current user: ${decoded.token.id} with role ${decoded.token.role}`);
-
+    
     const user = await findUserById(decoded.token.id);
-
+    
     if (!user) {
       logger.error("Unauthorized - User not found");
       res.status(401).json({ success: false, message: "Unauthorized - User not found" });
       return;
     }
+    logger.debug(`Current user: ${user.name} with role ${decoded.token.role}`);
 
     req.user = user;
     next();

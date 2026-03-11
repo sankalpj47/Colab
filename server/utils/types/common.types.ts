@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 
 type CreateUserInput = Prisma.UserCreateInput;
 type CreateDocumentInput = Prisma.DocumentUncheckedCreateInput;
+type CreateDocumentUserInput = Prisma.DocumentUserUncheckedCreateInput;
 
 type AuthTokenPayload = {
   id: string;
@@ -10,4 +11,4 @@ type AuthTokenPayload = {
 
 type DecodeResult = { success: true; token: AuthTokenPayload } | { success: false; token: null };
 
-export type { CreateUserInput, CreateDocumentInput, DecodeResult, AuthTokenPayload };
+export type { CreateUserInput, CreateDocumentInput, DecodeResult, AuthTokenPayload, CreateDocumentUserInput };

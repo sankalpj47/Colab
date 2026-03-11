@@ -10,4 +10,6 @@ type Document = {
 
 type DocumentSaving = "saving" | "saved" | "error";
 
-export type { Document, DocumentSaving };
+type DocumentUserRole = "VIEWER" | "EDITOR"
+
+export type { Document, DocumentSaving, DocumentUserRole };

@@ -6,15 +6,20 @@ import createDocumentController from "../controllers/document/create.controller"
 import deleteDocumentController from "../controllers/document/delete.controller";
 import fetchOneDocumentController from "../controllers/document/fetchOne.controller";
 import saveDocumentController from "../controllers/document/save.controller";
+import inviteDocumentUserController from "../controllers/documentUser/invite.controller";
 
 const router = Router();
 
 router.use(authMiddleware);
+
+// Document routes (core)
 router.get("/", fetchAllDocumentController);
 router.post("/", reqBodyMiddleware, createDocumentController);
 router.delete("/:id", deleteDocumentController);
 router.get("/:id", fetchOneDocumentController);
-
 router.patch("/:id/save", reqBodyMiddleware, saveDocumentController);
+
+// Document user routes
+router.post("/:id/invite", reqBodyMiddleware, inviteDocumentUserController)
 
 export default router;

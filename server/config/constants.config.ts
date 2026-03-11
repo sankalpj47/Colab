@@ -6,7 +6,8 @@ dotenv.config();
 const NODE_ENV = process.env.NODE_ENV || "development";
 const PORT = Number(process.env.PORT) || 8000;
 
-const ALLOWED_ORIGINS = ["http://localhost:3000", process.env.FRONTEND_URL].filter(
+const FRONTEND_URL = process.env.FRONTEND_URL
+const ALLOWED_ORIGINS = ["http://localhost:3000", FRONTEND_URL].filter(
   Boolean
 ) as string[];
 
@@ -20,4 +21,4 @@ const SMTP = {
 
 const REDIS_URL = process.env.REDIS_URL;
 
-export { NODE_ENV, PORT, ALLOWED_ORIGINS, JWT_SECRET, JWT_EXPIRY_TIME, SMTP, REDIS_URL };
+export { NODE_ENV, PORT, FRONTEND_URL, ALLOWED_ORIGINS, JWT_SECRET, JWT_EXPIRY_TIME, SMTP, REDIS_URL };

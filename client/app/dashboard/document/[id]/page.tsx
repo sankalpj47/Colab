@@ -2,6 +2,8 @@
 
 import DocumentEditor from "@/components/dashboard/DocumentEditor";
 import DocumentHeader from "@/components/dashboard/DocumentHeader";
+import InviteButton from "@/components/dashboard/InviteButton";
+import InviteModal from "@/components/dashboard/InviteModal";
 import SaveStatus from "@/components/dashboard/SaveStatus";
 import GhostButton from "@/components/ui/GhostButton";
 import Loader from "@/components/ui/Loader";
@@ -22,12 +24,16 @@ const Page = () => {
   const [document, setDocument] = useState<Document | null>(null);
   const [fetching, setFetching] = useState(true);
   const [isReadOnly, setIsReadOnly] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+  const [inviteOpen, setInviteOpen] = useState(false);
   const [savingDocumentStatus, setSavingDocumentStatus] = useState<DocumentSaving>("saved");
   const { data: session } = useSession();
 
   const currentUser = {
     name: session?.user.name ?? "Anonymous",
-    color: generateUserColor(session?.user.email ?? session?.user.name ?? "anonymous"),
+    color: generateUserColor(
+      session?.user.email ?? session?.user.name ?? "anonymous"
+    ),
   };
 
   const fetchDocument = async () => {
@@ -37,6 +43,7 @@ const Page = () => {
       const doc = response.data.document;
       setDocument(doc);
       setIsReadOnly(doc.role === "VIEWER");
+      setIsOwner(doc.role === "OWNER");
     } catch (err) {
       error(getErrorMessage(err));
       router.replace("/dashboard");
@@ -62,7 +69,10 @@ const Page = () => {
         {/* Top bar */}
         <div className="flex items-center justify-between mb-10">
           <GhostButton label="Back" icon={ArrowLeft} onClick={() => router.back()} />
-          <SaveStatus status={savingDocumentStatus} />
+          <div className="flex items-center gap-3">
+            {isOwner && <InviteButton onClick={() => setInviteOpen(true)} />}
+            <SaveStatus status={savingDocumentStatus} />
+          </div>
         </div>
 
         {/* Header */}
@@ -77,6 +87,14 @@ const Page = () => {
           onSaveStatusChange={setSavingDocumentStatus}
         />
       </div>
+
+      {/* Invite modal */}
+      {inviteOpen && (
+        <InviteModal
+          documentId={id}
+          onClose={() => setInviteOpen(false)}
+        />
+      )}
     </div>
   );
 };
