@@ -1,6 +1,6 @@
-import { ALLOWED_USER_ROLES, AUTH_PROVIDERS } from "../../config/constants.config";
 import logger from "../../config/logger.config";
 import { findUserByEmail, insertUser } from "../../repositories/user/user.repository";
+import { isValidAuthProvider, isValidUserRole } from "../../utils/common.util";
 import { ApiError, handleServerError } from "../../utils/error.utils";
 import { generateAuthToken } from "../../utils/jwt.util";
 import { CreateUserInput } from "../../utils/types/common.types";
@@ -12,10 +12,10 @@ const validateUserInput = (user: CreateUserInput): void => {
   if (!user.email?.trim()) {
     throw new ApiError(400, "Email is required");
   }
-  if (!user.provider || !AUTH_PROVIDERS.includes(user.provider)) {
+  if (!user.provider || !isValidAuthProvider(user.provider)) {
     throw new ApiError(400, "Invalid auth provider");
   }
-  if (user.role && !ALLOWED_USER_ROLES.includes(user.role)) {
+  if (user.role && !isValidUserRole(user.role)) {
     throw new ApiError(400, "Invalid role");
   }
 };

@@ -5,6 +5,7 @@ import reqBodyMiddleware from "../middleware/reqBody.middleware";
 import createDocumentController from "../controllers/document/create.controller";
 import deleteDocumentController from "../controllers/document/delete.controller";
 import fetchOneDocumentController from "../controllers/document/fetchOne.controller";
+import saveDocumentController from "../controllers/document/save.controller";
 
 const router = Router();
 
@@ -13,5 +14,7 @@ router.get("/", fetchAllDocumentController);
 router.post("/", reqBodyMiddleware, createDocumentController);
 router.delete("/:id", deleteDocumentController);
 router.get("/:id", fetchOneDocumentController);
+
+router.patch('/:id/save', reqBodyMiddleware, saveDocumentController)
 
 export default router;

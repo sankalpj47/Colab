@@ -12,9 +12,6 @@ const ALLOWED_ORIGINS = ["http://localhost:3000", process.env.FRONTEND_URL].filt
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const JWT_EXPIRY_TIME: StringValue = (process.env.JWT_EXPIRY_TIME || "7d") as StringValue;
-
-const ALLOWED_USER_ROLES = ["ADMIN", "USER"];
-const AUTH_PROVIDERS = ["GOOGLE", "GITHUB", "EMAIL"];
 const SMTP = {
   user: process.env.EMAIL_USER,
   pass: process.env.EMAIL_PASS,
@@ -29,8 +26,6 @@ export {
   ALLOWED_ORIGINS,
   JWT_SECRET,
   JWT_EXPIRY_TIME,
-  ALLOWED_USER_ROLES,
-  AUTH_PROVIDERS,
   SMTP,
   REDIS_URL,
 };

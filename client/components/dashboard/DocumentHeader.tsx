@@ -1,7 +1,7 @@
 "use client";
 
 import { Document } from "@/types/common";
-import { formatDate } from "@/utils/common.util";
+import { formatRelativeTime } from "@/utils/common.util";
 import { FileText, Clock } from "lucide-react";
 
 interface Props {
@@ -33,14 +33,14 @@ const DocumentHeader = ({ document }: Props) => {
         <div className="flex items-center gap-1.5">
           <Clock className="w-3 h-3" style={{ color: "var(--text-secondary)" }} />
           <span className="text-[11px]" style={{ color: "var(--text-secondary)" }}>
-            Created {formatDate(document.createdAt)}
+            Created {formatRelativeTime(document.createdAt)}
           </span>
         </div>
         {document.createdAt !== document.updatedAt && (
           <div className="flex items-center gap-1.5">
             <Clock className="w-3 h-3" style={{ color: "var(--text-secondary)" }} />
             <span className="text-[11px]" style={{ color: "var(--text-secondary)" }}>
-              Updated {formatDate(document.updatedAt)}
+              Updated {formatRelativeTime(document.updatedAt)}
             </span>
           </div>
         )}

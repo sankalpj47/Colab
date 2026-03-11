@@ -1,4 +1,4 @@
-interface Document {
+type Document = {
   id: string;
   title: string;
   description?: string;
@@ -8,4 +8,6 @@ interface Document {
   updatedAt: Date;
 }
 
-export type { Document };
+type DocumentSaving = "saving" | "saved" | "error";
+
+export type { Document, DocumentSaving };

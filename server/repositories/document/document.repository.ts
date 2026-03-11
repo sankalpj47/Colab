@@ -58,4 +58,21 @@ const deleteDocument = async (documentId: string) => {
   }
 };
 
-export { findAllDocumentsByUser, insertDocument, deleteDocument, findDocumentById };
+const saveDocumentContent = async(documentId: string, content: string) => {
+  try {
+    const document = await prisma.document.update({
+      where: {
+        id: documentId,
+      },
+      data: {
+        content: content
+      }
+    })
+
+    return document;
+  } catch (err) {
+    throw err
+  }
+}
+
+export { findAllDocumentsByUser, insertDocument, deleteDocument, findDocumentById, saveDocumentContent };
