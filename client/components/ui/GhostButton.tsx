@@ -10,13 +10,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const GhostButton = ({
-  label,
-  icon: Icon,
-  iconPosition = "left",
-  className,
-  onClick,
-}: Props) => {
+const GhostButton = ({ label, icon: Icon, iconPosition = "left", className, onClick }: Props) => {
   return (
     <button
       onClick={onClick}

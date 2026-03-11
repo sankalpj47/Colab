@@ -6,10 +6,10 @@ const isValidUserRole = (role: string): boolean => {
 
 const isValidAuthProvider = (authProvider: string): boolean => {
   return Object.values(AuthProvider).includes(authProvider as AuthProvider);
-}
+};
 
 const canEditDocument = (role: string): boolean => {
-  return role === DocumentUserRole.EDITOR
-}
+  return role === DocumentUserRole.EDITOR;
+};
 
 export { isValidUserRole, isValidAuthProvider, canEditDocument };

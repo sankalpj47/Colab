@@ -9,7 +9,11 @@ type SaveDocumentBody = {
   content: string;
 };
 
-const saveDocumentController: BodyParamsController<SaveDocumentBody, SaveDocumentParams> = async (req, res, next) => {
+const saveDocumentController: BodyParamsController<SaveDocumentBody, SaveDocumentParams> = async (
+  req,
+  res,
+  next
+) => {
   try {
     const { id: documentId } = req.params;
     const userId = req.user?.id;

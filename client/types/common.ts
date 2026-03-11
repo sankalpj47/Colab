@@ -6,7 +6,7 @@ type Document = {
   ownerId: string;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
 type DocumentSaving = "saving" | "saved" | "error";
 

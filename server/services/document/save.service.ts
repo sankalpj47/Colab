@@ -1,12 +1,15 @@
 import logger from "../../config/logger.config";
-import { findDocumentById, saveDocumentContent } from "../../repositories/document/document.repository";
+import {
+  findDocumentById,
+  saveDocumentContent,
+} from "../../repositories/document/document.repository";
 import { findDocumentUser } from "../../repositories/document/documentUser.repository";
 import { canEditDocument } from "../../utils/common.util";
 import { ApiError, handleServerError } from "../../utils/error.utils";
 
 const saveDocumentService = async (documentId: string, userId: string, content: string) => {
-    try {
-        if (!documentId.trim()) {
+  try {
+    if (!documentId.trim()) {
       throw new ApiError(400, "Document ID is required");
     }
 
@@ -16,24 +19,24 @@ const saveDocumentService = async (documentId: string, userId: string, content: 
     }
 
     if (document.ownerId !== userId) {
-            const documentUser = await findDocumentUser(documentId, userId);
+      const documentUser = await findDocumentUser(documentId, userId);
       if (!documentUser || !canEditDocument(documentUser.role)) {
         throw new ApiError(403, "You do not have access to edit this document.");
       }
     }
 
-    const updatedDocument = await saveDocumentContent(documentId, content)
+    const updatedDocument = await saveDocumentContent(documentId, content);
     if (!updatedDocument) {
-        throw new ApiError(500, 'Error updating the document')
+      throw new ApiError(500, "Error updating the document");
     }
 
-    return document
-    } catch (err) {
-            logger.error(
+    return document;
+  } catch (err) {
+    logger.error(
       "Error in saveDocumentService: " + (err instanceof Error ? err.message : String(err))
     );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
-    }
-}
+  }
+};
 
-export default saveDocumentService
+export default saveDocumentService;

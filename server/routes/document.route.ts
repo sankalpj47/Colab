@@ -15,6 +15,6 @@ router.post("/", reqBodyMiddleware, createDocumentController);
 router.delete("/:id", deleteDocumentController);
 router.get("/:id", fetchOneDocumentController);
 
-router.patch('/:id/save', reqBodyMiddleware, saveDocumentController)
+router.patch("/:id/save", reqBodyMiddleware, saveDocumentController);
 
 export default router;
