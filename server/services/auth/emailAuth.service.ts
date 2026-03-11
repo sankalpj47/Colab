@@ -55,6 +55,9 @@ const emailAuthService = async ({
       role: currentUser.role,
     });
 
+    logger.success(`${name} registered via email successfully`)
+
+
     return {
       token,
       name: currentUser.name,

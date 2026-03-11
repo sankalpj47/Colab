@@ -28,7 +28,7 @@ const fetchOneDocumentService = async (documentId: string, userId: string) => {
     }
 
     const latestVersion = await getLatestDocumentVersion(documentId);
-
+    logger.success(`Document title: ${document.title} fetched successfully`)
     return {
       ...document,
       content: latestVersion?.content ?? null, // base64 or null

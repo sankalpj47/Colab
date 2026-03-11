@@ -20,7 +20,7 @@ const verifyOtpService = async ({ email, otp }: VerifyOtpInput): Promise<boolean
     }
 
     await redis.del(`otp:${email}`);
-    logger.success("OTP verified successfully");
+    logger.success(`OTP verified successfully for ${email}`);
     return true;
   } catch (err) {
     logger.error(

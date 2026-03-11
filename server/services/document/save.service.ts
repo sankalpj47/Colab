@@ -33,7 +33,7 @@ const saveDocumentService = async (
     if (!version) {
       throw new ApiError(500, "Error saving document version.");
     }
-
+    logger.success(`Document title: ${document.title} saved successfully`)
     return version;
   } catch (err) {
     logger.error(

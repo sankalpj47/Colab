@@ -23,14 +23,13 @@ const sendOtpService = async ({ email, isSignup }: { email: string; isSignup: bo
     const html = getOtpEmailTemplate(otp);
 
     await redis.set(`otp:${email}`, otp, "EX", 600);
-    const check = await redis.get(`otp:${email}`);
 
     await sendMail({
       to: email,
       subject: "Your OTP Code",
       html,
     });
-
+    logger.success(`OTP sent to ${email} successfully`)
     return;
   } catch (err) {
     logger.error("Error in sendOtpService " + (err instanceof Error ? err.message : String(err)));
