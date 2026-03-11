@@ -1,3 +1,4 @@
+import { DocumentUserRole } from "@prisma/client";
 import prisma from "../../config/prisma.config";
 import { CreateDocumentUserInput } from "../../utils/types/common.types";
 
@@ -34,4 +35,63 @@ const createDocumentUser = async (documentUser: CreateDocumentUserInput) => {
   }
 };
 
-export { findDocumentUser, createDocumentUser };
+const updateDocumentUserRole = async (documentId: string, userId: string, role: DocumentUserRole) => {
+  try {
+    const updatedUser = await prisma.documentUser.update({
+      where: {
+        userId_documentId: {
+          userId: userId,
+          documentId: documentId
+        },
+      },
+      data: {
+        role: role
+      }
+    })
+
+    return updatedUser
+  } catch (err) {
+    throw err
+  }
+}
+
+const deleteDocumentUser = async (documentId: string, userId: string) => {
+  try {
+    const deletedUser = await prisma.documentUser.delete({
+      where: {
+        userId_documentId: {
+          userId: userId,
+          documentId: documentId
+        }
+      }
+    })
+
+    return deletedUser
+  } catch (err) {
+    throw err
+  }
+}
+
+const findDocumentUsersByDocument = async (documentId: string) => {
+  try {
+    const documentUsers = await prisma.documentUser.findMany({
+      where: { documentId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            imageUrl: true,
+          },
+        },
+      },
+    });
+
+    return documentUsers;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export { findDocumentUser, createDocumentUser, updateDocumentUserRole, deleteDocumentUser, findDocumentUsersByDocument,  };

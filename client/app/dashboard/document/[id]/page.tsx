@@ -3,12 +3,15 @@
 import DocumentEditor from "@/components/dashboard/DocumentEditor";
 import DocumentHeader from "@/components/dashboard/DocumentHeader";
 import InviteButton from "@/components/dashboard/InviteButton";
-import InviteModal from "@/components/dashboard/InviteModal";
 import SaveStatus from "@/components/dashboard/SaveStatus";
 import GhostButton from "@/components/ui/GhostButton";
 import Loader from "@/components/ui/Loader";
+import {
+  CollaboratorList,
+  ManageCollaboratorsModal,
+} from "@/components/dashboard/collaborator";
 import { useToast } from "@/context/ToastContext";
-import { Document, DocumentSaving } from "@/types/common";
+import { Document, DocumentMember, DocumentSaving } from "@/types/common";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import { generateUserColor } from "@/utils/common.util";
 import { ArrowLeft } from "lucide-react";
@@ -25,8 +28,10 @@ const Page = () => {
   const [fetching, setFetching] = useState(true);
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
-  const [inviteOpen, setInviteOpen] = useState(false);
-  const [savingDocumentStatus, setSavingDocumentStatus] = useState<DocumentSaving>("saved");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [collaborators, setCollaborators] = useState<DocumentMember[]>([]);
+  const [savingDocumentStatus, setSavingDocumentStatus] =
+    useState<DocumentSaving>("saved");
   const { data: session } = useSession();
 
   const currentUser = {
@@ -52,8 +57,20 @@ const Page = () => {
     }
   };
 
+  const fetchCollaborators = async () => {
+    try {
+      const response = await api.get(`/document/${id}/collaborators`);
+      setCollaborators(response.data.collaborators);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    if (id) fetchDocument();
+    if (id) {
+      fetchDocument();
+      fetchCollaborators();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -70,7 +87,10 @@ const Page = () => {
         <div className="flex items-center justify-between mb-10">
           <GhostButton label="Back" icon={ArrowLeft} onClick={() => router.back()} />
           <div className="flex items-center gap-3">
-            {isOwner && <InviteButton onClick={() => setInviteOpen(true)} />}
+            <CollaboratorList collaborators={collaborators} />
+            {isOwner && (
+              <InviteButton onClick={() => setModalOpen(true)} />
+            )}
             <SaveStatus status={savingDocumentStatus} />
           </div>
         </div>
@@ -88,11 +108,12 @@ const Page = () => {
         />
       </div>
 
-      {/* Invite modal */}
-      {inviteOpen && (
-        <InviteModal
+      {modalOpen && (
+        <ManageCollaboratorsModal
           documentId={id}
-          onClose={() => setInviteOpen(false)}
+          collaborators={collaborators}
+          onClose={() => setModalOpen(false)}
+          onRefresh={fetchCollaborators}
         />
       )}
     </div>

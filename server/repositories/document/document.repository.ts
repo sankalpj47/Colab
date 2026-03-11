@@ -17,13 +17,19 @@ const findAllDocumentsByUser = async (userId: string) => {
 
 const findDocumentById = async (documentId: string) => {
   try {
-    const document = await prisma.document.findUnique({
-      where: {
-        id: documentId,
+    return await prisma.document.findUnique({
+      where: { id: documentId },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            imageUrl: true,
+          },
+        },
       },
     });
-
-    return document;
   } catch (err) {
     throw err;
   }

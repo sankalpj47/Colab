@@ -11,5 +11,17 @@ type Document = {
 type DocumentSaving = "saving" | "saved" | "error";
 
 type DocumentUserRole = "VIEWER" | "EDITOR"
+type DocumentMemberRole = DocumentUserRole | "OWNER";
 
-export type { Document, DocumentSaving, DocumentUserRole };
+type DocumentMember = {
+  id: string;
+  role: DocumentMemberRole;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    imageUrl: string | null;
+  };
+};
+
+export type { Document, DocumentSaving, DocumentUserRole, DocumentMemberRole, DocumentMember };

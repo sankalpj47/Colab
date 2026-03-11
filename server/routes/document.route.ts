@@ -7,6 +7,7 @@ import deleteDocumentController from "../controllers/document/delete.controller"
 import fetchOneDocumentController from "../controllers/document/fetchOne.controller";
 import saveDocumentController from "../controllers/document/save.controller";
 import inviteDocumentUserController from "../controllers/documentUser/invite.controller";
+import fetchAllDocumentUserController from "../controllers/documentUser/fetchAll.controller";
 
 const router = Router();
 
@@ -21,5 +22,6 @@ router.patch("/:id/save", reqBodyMiddleware, saveDocumentController);
 
 // Document user routes
 router.post("/:id/invite", reqBodyMiddleware, inviteDocumentUserController)
+router.get("/:id/collaborators", fetchAllDocumentUserController)
 
 export default router;
