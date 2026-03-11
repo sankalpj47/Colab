@@ -29,18 +29,12 @@ const ManageCollaboratorsModal = ({
 
   const selectedRole = ROLES.find((r) => r.value === role)!;
 
-  // ✅ trigger enter animation after mount
+  // trigger enter animation after mount
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));
   }, []);
 
-  // ✅ lock background scroll
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
-  }, []);
-
-  // ✅ animate out before calling onClose
+  // animate out before calling onClose
   const handleClose = () => {
     setVisible(false);
     setTimeout(onClose, 200);
