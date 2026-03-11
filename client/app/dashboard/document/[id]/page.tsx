@@ -21,19 +21,24 @@ const Page = () => {
 
   const [document, setDocument] = useState<Document | null>(null);
   const [fetching, setFetching] = useState(true);
+  const [isReadOnly, setIsReadOnly] = useState(false);
   const [savingDocumentStatus, setSavingDocumentStatus] = useState<DocumentSaving>("saved");
   const { data: session } = useSession();
 
   const currentUser = {
     name: session?.user.name ?? "Anonymous",
-    color: generateUserColor(session?.user.email ?? session?.user.name ?? "anonymous"),
+    color: generateUserColor(
+      session?.user.email ?? session?.user.name ?? "anonymous"
+    ),
   };
 
   const fetchDocument = async () => {
     try {
       setFetching(true);
       const response = await api.get(`/document/${id}`);
-      setDocument(response.data.document);
+      const doc = response.data.document;
+      setDocument(doc);
+      setIsReadOnly(doc.role === "VIEWER");
     } catch (err) {
       error(getErrorMessage(err));
       router.replace("/dashboard");
@@ -67,11 +72,12 @@ const Page = () => {
 
         {/* Editor */}
         <DocumentEditor
-  documentId={id}
-  currentUser={currentUser}
-  initialContent={document.content ?? undefined}
-  onSaveStatusChange={setSavingDocumentStatus}
-/>
+          documentId={id}
+          currentUser={currentUser}
+          initialContent={document.content ?? undefined}
+          isReadOnly={isReadOnly}
+          onSaveStatusChange={setSavingDocumentStatus}
+        />
       </div>
     </div>
   );
