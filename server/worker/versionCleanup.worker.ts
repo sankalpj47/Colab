@@ -9,6 +9,13 @@ const documentVersionCleanupWorker = async () => {
     // get all unique documentIds
     const documents = await prisma.documentVersion.groupBy({
       by: ["documentId"],
+      having: {
+        documentId: {
+          _count: {
+            gt: 20
+          }
+        }
+      }
     });
 
     let totalDeleted = 0;
