@@ -33,7 +33,9 @@ const EditableField = ({
   const [saving, setSaving] = useState(false);
   const ref = useRef<HTMLTextAreaElement & HTMLInputElement>(null);
 
-  useEffect(() => { setDraft(value); }, [value]);
+  useEffect(() => {
+    setDraft(value);
+  }, [value]);
 
   useEffect(() => {
     if (editing) {
@@ -45,7 +47,10 @@ const EditableField = ({
 
   const handleSave = async () => {
     const trimmed = draft.trim();
-    if (trimmed === value) { setEditing(false); return; }
+    if (trimmed === value) {
+      setEditing(false);
+      return;
+    }
     setSaving(true);
     try {
       await onSave(trimmed);
@@ -61,7 +66,10 @@ const EditableField = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!multiline && e.key === "Enter") { e.preventDefault(); handleSave(); }
+    if (!multiline && e.key === "Enter") {
+      e.preventDefault();
+      handleSave();
+    }
     if (e.key === "Escape") handleCancel();
   };
 
@@ -132,8 +140,7 @@ const EditableField = ({
       style={{ backgroundColor: "transparent" }}
       onClick={() => !isReadOnly && setEditing(true)}
       onMouseEnter={(e) => {
-        if (!isReadOnly)
-          (e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--hover)";
+        if (!isReadOnly) (e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--hover)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLDivElement).style.backgroundColor = "transparent";
@@ -160,7 +167,10 @@ const DocumentHeader = ({ document, onUpdate, isReadOnly = false }: Props) => {
   const { error, success } = useToast();
 
   const handleSaveTitle = async (title: string) => {
-    if (!title) { error("Title cannot be empty."); throw new Error("empty"); }
+    if (!title) {
+      error("Title cannot be empty.");
+      throw new Error("empty");
+    }
     try {
       await api.patch(`/document/${document.id}`, { title });
       onUpdate?.({ title });

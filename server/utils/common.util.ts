@@ -24,7 +24,7 @@ const isValidEmail = (email: string): boolean => {
 
 const moreRecent = (a: Date | string, b: Date | string): Date => {
   return new Date(Math.max(new Date(a).getTime(), new Date(b).getTime()));
-}
+};
 
 export {
   isValidUserRole,
@@ -32,5 +32,5 @@ export {
   canEditDocument,
   isValidEmail,
   isValidDocumentUserRole,
-  moreRecent
+  moreRecent,
 };

@@ -103,8 +103,8 @@ const Page = () => {
   }, [id]);
 
   const handleDocumentUpdate = (updated: Partial<Document>) => {
-  setDocument((prev) => prev ? { ...prev, ...updated } : prev);
-};
+    setDocument((prev) => (prev ? { ...prev, ...updated } : prev));
+  };
 
   if (fetching) return <Loader />;
   if (!document) return null;
@@ -127,10 +127,10 @@ const Page = () => {
 
         {/* Header */}
         <DocumentHeader
-  document={document}
-  onUpdate={handleDocumentUpdate}
-  isReadOnly={isReadOnly}
-/>
+          document={document}
+          onUpdate={handleDocumentUpdate}
+          isReadOnly={isReadOnly}
+        />
 
         {/* Editor */}
         <DocumentEditor

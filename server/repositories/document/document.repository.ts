@@ -82,18 +82,18 @@ const saveDocumentContent = async (documentId: string, content: string) => {
 };
 
 const updateDocument = async (documentId: string, data: DocumentUpdateInput) => {
-try {
+  try {
     const updatedDocument = await prisma.document.update({
-    where: {
-      id: documentId
-    },
-    data 
-  });
+      where: {
+        id: documentId,
+      },
+      data,
+    });
 
-  return updatedDocument
-} catch (err) {
-  throw err
-}
+    return updatedDocument;
+  } catch (err) {
+    throw err;
+  }
 };
 
 export {
@@ -102,5 +102,5 @@ export {
   deleteDocument,
   findDocumentById,
   saveDocumentContent,
-  updateDocument
+  updateDocument,
 };

@@ -4,7 +4,7 @@ type CreateUserInput = Prisma.UserCreateInput;
 type CreateDocumentInput = Prisma.DocumentUncheckedCreateInput;
 type CreateDocumentUserInput = Prisma.DocumentUserUncheckedCreateInput;
 type UserUpdateInput = Prisma.UserUpdateInput;
-type DocumentUpdateInput = Prisma.DocumentUpdateInput
+type DocumentUpdateInput = Prisma.DocumentUpdateInput;
 
 type DocumentMember = {
   id: string;
@@ -32,5 +32,5 @@ export type {
   CreateDocumentUserInput,
   DocumentMember,
   UserUpdateInput,
-  DocumentUpdateInput
+  DocumentUpdateInput,
 };
