@@ -31,7 +31,7 @@ const DangerZone = ({
       <button
         onClick={handleDeleteAccount}
         disabled={deleting}
-        className="flex items-center gap-2 text-xs px-3 py-2 rounded-md border font-mono transition-all disabled:opacity-50"
+        className="flex items-center gap-2 text-xs px-3 py-2 rounded-md border font-mono transition-all disabled:opacity-50 cursor-pointer"
         style={{
           borderColor: "var(--error)",
           color: deleteConfirm ? "#ffffff" : "var(--error)",
@@ -64,7 +64,7 @@ const DangerZone = ({
           Are you sure? Click the button again to permanently delete your account.{" "}
           <button
             onClick={() => setDeleteConfirm(false)}
-            className="underline"
+            className="underline cursor-pointer"
             style={{ color: "var(--primary)" }}
           >
             Cancel
