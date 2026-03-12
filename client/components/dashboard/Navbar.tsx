@@ -5,21 +5,16 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
-import { generateUserColor, getInitials } from "@/utils/common.util";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 const DashboardNavbar = () => {
   const { data: session } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [imgError, setImgError] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const name = session?.user?.name ?? "Anonymous";
   const email = session?.user?.email ?? "";
-  const image = session?.user?.image ?? null;
-  const color = generateUserColor(email || name);
 
   // close on outside click
   useEffect(() => {
@@ -69,7 +64,7 @@ const DashboardNavbar = () => {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen((o) => !o)}
-              className="flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors font-mono"
+              className="flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors font-mono cursor-pointer"
               style={{ color: "var(--text-primary)" }}
               onMouseEnter={(e) =>
                 ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--hover)")
@@ -82,30 +77,12 @@ const DashboardNavbar = () => {
               <div
                 className="w-7 h-7 rounded-full flex items-center justify-center overflow-hidden shrink-0"
                 style={{
-                  border: `2px solid ${color}`,
+                  border: `1px solid var(--border)`,
                   backgroundColor: "var(--canvas)",
                 }}
               >
-                {image && !imgError ? (
-                  <Image
-                    height={50}
-                    width={50}
-                    src={image}
-                    alt={name}
-                    className="w-full h-full object-cover"
-                    onError={() => setImgError(true)}
-                  />
-                ) : (
-                  <span
-                    style={{
-                      fontSize: "10px",
-                      fontFamily: "monospace",
-                      color: "var(--text-primary)",
-                    }}
-                  >
-                    {getInitials(name)}
-                  </span>
-                )}
+              <User size={18}/>
+                  
               </div>
 
               <span className="text-xs hidden sm:block max-w-30 truncate">
@@ -158,7 +135,7 @@ const DashboardNavbar = () => {
                       setDropdownOpen(false);
                       router.push("/dashboard/profile");
                     }}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-mono transition-colors"
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-mono transition-colors cursor-pointer"
                     style={{ color: "var(--text-primary)" }}
                     onMouseEnter={(e) =>
                       ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
@@ -180,7 +157,7 @@ const DashboardNavbar = () => {
 
                   <button
                     onClick={handleSignOut}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-mono transition-colors"
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs font-mono transition-colors cursor-pointer"
                     style={{ color: "var(--error)" }}
                     onMouseEnter={(e) =>
                       ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
