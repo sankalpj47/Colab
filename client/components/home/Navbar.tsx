@@ -1,39 +1,108 @@
-"use client";
+'use client'
 
-export default function Navbar() {
+import { FileText, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import ThemeToggle from "../ui/ThemeToggle";
+
+const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  const links = [
+    { label: "Features", href: "#features" },
+    { label: "How it works", href: "#how-it-works" },
+    { label: "Tech Stack", href: "#tech-stack" },
+    { label: "FAQ", href: "#faq" },
+  ];
+
   return (
-    <nav className="flex items-center justify-between mb-24">
-      <div className="flex items-center gap-2.5">
-        <div
-          className="w-6 h-6 rotate-45 flex items-center justify-center border"
-          style={{ borderColor: "var(--border)" }}
-        >
-          <div className="w-2 h-2 rotate-45" style={{ backgroundColor: "var(--primary)" }} />
+    <nav
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
+      style={{
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+      }}
+    >
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2.5 font-mono font-bold text-lg" style={{ color: "var(--text-primary)" }}>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--primary)" }}>
+            <FileText className="w-4 h-4 text-white" />
+          </div>
+          Draftly
+        </Link>
+
+        <div className="hidden lg:flex items-center gap-8">
+          {links.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              className="text-sm font-mono transition-colors"
+              style={{ color: "var(--text-secondary)" }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")}
+            >
+              {l.label}
+            </a>
+          ))}
         </div>
-        <span
-          className="text-sm tracking-[0.3em] uppercase"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          AuthKit
-        </span>
+
+        <div className="hidden lg:flex items-center gap-3">
+          <ThemeToggle/>
+          <Link
+            href="/auth/login"
+            className="text-sm font-mono px-4 py-2 rounded-md transition-colors"
+            style={{ color: "var(--text-secondary)" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")}
+          >
+            Sign in
+          </Link>
+          <Link
+            href="/auth/signup"
+            className="text-sm font-mono px-4 py-2 rounded-md transition-all"
+            style={{ backgroundColor: "var(--primary)", color: "#fff" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.9")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
+          >
+            Get started →
+          </Link>
+        </div>
+
+        <button className="lg:hidden" style={{ color: "var(--text-primary)" }} onClick={() => setMobileOpen((o: boolean) => !o)}>
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
-      <a
-        href="https://github.com/SHIVAM-KUMAR-59/authkit"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[11px] tracking-[0.2em] uppercase px-3 py-1.5 transition-colors border rounded-md"
-        style={{ color: "var(--text-secondary)", borderColor: "var(--border)" }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
-          (e.currentTarget as HTMLElement).style.borderColor = "var(--text-secondary)";
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
-          (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+
+      <div
+        className="lg:hidden overflow-hidden transition-all duration-300"
+        style={{
+          maxHeight: mobileOpen ? "320px" : "0",
+          borderTop: mobileOpen ? "1px solid var(--border)" : "none",
+          backgroundColor: "var(--background)",
         }}
       >
-        GitHub →
-      </a>
+        <div className="px-6 py-4 flex flex-col gap-4">
+          <ThemeToggle/>
+          {links.map((l) => (
+            <a key={l.label} href={l.href} className="text-sm font-mono" style={{ color: "var(--text-secondary)" }} onClick={() => setMobileOpen(false)}>
+              {l.label}
+            </a>
+          ))}
+          <div className="flex gap-3 pt-2 border-t" style={{ borderColor: "var(--border)" }}>
+            <Link href="/auth/login" className="text-sm font-mono px-4 py-2 rounded-md border flex-1 text-center" style={{ borderColor: "var(--border)", color: "var(--text-primary)" }}>Sign in</Link>
+            <Link href="/auth/signup" className="text-sm font-mono px-4 py-2 rounded-md flex-1 text-center" style={{ backgroundColor: "var(--primary)", color: "#fff" }}>Get started</Link>
+          </div>
+        </div>
+      </div>
     </nav>
   );
-}
+};
+
+export default Navbar

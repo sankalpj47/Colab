@@ -1,61 +1,220 @@
-"use client";
+'use client'
 
+import { ArrowRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function Hero() {
+const Hero = () => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setTimeout(() => setMounted(true), 100); }, []);
+
   return (
-    <section className="mb-28">
-      <h1
-        className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6"
-        style={{ fontFamily: "'Georgia', serif", color: "var(--text-primary)" }}
+    <section
+      className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden"
+      style={{ backgroundColor: "var(--background)" }}
+    >
+      {/* Background grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)`,
+          backgroundSize: "48px 48px",
+          opacity: 0.4,
+          maskImage: "radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 100%)",
+        }}
+      />
+
+      {/* Glow */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          top: "10%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "600px",
+          height: "400px",
+          background: "radial-gradient(ellipse, rgba(37,99,235,0.12) 0%, transparent 70%)",
+          filter: "blur(40px)",
+        }}
+      />
+
+      {/* Badge */}
+      <div
+        className="relative flex items-center gap-2 px-4 py-1.5 rounded-full border font-mono text-xs mb-8"
+        style={{
+          borderColor: "rgba(37,99,235,0.3)",
+          backgroundColor: "rgba(37,99,235,0.06)",
+          color: "var(--primary)",
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(-12px)",
+          transition: "opacity 0.5s ease, transform 0.5s ease",
+        }}
       >
-        Auth,
-        <br />
-        <span style={{ color: "var(--text-secondary)" }}>out of the box.</span>
+        <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "var(--primary)" }} />
+        Real-time collaborative editing — now available
+      </div>
+
+      {/* Headline */}
+      <h1
+        className="relative text-center font-mono font-bold leading-tight mb-6 max-w-3xl"
+        style={{
+          fontSize: "clamp(2.2rem, 6vw, 4rem)",
+          color: "var(--text-primary)",
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s",
+        }}
+      >
+        Write together,{" "}
+        <span
+          style={{
+            backgroundImage: "linear-gradient(135deg, #2563EB, #60A5FA)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          in real time.
+        </span>
       </h1>
 
+      {/* Sub */}
       <p
-        className="max-w-lg text-base leading-relaxed mb-10"
-        style={{ color: "var(--text-secondary)" }}
+        className="relative text-center font-mono text-base max-w-xl mb-10 leading-relaxed"
+        style={{
+          color: "var(--text-secondary)",
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s",
+        }}
       >
-        A full-stack authentication boilerplate — Google, GitHub, and passwordless Email OTP, wired
-        end-to-end. Built for hackathons and projects where you&apos;d rather ship features than
-        wire up auth.
+        Draftly is a document editor built for collaboration. Invite your team, assign roles,
+        and watch edits appear live — with full version history and zero data loss.
       </p>
 
-      <div className="flex flex-wrap items-center gap-3">
+      {/* CTAs */}
+      <div
+        className="relative flex flex-col sm:flex-row items-center gap-3"
+        style={{
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s",
+        }}
+      >
         <Link
-          href="/auth/login"
-          className="group inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold tracking-wide transition-colors rounded-sm"
-          style={{ backgroundColor: "var(--primary)", color: "#ffffff" }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.backgroundColor = "var(--primary-hover)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.backgroundColor = "var(--primary)";
-          }}
+          href="/auth/signup"
+          className="flex items-center gap-2 px-6 py-3 rounded-md font-mono text-sm font-semibold transition-all"
+          style={{ backgroundColor: "var(--primary)", color: "#fff", boxShadow: "0 4px 14px rgba(37,99,235,0.35)" }}
+          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)"; (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 6px 20px rgba(37,99,235,0.45)"; }}
+          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 4px 14px rgba(37,99,235,0.35)"; }}
         >
-          Try it out
-          <span className="group-hover:translate-x-1 transition-transform">→</span>
+          Start for free <ArrowRight size={15} />
         </Link>
         <a
-          href="https://github.com/SHIVAM-KUMAR-59/authkit"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 text-sm transition-colors border rounded-sm"
-          style={{ color: "var(--text-secondary)", borderColor: "var(--border)" }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
-            (e.currentTarget as HTMLElement).style.borderColor = "var(--text-secondary)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
-            (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+          href="#features"
+          className="flex items-center gap-2 px-6 py-3 rounded-md font-mono text-sm border transition-all"
+          style={{ borderColor: "var(--border)", color: "var(--text-primary)", backgroundColor: "var(--canvas)" }}
+          onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--primary)")}
+          onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--border)")}
+        >
+          See features
+        </a>
+      </div>
+
+      {/* Floating editor preview */}
+      <div
+        className="relative mt-20 w-full max-w-4xl"
+        style={{
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? "translateY(0)" : "translateY(40px)",
+          transition: "opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s",
+        }}
+      >
+        <div
+          className="rounded-xl border overflow-hidden"
+          style={{
+            borderColor: "var(--border)",
+            backgroundColor: "var(--canvas)",
+            boxShadow: "0 24px 64px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
           }}
         >
-          View source
-        </a>
+          {/* Window chrome */}
+          <div className="flex items-center gap-2 px-4 py-3 border-b" style={{ borderColor: "var(--border)", backgroundColor: "var(--background)" }}>
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#EF4444" }} />
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#F59E0B" }} />
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "#22C55E" }} />
+            <div className="flex-1 mx-4">
+              <div className="mx-auto w-48 h-5 rounded-md text-[10px] font-mono flex items-center justify-center" style={{ backgroundColor: "var(--hover)", color: "var(--text-secondary)" }}>
+                draftly.app/dashboard/document
+              </div>
+            </div>
+            <div className="flex -space-x-2">
+              {["#E03131", "#2563EB", "#22C55E"].map((c, i) => (
+                <div key={i} className="w-6 h-6 rounded-full border-2 flex items-center justify-center text-[9px] font-mono text-white font-bold" style={{ backgroundColor: c, borderColor: "var(--background)" }}>
+                  {["S", "A", "R"][i]}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Editor body */}
+          <div className="p-8">
+            <div className="rounded-lg border mb-6 overflow-hidden" style={{ borderColor: "var(--border)" }}>
+              <div className="h-1" style={{ backgroundColor: "var(--primary)" }} />
+              <div className="p-5">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-7 h-7 rounded-md flex items-center justify-center text-sm" style={{ backgroundColor: "#2563EB15" }}>📄</div>
+                  <span className="font-mono font-bold text-lg" style={{ color: "var(--text-primary)" }}>Q4 Product Roadmap</span>
+                </div>
+                <p className="font-mono text-sm ml-10" style={{ color: "var(--text-secondary)" }}>Outlining key initiatives for Q4 2025 — engineering, design, and growth.</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1 mb-5 p-2 rounded-md border" style={{ borderColor: "var(--border)", backgroundColor: "var(--background)" }}>
+              {["B", "I", "U"].map((t) => (
+                <button key={t} className="w-7 h-7 rounded text-xs font-mono font-bold flex items-center justify-center" style={{ color: "var(--text-secondary)" }}>{t}</button>
+              ))}
+              <div className="w-px h-4 mx-1" style={{ backgroundColor: "var(--border)" }} />
+              {["H1", "H2", "•"].map((t) => (
+                <button key={t} className="px-2 h-7 rounded text-[10px] font-mono flex items-center justify-center" style={{ color: "var(--text-secondary)" }}>{t}</button>
+              ))}
+            </div>
+
+            <div className="font-mono text-sm leading-loose space-y-3" style={{ color: "var(--text-primary)" }}>
+              <p className="font-bold text-base">Overview</p>
+              <p style={{ color: "var(--text-secondary)" }}>This document outlines our strategic priorities for the upcoming quarter. The focus areas include platform stability, user growth, and new collaboration features.</p>
+              <div className="relative inline-flex items-center">
+                <span style={{ color: "var(--text-secondary)" }}>Real-time editing powered by </span>
+                <span className="inline-block w-0.5 h-4 mx-0.5 animate-pulse" style={{ backgroundColor: "#E03131" }} />
+                <span className="absolute -top-6 left-0 text-[9px] px-1.5 py-0.5 rounded font-mono text-white whitespace-nowrap" style={{ backgroundColor: "#E03131" }}>Shivam</span>
+              </div>
+              <p style={{ color: "var(--text-secondary)" }}>Yjs with WebSocket for seamless collaboration across distributed teams.</p>
+              <div className="relative inline-flex items-center">
+                <span className="inline-block w-0.5 h-4 mx-0.5 animate-pulse" style={{ backgroundColor: "#2563EB", animationDelay: "0.5s" }} />
+                <span className="absolute -top-6 left-0 text-[9px] px-1.5 py-0.5 rounded font-mono text-white whitespace-nowrap" style={{ backgroundColor: "#2563EB" }}>Alice</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="absolute -bottom-4 -right-4 px-4 py-2.5 rounded-lg border font-mono text-xs flex items-center gap-2"
+          style={{ backgroundColor: "var(--canvas)", borderColor: "var(--border)", boxShadow: "0 4px 16px rgba(0,0,0,0.1)", color: "var(--text-primary)" }}
+        >
+          <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#22C55E" }} />
+          3 people editing now
+        </div>
+      </div>
+
+      {/* Scroll hint */}
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
+        style={{ opacity: mounted ? 0.5 : 0, transition: "opacity 0.6s ease 1s", color: "var(--text-secondary)" }}
+      >
+        <span className="text-[10px] font-mono tracking-widest uppercase">Scroll</span>
+        <ChevronDown size={14} className="animate-bounce" />
       </div>
     </section>
   );
-}
+};
+
+export default Hero

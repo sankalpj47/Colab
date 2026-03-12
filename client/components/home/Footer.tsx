@@ -1,33 +1,50 @@
-"use client";
+import { FileText } from "lucide-react";
+import Link from "next/link";
 
-export default function Footer() {
-  return (
-    <footer
-      className="mt-16 pt-6 border-t flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-      style={{ borderColor: "var(--border)" }}
-    >
-      <span className="text-[11px]" style={{ color: "var(--text-secondary)" }}>
-        Built for devs who ship fast
-      </span>
-
-      <div className="flex items-center gap-4">
-        <a
-          href="https://github.com/SHIVAM-KUMAR-59"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[11px] tracking-wider transition-colors"
-          style={{ color: "var(--text-secondary)" }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
-          }}
-        >
-          GitHub
-        </a>
-        <div className="w-px h-3" style={{ backgroundColor: "var(--border)" }} />
+const Footer = () => (
+  <footer className="border-t py-12 px-6" style={{ borderColor: "var(--border)", backgroundColor: "var(--background)" }}>
+    <div className="max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-10 mb-12">
+        <div className="max-w-xs">
+          <div className="flex items-center gap-2.5 font-mono font-bold text-lg mb-3" style={{ color: "var(--text-primary)" }}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--primary)" }}>
+              <FileText className="w-4 h-4 text-white" />
+            </div>
+            Draftly
+          </div>
+          <p className="font-mono text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            A real-time collaborative document editor built for teams who value speed and simplicity.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
+          {[
+            { heading: "Product", links: ["Features", "How it works", "Tech Stack", "FAQ"] },
+            { heading: "Account", links: ["Sign in", "Register", "Dashboard", "Profile"] },
+            { heading: "Project", links: ["GitHub", "README", "Contributing", "License"] },
+          ].map((col) => (
+            <div key={col.heading}>
+              <p className="font-mono text-[10px] tracking-[0.3em] uppercase mb-4 font-bold" style={{ color: "var(--text-secondary)" }}>{col.heading}</p>
+              <div className="flex flex-col gap-2.5">
+                {col.links.map((l) => (
+                  <a key={l} href="#" className="font-mono text-xs transition-colors" style={{ color: "var(--text-secondary)" }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")}
+                  >{l}</a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </footer>
-  );
-}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t" style={{ borderColor: "var(--border)" }}>
+        <p className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>© {new Date().getFullYear()} Draftly. All rights reserved.</p>
+        <p className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>
+          Built with ❤️ by{" "}
+          <Link href="https://github.com/SHIVAM-KUMAR-59" className="underline cursor-pointer" style={{ color: "var(--primary)" }} target="_blank">Shivam Kumar</Link>
+        </p>
+      </div>
+    </div>
+  </footer>
+);
+
+export default Footer
