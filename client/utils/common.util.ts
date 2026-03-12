@@ -32,4 +32,10 @@ const generateUserColor = (seed: string): string => {
   return `#${color.toString(16).padStart(6, "0")}`;
 };
 
-export { formatRelativeTime, generateUserColor };
+const getInitials = (name: string) => {
+  const parts = name.trim().split(" ");
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
+
+export { formatRelativeTime, generateUserColor, getInitials };

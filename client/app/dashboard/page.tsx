@@ -105,7 +105,7 @@ const Page = () => {
               className="text-[10px] tracking-[0.4em] uppercase mb-1"
               style={{ color: "var(--text-secondary)" }}
             >
-              Draftly
+              WELCOME
             </p>
             <h1 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>
               Dashboard

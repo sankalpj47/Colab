@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/context/ToastContext";
 import { useEffect, useState } from "react";
 import Loader from "@/components/ui/Loader";
+import DashboardNavbar from "@/components/dashboard/Navbar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { status } = useSession();
@@ -26,5 +27,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (status === "loading" || redirecting) {
     return <Loader />;
   }
-  return <main className="page-transition">{children}</main>;
+  return <main className="page-transition">
+    <DashboardNavbar/>{children}</main>;
 }

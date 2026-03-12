@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { DocumentMember } from "@/types/common";
 import Tooltip from "@/components/ui/Tootip";
-import { ROLE_COLORS, getInitials, roleLabel } from "./constants";
+import { ROLE_COLORS, roleLabel } from "./constants";
 import Image from "next/image";
+import { getInitials } from "@/utils/common.util";
 
 const CollaboratorAvatar = ({ collaborator }: { collaborator: DocumentMember }) => {
   const [imgError, setImgError] = useState(false);

@@ -6,9 +6,10 @@ import { DocumentMember, DocumentUserRole } from "@/types/common";
 import { useToast } from "@/context/ToastContext";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import RoleDropdown from "./RoleDropdown";
-import { ROLE_COLORS, getInitials } from "./constants";
+import { ROLE_COLORS } from "./constants";
 import Image from "next/image";
 import { getProviderForDocument } from "@/utils/collaboration.util";
+import { getInitials } from "@/utils/common.util";
 
 const roleIcons: Record<string, React.ReactNode> = {
   OWNER: <Crown size={11} />,

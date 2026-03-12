@@ -15,10 +15,4 @@ export const ROLE_COLORS: Record<DocumentMemberRole, string> = {
   VIEWER: "#F59E0B",
 };
 
-export const getInitials = (name: string) => {
-  const parts = name.trim().split(" ");
-  if (parts.length === 1) return parts[0][0].toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-};
-
 export const roleLabel = (role: DocumentMemberRole) => role.charAt(0) + role.slice(1).toLowerCase();
