@@ -7,6 +7,8 @@ import loggerMiddleware from "./middleware/logger.middleware";
 import apiRoutes from "./routes/api.route";
 import errorHandlerMiddleware from "./middleware/error.middleware";
 import initWebSocketServer from "./config/websocket.config";
+import cron from "node-cron";
+import documentVersionCleanupWorker from "./worker/versionCleanup.worker";
 
 const app = express();
 
@@ -26,6 +28,16 @@ app.use(errorHandlerMiddleware);
 app.get("/health", (req, res) => {
   return res.status(200).json({ status: "ok" });
 });
+
+cron.schedule(
+  "0 */12 * * *",
+  async () => {
+    await documentVersionCleanupWorker();
+  },
+  {
+    timezone: "Asia/Kolkata",
+  }
+);
 
 const server = http.createServer(app);
 initWebSocketServer(server);
