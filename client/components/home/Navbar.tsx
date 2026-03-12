@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
@@ -31,8 +31,15 @@ const Navbar = () => {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 font-mono font-bold text-lg" style={{ color: "var(--text-primary)" }}>
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--primary)" }}>
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 font-mono font-bold text-lg"
+          style={{ color: "var(--text-primary)" }}
+        >
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: "var(--primary)" }}
+          >
             <FileText className="w-4 h-4 text-white" />
           </div>
           Draftly
@@ -45,8 +52,12 @@ const Navbar = () => {
               href={l.href}
               className="text-sm font-mono transition-colors"
               style={{ color: "var(--text-secondary)" }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")
+              }
             >
               {l.label}
             </a>
@@ -54,13 +65,17 @@ const Navbar = () => {
         </div>
 
         <div className="hidden lg:flex items-center gap-3">
-          <ThemeToggle/>
+          <ThemeToggle />
           <Link
             href="/auth/login"
             className="text-sm font-mono px-4 py-2 rounded-md transition-colors"
             style={{ color: "var(--text-secondary)" }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")
+            }
           >
             Sign in
           </Link>
@@ -75,7 +90,11 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <button className="lg:hidden" style={{ color: "var(--text-primary)" }} onClick={() => setMobileOpen((o: boolean) => !o)}>
+        <button
+          className="lg:hidden"
+          style={{ color: "var(--text-primary)" }}
+          onClick={() => setMobileOpen((o: boolean) => !o)}
+        >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
@@ -89,15 +108,33 @@ const Navbar = () => {
         }}
       >
         <div className="px-6 py-4 flex flex-col gap-4">
-          <ThemeToggle/>
+          <ThemeToggle />
           {links.map((l) => (
-            <a key={l.label} href={l.href} className="text-sm font-mono" style={{ color: "var(--text-secondary)" }} onClick={() => setMobileOpen(false)}>
+            <a
+              key={l.label}
+              href={l.href}
+              className="text-sm font-mono"
+              style={{ color: "var(--text-secondary)" }}
+              onClick={() => setMobileOpen(false)}
+            >
               {l.label}
             </a>
           ))}
           <div className="flex gap-3 pt-2 border-t" style={{ borderColor: "var(--border)" }}>
-            <Link href="/auth/login" className="text-sm font-mono px-4 py-2 rounded-md border flex-1 text-center" style={{ borderColor: "var(--border)", color: "var(--text-primary)" }}>Sign in</Link>
-            <Link href="/auth/signup" className="text-sm font-mono px-4 py-2 rounded-md flex-1 text-center" style={{ backgroundColor: "var(--primary)", color: "#fff" }}>Get started</Link>
+            <Link
+              href="/auth/login"
+              className="text-sm font-mono px-4 py-2 rounded-md border flex-1 text-center"
+              style={{ borderColor: "var(--border)", color: "var(--text-primary)" }}
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/auth/signup"
+              className="text-sm font-mono px-4 py-2 rounded-md flex-1 text-center"
+              style={{ backgroundColor: "var(--primary)", color: "#fff" }}
+            >
+              Get started
+            </Link>
           </div>
         </div>
       </div>
@@ -105,4 +142,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar
+export default Navbar;
