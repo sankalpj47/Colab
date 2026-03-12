@@ -25,8 +25,8 @@ const DocumentCard = ({ doc, onClick, onDelete, deleting, badge }: Props) => {
 
   return (
     <div
-      className="p-5 flex items-start justify-between gap-4 cursor-pointer transition-colors rounded-md"
-      style={{ backgroundColor: "var(--canvas)" }}
+      className="p-5 flex items-start justify-between gap-4 cursor-pointer transition-colors rounded-md border"
+      style={{ backgroundColor: "var(--canvas)", borderColor: "var(--border)" }}
       onClick={() => onClick?.(doc)}
       onMouseEnter={(e) =>
         ((e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--hover)")

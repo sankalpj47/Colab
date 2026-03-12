@@ -10,6 +10,7 @@ import DocumentCard from "@/components/dashboard/DocumentCard";
 import CreateDocumentModal from "@/components/dashboard/CreateDocumentModal";
 import DocumentCardSkeleton from "@/components/skeleton/DocumentCardSkeleton";
 import PrimaryButton from "@/components/ui/PrimaryButton";
+import { useSession } from "next-auth/react";
 
 type SharedDocument = Document & { role: "EDITOR" | "VIEWER" };
 
@@ -41,6 +42,7 @@ const EmptyState = ({ label }: { label: string }) => (
 const Page = () => {
   const { error, success } = useToast();
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [myDocs, setMyDocs] = useState<Document[]>([]);
   const [sharedDocs, setSharedDocs] = useState<SharedDocument[]>([]);
@@ -105,7 +107,7 @@ const Page = () => {
               className="text-[10px] tracking-[0.4em] uppercase mb-1"
               style={{ color: "var(--text-secondary)" }}
             >
-              WELCOME
+              WELCOME {session?.user?.name?.split(" ")[0] ?? ""}
             </p>
             <h1 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>
               Dashboard
@@ -119,8 +121,7 @@ const Page = () => {
               color: "#ffffff",
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                "var(--primary-hover)")
+              ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--primary-hover)")
             }
             onMouseLeave={(e) =>
               ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--primary)")
@@ -139,7 +140,10 @@ const Page = () => {
           ) : myDocs.length === 0 ? (
             <EmptyState label="No documents yet — create your first one" />
           ) : (
-            <div className="flex flex-col gap-2">
+            <div
+              className="flex flex-col gap-2 overflow-y-auto pr-1"
+              style={{ maxHeight: "360px" }}
+            >
               {myDocs.map((doc) => (
                 <DocumentCard
                   key={doc.id}
@@ -161,7 +165,10 @@ const Page = () => {
           ) : sharedDocs.length === 0 ? (
             <EmptyState label="No documents shared with you yet" />
           ) : (
-            <div className="flex flex-col gap-2">
+            <div
+              className="flex flex-col gap-2 overflow-y-auto pr-1"
+              style={{ maxHeight: "360px" }}
+            >
               {sharedDocs.map((doc) => (
                 <DocumentCard
                   key={doc.id}
@@ -176,7 +183,10 @@ const Page = () => {
       </div>
 
       {createOpen && (
-        <CreateDocumentModal onClose={() => setCreateOpen(false)} onCreated={fetchMyDocuments} />
+        <CreateDocumentModal
+          onClose={() => setCreateOpen(false)}
+          onCreated={fetchMyDocuments}
+        />
       )}
     </div>
   );
