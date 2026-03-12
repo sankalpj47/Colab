@@ -118,10 +118,27 @@ const findDocumentUsersByDocument = async (documentId: string) => {
   }
 };
 
+const fetchSharedDocuments = async (userId: string) => {
+  try {
+    const documentUsers = await prisma.documentUser.findMany({
+      where: { userId },
+      include: {
+        document: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return documentUsers;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export {
   findDocumentUser,
   createDocumentUser,
   updateDocumentUserRole,
   deleteDocumentUser,
   findDocumentUsersByDocument,
+  fetchSharedDocuments,
 };

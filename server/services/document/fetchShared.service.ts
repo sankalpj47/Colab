@@ -1,16 +1,12 @@
-import prisma from "../../config/prisma.config";
 import { handleServerError } from "../../utils/error.utils";
 import logger from "../../config/logger.config";
+import { fetchSharedDocuments } from "../../repositories/document/documentUser.repository";
 
 const fetchSharedDocumentsService = async (userId: string) => {
   try {
-    const documentUsers = await prisma.documentUser.findMany({
-      where: { userId },
-      include: {
-        document: true,
-      },
-      orderBy: { createdAt: "desc" },
-    });
+    const documentUsers = await fetchSharedDocuments(userId);
+
+    logger.success(`All documents shared with userId: ${userId} fetched successfully`);
 
     return documentUsers.map((du) => ({
       ...du.document,
