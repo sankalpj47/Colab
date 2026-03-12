@@ -11,6 +11,7 @@ import fetchAllDocumentUserController from "../controllers/documentUser/fetchAll
 import updateDocumentUserRoleController from "../controllers/documentUser/updateRole.controller";
 import removeDocumentUserController from "../controllers/documentUser/remove.controller";
 import fetchSharedDocumentsController from "../controllers/document/fetchShared.controller";
+import updateDocumentController from "../controllers/document/update.controller";
 
 const router = Router();
 
@@ -22,6 +23,7 @@ router.get("/shared", fetchSharedDocumentsController);
 router.post("/", reqBodyMiddleware, createDocumentController);
 router.delete("/:id", deleteDocumentController);
 router.get("/:id", fetchOneDocumentController);
+router.patch("/:id", reqBodyMiddleware, updateDocumentController);
 router.patch("/:id/save", reqBodyMiddleware, saveDocumentController);
 
 // Document user (collaborator) routes

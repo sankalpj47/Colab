@@ -22,10 +22,15 @@ const isValidEmail = (email: string): boolean => {
   return emailRegex.test(email);
 };
 
+const moreRecent = (a: Date | string, b: Date | string): Date => {
+  return new Date(Math.max(new Date(a).getTime(), new Date(b).getTime()));
+}
+
 export {
   isValidUserRole,
   isValidAuthProvider,
   canEditDocument,
   isValidEmail,
   isValidDocumentUserRole,
+  moreRecent
 };

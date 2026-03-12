@@ -4,6 +4,7 @@ import { findDocumentById } from "../../repositories/document/document.repositor
 import { findDocumentUser } from "../../repositories/document/documentUser.repository";
 import { getLatestDocumentVersion } from "../../repositories/document/documentVersion.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
+import { moreRecent } from "../../utils/common.util";
 
 const fetchOneDocumentService = async (documentId: string, userId: string) => {
   try {
@@ -32,7 +33,9 @@ const fetchOneDocumentService = async (documentId: string, userId: string) => {
     return {
       ...document,
       content: latestVersion?.content ?? null, // base64 or null
-      updatedAt: latestVersion?.savedAt ?? document.updatedAt,
+      updatedAt: latestVersion?.savedAt
+  ? moreRecent(latestVersion.savedAt, document.updatedAt)
+  : document.updatedAt,
       role,
     };
   } catch (err) {

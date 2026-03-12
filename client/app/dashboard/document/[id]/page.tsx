@@ -102,6 +102,10 @@ const Page = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  const handleDocumentUpdate = (updated: Partial<Document>) => {
+  setDocument((prev) => prev ? { ...prev, ...updated } : prev);
+};
+
   if (fetching) return <Loader />;
   if (!document) return null;
 
@@ -122,7 +126,11 @@ const Page = () => {
         </div>
 
         {/* Header */}
-        <DocumentHeader document={document} />
+        <DocumentHeader
+  document={document}
+  onUpdate={handleDocumentUpdate}
+  isReadOnly={isReadOnly}
+/>
 
         {/* Editor */}
         <DocumentEditor

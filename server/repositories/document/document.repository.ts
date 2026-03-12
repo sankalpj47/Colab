@@ -1,5 +1,5 @@
 import prisma from "../../config/prisma.config";
-import { CreateDocumentInput } from "../../utils/types/common.types";
+import { CreateDocumentInput, DocumentUpdateInput } from "../../utils/types/common.types";
 
 const findAllDocumentsByUser = async (userId: string) => {
   try {
@@ -81,10 +81,26 @@ const saveDocumentContent = async (documentId: string, content: string) => {
   }
 };
 
+const updateDocument = async (documentId: string, data: DocumentUpdateInput) => {
+try {
+    const updatedDocument = await prisma.document.update({
+    where: {
+      id: documentId
+    },
+    data 
+  });
+
+  return updatedDocument
+} catch (err) {
+  throw err
+}
+};
+
 export {
   findAllDocumentsByUser,
   insertDocument,
   deleteDocument,
   findDocumentById,
   saveDocumentContent,
+  updateDocument
 };
