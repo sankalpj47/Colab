@@ -2,7 +2,7 @@
 
 import { Document } from "@/types/common";
 import { formatRelativeTime } from "@/utils/common.util";
-import { Clock, Check, X, Pencil } from "lucide-react";
+import { Clock, Check, X, Pencil, File } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import { useToast } from "@/context/ToastContext";
@@ -211,7 +211,7 @@ const DocumentHeader = ({ document, onUpdate, isReadOnly = false }: Props) => {
             className="w-8 h-8 rounded-md flex items-center justify-center shrink-0"
             style={{ backgroundColor: "#2563EB15" }}
           >
-            <span style={{ fontSize: "15px" }}>📄</span>
+            <File size={18} />
           </div>
 
           <div className="flex-1 min-w-0">
@@ -241,7 +241,7 @@ const DocumentHeader = ({ document, onUpdate, isReadOnly = false }: Props) => {
         <div className="mx-3 mt-4 mb-3 border-t" style={{ borderColor: "var(--border)" }} />
 
         {/* Meta row */}
-        <div className="flex items-center gap-5 px-3">
+        <div className="flex items-center flex-wrap gap-1 md:gap-5 px-3">
           <div className="flex items-center gap-1.5">
             <Clock className="w-3 h-3 shrink-0" style={{ color: "var(--text-secondary)" }} />
             <span className="text-[11px] font-mono" style={{ color: "var(--text-secondary)" }}>
