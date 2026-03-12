@@ -25,4 +25,22 @@ type DocumentMember = {
   };
 };
 
-export type { Document, DocumentSaving, DocumentUserRole, DocumentMemberRole, DocumentMember };
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  imageUrl: string | null;
+  provider: "GOOGLE" | "GITHUB" | "EMAIL";
+  role: "USER" | "ADMIN";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type {
+  Document,
+  DocumentSaving,
+  DocumentUserRole,
+  DocumentMemberRole,
+  DocumentMember,
+  User,
+};

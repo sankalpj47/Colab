@@ -85,7 +85,10 @@ const ImageUploadModal = ({ currentImage, name, email, onClose, onSuccess }: Pro
       // const response = await api.patch("/user/profile/image", formData);
       // const newImageUrl = response.data.imageUrl;
 
-      console.log("Image upload API call — simulated", { fileName: file.name, fileSize: file.size });
+      console.log("Image upload API call — simulated", {
+        fileName: file.name,
+        fileSize: file.size,
+      });
 
       await new Promise<void>((resolve, reject) => {
         setTimeout(() => {
@@ -167,7 +170,6 @@ const ImageUploadModal = ({ currentImage, name, email, onClose, onSuccess }: Pro
 
         {/* Body */}
         <div className="px-6 py-6 flex flex-col items-center gap-6">
-
           {/* Avatar preview */}
           <div
             className="w-24 h-24 rounded-full flex items-center justify-center overflow-hidden transition-all"
@@ -204,14 +206,16 @@ const ImageUploadModal = ({ currentImage, name, email, onClose, onSuccess }: Pro
               backgroundColor: dragOver ? "#2563EB08" : "transparent",
             }}
             onClick={() => fileInputRef.current?.click()}
-            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragOver(true);
+            }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
           >
             <Upload size={18} style={{ color: "var(--text-secondary)" }} />
             <p className="text-xs text-center" style={{ color: "var(--text-secondary)" }}>
-              Drag & drop or{" "}
-              <span style={{ color: "var(--primary)" }}>browse</span>
+              Drag & drop or <span style={{ color: "var(--primary)" }}>browse</span>
             </p>
             <p className="text-[10px]" style={{ color: "var(--text-secondary)" }}>
               PNG, JPG, WEBP — max 5MB
@@ -228,7 +232,8 @@ const ImageUploadModal = ({ currentImage, name, email, onClose, onSuccess }: Pro
 
           {/* Status messages */}
           {errorMsg && (
-            <div className="w-full flex items-center gap-2 text-xs px-3 py-2 rounded-md"
+            <div
+              className="w-full flex items-center gap-2 text-xs px-3 py-2 rounded-md"
               style={{ backgroundColor: "#EF444415", color: "var(--error)" }}
             >
               <AlertCircle size={13} />
@@ -237,7 +242,8 @@ const ImageUploadModal = ({ currentImage, name, email, onClose, onSuccess }: Pro
           )}
 
           {uploadState === "success" && (
-            <div className="w-full flex items-center gap-2 text-xs px-3 py-2 rounded-md"
+            <div
+              className="w-full flex items-center gap-2 text-xs px-3 py-2 rounded-md"
               style={{ backgroundColor: "#22C55E15", color: "#22C55E" }}
             >
               <CheckCircle size={13} />

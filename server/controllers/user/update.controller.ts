@@ -6,7 +6,10 @@ const updateProfileController = async (req: Request, res: Response, next: NextFu
     const userId = req.user?.id;
     const { name } = req.body;
 
-    if (!userId) { res.status(401).json({ success: false, message: "Unauthorized" }); return; }
+    if (!userId) {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+      return;
+    }
 
     const user = await updateProfileService(userId, name.trim());
     res.status(200).json({ success: true, message: "Profile updated successfully", user });

@@ -121,7 +121,8 @@ const Page = () => {
               color: "#ffffff",
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--primary-hover)")
+              ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                "var(--primary-hover)")
             }
             onMouseLeave={(e) =>
               ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--primary)")
@@ -183,10 +184,7 @@ const Page = () => {
       </div>
 
       {createOpen && (
-        <CreateDocumentModal
-          onClose={() => setCreateOpen(false)}
-          onCreated={fetchMyDocuments}
-        />
+        <CreateDocumentModal onClose={() => setCreateOpen(false)} onCreated={fetchMyDocuments} />
       )}
     </div>
   );

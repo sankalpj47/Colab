@@ -8,10 +8,12 @@ const deleteProfileService = async (userId: string): Promise<boolean | void> => 
     if (!user) throw new ApiError(404, "User not found");
 
     await deleteUser(userId);
-    logger.success(`User: ${user.name} deleted successfully`)
+    logger.success(`User: ${user.name} deleted successfully`);
     return true;
   } catch (err) {
-    logger.error("Error in deleteProfileService: " + (err instanceof Error ? err.message : String(err)));
+    logger.error(
+      "Error in deleteProfileService: " + (err instanceof Error ? err.message : String(err))
+    );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
   }
 };

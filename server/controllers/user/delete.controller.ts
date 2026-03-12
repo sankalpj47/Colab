@@ -4,9 +4,9 @@ import deleteProfileService from "../../services/user/delete.service";
 const deleteProfileController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user?.id;
-    if (!userId) { 
-        res.status(401).json({ success: false, message: "Unauthorized" });
-        return; 
+    if (!userId) {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+      return;
     }
 
     await deleteProfileService(userId);

@@ -27,6 +27,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (status === "loading" || redirecting) {
     return <Loader />;
   }
-  return <main className="page-transition">
-    <DashboardNavbar/>{children}</main>;
+  return (
+    <main className="page-transition">
+      <DashboardNavbar />
+      {children}
+    </main>
+  );
 }

@@ -51,15 +51,15 @@ const findUserById = async (userId: string): Promise<User | null> => {
 
 const updateUser = async (id: string, data: UserUpdateInput) => {
   try {
-    const updatedUser = await prisma.user.update({ 
-      where: { 
-        id
-      }, 
-      data
+    const updatedUser = await prisma.user.update({
+      where: {
+        id,
+      },
+      data,
     });
 
-    return updatedUser
-  } catch(err) {
+    return updatedUser;
+  } catch (err) {
     throw err;
   }
 };
@@ -67,13 +67,13 @@ const updateUser = async (id: string, data: UserUpdateInput) => {
 const deleteUser = async (id: string) => {
   try {
     await prisma.user.delete({
-      where:{
-        id
-      }
-    })
-    return true
+      where: {
+        id,
+      },
+    });
+    return true;
   } catch (err) {
-    throw err
+    throw err;
   }
 };
 

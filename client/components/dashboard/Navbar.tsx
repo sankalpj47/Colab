@@ -81,13 +81,10 @@ const DashboardNavbar = () => {
                   backgroundColor: "var(--canvas)",
                 }}
               >
-              <User size={18}/>
-                  
+                <User size={18} />
               </div>
 
-              <span className="text-xs hidden sm:block max-w-30 truncate">
-                {name}
-              </span>
+              <span className="text-xs hidden sm:block max-w-30 truncate">{name}</span>
 
               <ChevronDown
                 size={12}
@@ -110,10 +107,7 @@ const DashboardNavbar = () => {
                 }}
               >
                 {/* User info */}
-                <div
-                  className="px-4 py-3 border-b"
-                  style={{ borderColor: "var(--border)" }}
-                >
+                <div className="px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
                   <p
                     className="text-xs font-semibold truncate font-mono"
                     style={{ color: "var(--text-primary)" }}
@@ -142,18 +136,14 @@ const DashboardNavbar = () => {
                         "var(--hover)")
                     }
                     onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                        "transparent")
+                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent")
                     }
                   >
                     <User size={13} style={{ color: "var(--text-secondary)" }} />
                     Profile
                   </button>
 
-                  <div
-                    className="mx-3 my-1 border-t"
-                    style={{ borderColor: "var(--border)" }}
-                  />
+                  <div className="mx-3 my-1 border-t" style={{ borderColor: "var(--border)" }} />
 
                   <button
                     onClick={handleSignOut}
@@ -164,8 +154,7 @@ const DashboardNavbar = () => {
                         "var(--hover)")
                     }
                     onMouseLeave={(e) =>
-                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                        "transparent")
+                      ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent")
                     }
                   >
                     <LogOut size={13} />

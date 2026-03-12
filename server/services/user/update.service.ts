@@ -6,18 +6,20 @@ const updateProfileService = async (userId: string, name: string) => {
   try {
     const user = await findUserById(userId);
     if (!user) {
-        throw new ApiError(404, "User not found")
+      throw new ApiError(404, "User not found");
     }
 
     if (!name || !name.trim()) {
-        throw new ApiError(400, "Invalid value")
+      throw new ApiError(400, "Invalid value");
     }
 
     const updated = await updateUser(userId, { name });
-    logger.success(`User: ${user.name} update successfully`)
+    logger.success(`User: ${user.name} update successfully`);
     return updated;
   } catch (err) {
-    logger.error("Error in updateProfileService: " + (err instanceof Error ? err.message : String(err)));
+    logger.error(
+      "Error in updateProfileService: " + (err instanceof Error ? err.message : String(err))
+    );
     handleServerError(err instanceof Error ? err : new Error(String(err)));
   }
 };
