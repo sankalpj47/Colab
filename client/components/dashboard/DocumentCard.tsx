@@ -9,9 +9,15 @@ interface Props {
   onClick?: (doc: Document) => void;
   onDelete?: (id: string) => void;
   deleting?: boolean;
+  badge?: "EDITOR" | "VIEWER";
 }
 
-const DocumentCard = ({ doc, onClick, onDelete, deleting }: Props) => {
+const badgeStyles: Record<string, { bg: string; color: string; label: string }> = {
+  EDITOR: { bg: "#22C55E20", color: "#22C55E", label: "Editor" },
+  VIEWER: { bg: "#F59E0B20", color: "#F59E0B", label: "Viewer" },
+};
+
+const DocumentCard = ({ doc, onClick, onDelete, deleting, badge }: Props) => {
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     onDelete?.(doc.id);
@@ -19,9 +25,15 @@ const DocumentCard = ({ doc, onClick, onDelete, deleting }: Props) => {
 
   return (
     <div
-      className="p-5 flex items-start justify-between gap-4 cursor-pointer transition-colors rounded-md hover:bg-(--hover)"
+      className="p-5 flex items-start justify-between gap-4 cursor-pointer transition-colors rounded-md"
       style={{ backgroundColor: "var(--canvas)" }}
       onClick={() => onClick?.(doc)}
+      onMouseEnter={(e) =>
+        ((e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--hover)")
+      }
+      onMouseLeave={(e) =>
+        ((e.currentTarget as HTMLDivElement).style.backgroundColor = "var(--canvas)")
+      }
     >
       <div className="flex items-start gap-3 min-w-0">
         <FileText
@@ -47,15 +59,31 @@ const DocumentCard = ({ doc, onClick, onDelete, deleting }: Props) => {
           </span>
         </div>
 
-        <button
-          onClick={handleDelete}
-          disabled={deleting}
-          className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] tracking-wide border transition-colors rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed
-            text-(--error) border-(--error) bg-transparent hover:bg-(--error) hover:text-white"
-        >
-          <Trash2 className="w-3 h-3" strokeWidth={1.5} />
-          {deleting ? "Deleting..." : "Delete"}
-        </button>
+        {/* Badge for shared docs */}
+        {badge && badgeStyles[badge] && (
+          <div
+            className="text-[10px] px-2 py-0.5 rounded-full font-medium"
+            style={{
+              backgroundColor: badgeStyles[badge].bg,
+              color: badgeStyles[badge].color,
+            }}
+          >
+            {badgeStyles[badge].label}
+          </div>
+        )}
+
+        {/* Delete for own docs */}
+        {onDelete && (
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] tracking-wide border transition-colors rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed
+              text-(--error) border-(--error) bg-transparent hover:bg-(--error) hover:text-white"
+          >
+            <Trash2 className="w-3 h-3" strokeWidth={1.5} />
+            {deleting ? "Deleting..." : "Delete"}
+          </button>
+        )}
       </div>
     </div>
   );

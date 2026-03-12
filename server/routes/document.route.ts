@@ -10,6 +10,7 @@ import inviteDocumentUserController from "../controllers/documentUser/invite.con
 import fetchAllDocumentUserController from "../controllers/documentUser/fetchAll.controller";
 import updateDocumentUserRoleController from "../controllers/documentUser/updateRole.controller";
 import removeDocumentUserController from "../controllers/documentUser/remove.controller";
+import fetchSharedDocumentsController from "../controllers/document/fetchShared.controller";
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use(authMiddleware);
 
 // Document routes (core)
 router.get("/", fetchAllDocumentController);
+router.get("/shared", fetchSharedDocumentsController);
 router.post("/", reqBodyMiddleware, createDocumentController);
 router.delete("/:id", deleteDocumentController);
 router.get("/:id", fetchOneDocumentController);

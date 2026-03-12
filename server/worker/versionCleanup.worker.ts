@@ -12,10 +12,10 @@ const documentVersionCleanupWorker = async () => {
       having: {
         documentId: {
           _count: {
-            gt: 20
-          }
-        }
-      }
+            gt: 20,
+          },
+        },
+      },
     });
 
     let totalDeleted = 0;

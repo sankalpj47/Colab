@@ -1,67 +1,84 @@
 "use client";
-import Input from "@/components/ui/Input";
-import PrimaryButton from "@/components/ui/PrimaryButton";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { FilePlus, FileText, Clock, Users } from "lucide-react";
 import { useToast } from "@/context/ToastContext";
 import api, { getErrorMessage } from "@/utils/axios.util";
-import { useEffect, useState } from "react";
-import { FileText } from "lucide-react";
-import DocumentCardSkeleton from "@/components/skeleton/DocumentCardSkeleton";
-import DocumentCard from "@/components/dashboard/DocumentCard";
-import { useRouter } from "next/navigation";
 import { Document } from "@/types/common";
+import DocumentCard from "@/components/dashboard/DocumentCard";
+import CreateDocumentModal from "@/components/dashboard/CreateDocumentModal";
+import DocumentCardSkeleton from "@/components/skeleton/DocumentCardSkeleton";
+import PrimaryButton from "@/components/ui/PrimaryButton";
+
+type SharedDocument = Document & { role: "EDITOR" | "VIEWER" };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const SectionHeader = ({ icon: Icon, label }: { icon: any; label: string }) => (
+  <div className="flex items-center gap-2 mb-4">
+    <Icon size={13} style={{ color: "var(--text-secondary)" }} />
+    <p
+      className="text-[10px] tracking-[0.4em] uppercase"
+      style={{ color: "var(--text-secondary)" }}
+    >
+      {label}
+    </p>
+  </div>
+);
+
+const EmptyState = ({ label }: { label: string }) => (
+  <div
+    className="flex flex-col items-center justify-center py-14 gap-3 border rounded-md"
+    style={{ borderColor: "var(--border)" }}
+  >
+    <FileText className="w-7 h-7" style={{ color: "var(--text-secondary)" }} strokeWidth={1.25} />
+    <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+      {label}
+    </p>
+  </div>
+);
 
 const Page = () => {
   const { error, success } = useToast();
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [documents, setDocuments] = useState<Document[]>([]);
-  const [fetching, setFetching] = useState(true);
-  const [deleting, setDeleting] = useState<string | null>(null);
   const router = useRouter();
 
-  const fetchAllDocuments = async () => {
+  const [myDocs, setMyDocs] = useState<Document[]>([]);
+  const [sharedDocs, setSharedDocs] = useState<SharedDocument[]>([]);
+  const [fetchingMy, setFetchingMy] = useState(true);
+  const [fetchingShared, setFetchingShared] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [createOpen, setCreateOpen] = useState(false);
+
+  const fetchMyDocuments = async () => {
     try {
-      setFetching(true);
+      setFetchingMy(true);
       const response = await api.get("/document");
-      setDocuments(response.data.documents);
+      setMyDocs(response.data.documents);
     } catch (err) {
       error(getErrorMessage(err));
     } finally {
-      setFetching(false);
+      setFetchingMy(false);
     }
   };
 
-  const handleCreateDocument = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title.trim()) {
-      error("Title is required.");
-      return;
-    }
+  const fetchSharedDocuments = async () => {
     try {
-      setLoading(true);
-      await api.post("/document", {
-        title: title.trim(),
-        description: description.trim() || null,
-      });
-      success("Document created successfully.");
-      setTitle("");
-      setDescription("");
-      await fetchAllDocuments();
+      setFetchingShared(true);
+      const response = await api.get("/document/shared");
+      setSharedDocs(response.data.documents);
     } catch (err) {
-      error(getErrorMessage(err));
+      console.error(err);
     } finally {
-      setLoading(false);
+      setFetchingShared(false);
     }
   };
 
   const onDelete = async (id: string) => {
     setDeleting(id);
     try {
-      await api.delete(`document/${id}`);
-      success("Document deleted successfully.");
-      await fetchAllDocuments();
+      await api.delete(`/document/${id}`);
+      success("Document deleted.");
+      await fetchMyDocuments();
     } catch (err) {
       error(getErrorMessage(err));
     } finally {
@@ -70,7 +87,8 @@ const Page = () => {
   };
 
   useEffect(() => {
-    fetchAllDocuments();
+    fetchMyDocuments();
+    fetchSharedDocuments();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,85 +97,87 @@ const Page = () => {
       className="min-h-screen font-mono p-10"
       style={{ backgroundColor: "var(--background)", color: "var(--text-primary)" }}
     >
-      <div className="max-w-5xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-10">
-          {/* Create form */}
-          <div className="lg:w-80 shrink-0">
+      <div className="max-w-4xl mx-auto">
+        {/* Top bar */}
+        <div className="flex items-center justify-between mb-12">
+          <div>
             <p
-              className="text-[10px] tracking-[0.4em] uppercase mb-6"
+              className="text-[10px] tracking-[0.4em] uppercase mb-1"
               style={{ color: "var(--text-secondary)" }}
             >
-              New document
+              Draftly
             </p>
-            <form onSubmit={handleCreateDocument} className="flex flex-col gap-4">
-              <Input
-                label="Title"
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Untitled document"
-                className="rounded-md"
-              />
-              <Input
-                label="Description"
-                multiline
-                rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Optional description..."
-                className="rounded-md"
-              />
-              <PrimaryButton
-                type="submit"
-                loading={loading}
-                loadingText="Creating..."
-                className="rounded-md w-full"
-              >
-                Create document
-              </PrimaryButton>
-            </form>
+            <h1 className="text-xl font-semibold" style={{ color: "var(--text-primary)" }}>
+              Dashboard
+            </h1>
           </div>
+          <PrimaryButton
+            onClick={() => setCreateOpen(true)}
+            className="flex items-center gap-2 text-xs px-4 py-2 rounded-md font-mono transition-all"
+            style={{
+              backgroundColor: "var(--primary)",
+              color: "#ffffff",
+            }}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                "var(--primary-hover)")
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLButtonElement).style.backgroundColor = "var(--primary)")
+            }
+          >
+            <FilePlus size={13} />
+            New document
+          </PrimaryButton>
+        </div>
 
-          {/* Divider */}
-          <div
-            className="hidden lg:block w-px self-stretch"
-            style={{ backgroundColor: "var(--border)" }}
-          />
-
-          {/* Documents list */}
-          <div className="flex-1">
-            {fetching ? (
-              <DocumentCardSkeleton />
-            ) : documents.length === 0 ? (
-              <div
-                className="flex flex-col items-center justify-center py-20 gap-3 border rounded-md"
-                style={{ borderColor: "var(--border)" }}
-              >
-                <FileText
-                  className="w-8 h-8"
-                  style={{ color: "var(--text-secondary)" }}
-                  strokeWidth={1.25}
+        {/* My documents */}
+        <div className="mb-12">
+          <SectionHeader icon={Clock} label="My documents" />
+          {fetchingMy ? (
+            <DocumentCardSkeleton />
+          ) : myDocs.length === 0 ? (
+            <EmptyState label="No documents yet — create your first one" />
+          ) : (
+            <div className="flex flex-col gap-2">
+              {myDocs.map((doc) => (
+                <DocumentCard
+                  key={doc.id}
+                  doc={doc}
+                  onClick={(doc) => router.push(`/dashboard/document/${doc.id}`)}
+                  onDelete={onDelete}
+                  deleting={deleting === doc.id}
                 />
-                <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                  No documents yet
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2">
-                {documents.map((doc) => (
-                  <DocumentCard
-                    key={doc.id}
-                    doc={doc}
-                    onClick={(doc) => router.push(`/dashboard/document/${doc.id}`)}
-                    onDelete={onDelete}
-                    deleting={deleting === doc.id}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Shared with me */}
+        <div>
+          <SectionHeader icon={Users} label="Shared with me" />
+          {fetchingShared ? (
+            <DocumentCardSkeleton />
+          ) : sharedDocs.length === 0 ? (
+            <EmptyState label="No documents shared with you yet" />
+          ) : (
+            <div className="flex flex-col gap-2">
+              {sharedDocs.map((doc) => (
+                <DocumentCard
+                  key={doc.id}
+                  doc={doc}
+                  onClick={(doc) => router.push(`/dashboard/document/${doc.id}`)}
+                  badge={doc.role}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
+
+      {createOpen && (
+        <CreateDocumentModal onClose={() => setCreateOpen(false)} onCreated={fetchMyDocuments} />
+      )}
     </div>
   );
 };
