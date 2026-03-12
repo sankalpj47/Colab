@@ -3,6 +3,7 @@ import { DocumentUserRole, Prisma } from "@prisma/client";
 type CreateUserInput = Prisma.UserCreateInput;
 type CreateDocumentInput = Prisma.DocumentUncheckedCreateInput;
 type CreateDocumentUserInput = Prisma.DocumentUserUncheckedCreateInput;
+type UserUpdateInput = Prisma.UserUpdateInput
 
 type DocumentMember = {
   id: string;
@@ -29,4 +30,5 @@ export type {
   AuthTokenPayload,
   CreateDocumentUserInput,
   DocumentMember,
+  UserUpdateInput
 };

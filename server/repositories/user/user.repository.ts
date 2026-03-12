@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import prisma from "../../config/prisma.config";
-import { CreateUserInput } from "../../utils/types/common.types";
+import { CreateUserInput, UserUpdateInput } from "../../utils/types/common.types";
 
 const findUserByEmail = async (email: string): Promise<User | null> => {
   try {
@@ -49,4 +49,32 @@ const findUserById = async (userId: string): Promise<User | null> => {
   }
 };
 
-export { findUserByEmail, insertUser, findUserById };
+const updateUser = async (id: string, data: UserUpdateInput) => {
+  try {
+    const updatedUser = await prisma.user.update({ 
+      where: { 
+        id
+      }, 
+      data
+    });
+
+    return updatedUser
+  } catch(err) {
+    throw err;
+  }
+};
+
+const deleteUser = async (id: string) => {
+  try {
+    await prisma.user.delete({
+      where:{
+        id
+      }
+    })
+    return true
+  } catch (err) {
+    throw err
+  }
+};
+
+export { findUserByEmail, insertUser, findUserById, updateUser, deleteUser };
