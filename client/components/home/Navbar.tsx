@@ -16,6 +16,7 @@ const Navbar = () => {
   }, []);
 
   const links = [
+    { label: "Home", href: "#home" },
     { label: "Features", href: "#features" },
     { label: "How it works", href: "#how-it-works" },
     { label: "Tech Stack", href: "#tech-stack" },
@@ -95,7 +96,13 @@ const Navbar = () => {
           style={{ color: "var(--text-primary)" }}
           onClick={() => setMobileOpen((o: boolean) => !o)}
         >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          {mobileOpen ? (
+            <X size={20} />
+          ) : (
+            <div className="flex items-center justify-center gap-6">
+              <ThemeToggle /> <Menu size={20} />
+            </div>
+          )}
         </button>
       </div>
 
@@ -108,7 +115,6 @@ const Navbar = () => {
         }}
       >
         <div className="px-6 py-4 flex flex-col gap-4">
-          <ThemeToggle />
           {links.map((l) => (
             <a
               key={l.label}

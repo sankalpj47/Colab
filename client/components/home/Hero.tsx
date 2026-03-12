@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, File } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -12,6 +12,7 @@ const Hero = () => {
 
   return (
     <section
+      id="home"
       className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden"
       style={{ backgroundColor: "var(--background)" }}
     >
@@ -56,7 +57,7 @@ const Hero = () => {
           className="w-1.5 h-1.5 rounded-full animate-pulse"
           style={{ backgroundColor: "var(--primary)" }}
         />
-        Real-time collaborative editing — now available
+        Real-time collaborative editing
       </div>
 
       {/* Headline */}
@@ -107,7 +108,7 @@ const Hero = () => {
       >
         <Link
           href="/auth/signup"
-          className="flex items-center gap-2 px-6 py-3 rounded-md font-mono text-sm font-semibold transition-all"
+          className="flex items-center justify-center gap-2 px-6 py-3 rounded-md font-mono text-sm font-semibold transition-all w-full min-w-fit"
           style={{
             backgroundColor: "var(--primary)",
             color: "#fff",
@@ -128,7 +129,7 @@ const Hero = () => {
         </Link>
         <a
           href="#features"
-          className="flex items-center gap-2 px-6 py-3 rounded-md font-mono text-sm border transition-all"
+          className="flex items-center justify-center gap-2 px-6 py-3 rounded-md font-mono text-sm border transition-all w-full min-w-fit"
           style={{
             borderColor: "var(--border)",
             color: "var(--text-primary)",
@@ -204,7 +205,7 @@ const Hero = () => {
                     className="w-7 h-7 rounded-md flex items-center justify-center text-sm"
                     style={{ backgroundColor: "#2563EB15" }}
                   >
-                    📄
+                    <File size={12} />
                   </div>
                   <span
                     className="font-mono font-bold text-lg"
@@ -213,7 +214,10 @@ const Hero = () => {
                     Q4 Product Roadmap
                   </span>
                 </div>
-                <p className="font-mono text-sm ml-10" style={{ color: "var(--text-secondary)" }}>
+                <p
+                  className="font-mono text-sm ml-10 line-clamp-2"
+                  style={{ color: "var(--text-secondary)" }}
+                >
                   Outlining key initiatives for Q4 2025 — engineering, design, and growth.
                 </p>
               </div>
@@ -257,16 +261,6 @@ const Hero = () => {
                 <span style={{ color: "var(--text-secondary)" }}>
                   Real-time editing powered by{" "}
                 </span>
-                <span
-                  className="inline-block w-0.5 h-4 mx-0.5 animate-pulse"
-                  style={{ backgroundColor: "#E03131" }}
-                />
-                <span
-                  className="absolute -top-6 left-0 text-[9px] px-1.5 py-0.5 rounded font-mono text-white whitespace-nowrap"
-                  style={{ backgroundColor: "#E03131" }}
-                >
-                  Shivam
-                </span>
               </div>
               <p style={{ color: "var(--text-secondary)" }}>
                 Yjs with WebSocket for seamless collaboration across distributed teams.
@@ -286,27 +280,11 @@ const Hero = () => {
             </div>
           </div>
         </div>
-
-        <div
-          className="absolute -bottom-4 -right-4 px-4 py-2.5 rounded-lg border font-mono text-xs flex items-center gap-2"
-          style={{
-            backgroundColor: "var(--canvas)",
-            borderColor: "var(--border)",
-            boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
-            color: "var(--text-primary)",
-          }}
-        >
-          <span
-            className="w-2 h-2 rounded-full animate-pulse"
-            style={{ backgroundColor: "#22C55E" }}
-          />
-          3 people editing now
-        </div>
       </div>
 
       {/* Scroll hint */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
         style={{
           opacity: mounted ? 0.5 : 0,
           transition: "opacity 0.6s ease 1s",

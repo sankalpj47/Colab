@@ -31,9 +31,32 @@ const Footer = () => (
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
           {[
-            { heading: "Product", links: ["Features", "How it works", "Tech Stack", "FAQ"] },
-            { heading: "Account", links: ["Sign in", "Register", "Dashboard", "Profile"] },
-            { heading: "Project", links: ["GitHub", "README", "Contributing", "License"] },
+            {
+              heading: "Product",
+              links: [
+                { label: "Home", href: "#home" },
+                { label: "Features", href: "#features" },
+                { label: "How it works", href: "#how-it-works" },
+                { label: "Tech Stack", href: "#tech-stack" },
+                { label: "FAQ", href: "#faq" },
+              ],
+            },
+            {
+              heading: "Account",
+              links: [
+                { label: "Sign in", href: "/auth/login" },
+                { label: "Register", href: "/auth/signup" },
+                { label: "Dashboard", href: "/dashboard" },
+                { label: "Profile", href: "/dashboard/profile" },
+              ],
+            },
+            {
+              heading: "Project",
+              links: [
+                { label: "GitHub", href: "https://github.com/SHIVAM-KUMAR-59" },
+                { label: "README", href: "https://github.com/SHIVAM-KUMAR-59/draftly" },
+              ],
+            },
           ].map((col) => (
             <div key={col.heading}>
               <p
@@ -45,8 +68,8 @@ const Footer = () => (
               <div className="flex flex-col gap-2.5">
                 {col.links.map((l) => (
                   <a
-                    key={l}
-                    href="#"
+                    key={l.label}
+                    href={l.href}
                     className="font-mono text-xs transition-colors"
                     style={{ color: "var(--text-secondary)" }}
                     onMouseEnter={(e) =>
@@ -56,7 +79,7 @@ const Footer = () => (
                       ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-secondary)")
                     }
                   >
-                    {l}
+                    {l.label}
                   </a>
                 ))}
               </div>

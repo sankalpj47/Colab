@@ -40,7 +40,7 @@ const CTABanner = () => (
         </p>
         <Link
           href="/auth/signup"
-          className="relative inline-flex items-center gap-2 px-8 py-3.5 rounded-md font-mono text-sm font-semibold transition-all"
+          className="relative inline-flex items-center justify-center gap-2 px-4 md:px-8 py-3.5 rounded-md font-mono text-sm font-semibold transition-all"
           style={{
             backgroundColor: "var(--primary)",
             color: "#fff",
