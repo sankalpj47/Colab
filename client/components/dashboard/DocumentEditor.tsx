@@ -66,7 +66,14 @@ const DocumentEditor = ({
       Color,
       Underline,
       Highlight.configure({ multicolor: true }),
-      Link.configure({ openOnClick: false, autolink: true }),
+      Link.configure({
+        openOnClick: true,
+        autolink: true,
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
+      }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       FontFamily,
       Image.configure({ inline: false, allowBase64: true }),
