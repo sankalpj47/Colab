@@ -91,7 +91,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <button
+        <div
           className="lg:hidden"
           style={{ color: "var(--text-primary)" }}
           onClick={() => setMobileOpen((o: boolean) => !o)}
@@ -103,7 +103,7 @@ const Navbar = () => {
               <ThemeToggle /> <Menu size={20} />
             </div>
           )}
-        </button>
+        </div>
       </div>
 
       <div
