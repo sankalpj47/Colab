@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, FileText, User } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import { signIn } from "next-auth/react";
 import GoogleButton from "@/components/auth/GoogleButton";
 import GithubButton from "@/components/auth/GithubButton";
 import OtpModal from "./OtpModal";
+import Input from "@/components/ui/Input";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import { useToast } from "@/context/ToastContext";
 
@@ -57,10 +58,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     if (isSignup && !name.trim()) return;
     setLoadingKey("email", true);
     try {
-      await api.post("/auth/send-otp", {
-        email: email,
-        isSignup: isSignup,
-      });
+      await api.post("/auth/send-otp", { email, isSignup });
       success("OTP sent successfully");
       setShowOtpModal(true);
     } catch (err: unknown) {
@@ -90,19 +88,19 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     const code = otp.join("");
     if (code.length < 4) return;
     setLoadingKey("otp", true);
-    // TODO: POST /auth/verify-otp { email, code, isSignup }
     try {
       const result = await signIn("credentials", {
         redirect: false,
-        name: name, // only for signup
-        email: email,
-        otp: otp.join(""),
-        isSignup: isSignup ? "true" : "false", // pass as string — credentials only supports strings
+        name,
+        email,
+        otp: code,
+        isSignup: isSignup ? "true" : "false",
       });
       if (result?.error) {
         error("Invalid OTP");
+      } else {
+        success("OTP verified successfully");
       }
-      success("OTP verified successfully");
     } catch (err) {
       error(getErrorMessage(err));
     } finally {
@@ -118,96 +116,141 @@ const AuthForm = ({ mode }: AuthFormProps) => {
   const isEmailReady = email.trim() && (isSignup ? name.trim() : true);
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-(--background)">
-      <div className="w-full max-w-md space-y-8">
-        <div className="rounded-2xl p-8 space-y-5 shadow-sm bg-(--canvas) border border-(--border)">
-          {/* Logo */}
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-2 bg-(--primary)">
-              <FileText className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-2xl font-semibold tracking-tight text-(--text-primary)">
-              {isSignup ? "Create your account" : "Welcome back"}
-            </h1>
-            <p className="text-sm text-(--text-secondary)">
-              {isSignup ? "Start writing with" : "Sign in to"}{" "}
-              <span className="font-semibold text-(--primary)">Draftly</span>
-            </p>
-          </div>
+    <div
+      className="min-h-screen flex items-center justify-center px-4"
+      style={{ backgroundColor: "var(--background)" }}
+    >
+      <div className="w-full max-w-sm md:max-w-xl">
+        {/* Card */}
+        <div
+          className="rounded-xl border overflow-hidden"
+          style={{
+            backgroundColor: "var(--canvas)",
+            borderColor: "var(--border)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
+          }}
+        >
+          {/* Top accent */}
+          <div className="h-1 w-full" style={{ backgroundColor: "var(--primary)" }} />
 
-          {/* Fields */}
-          <div className="space-y-3">
-            {/* Name — signup only */}
-            {isSignup && (
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-(--text-secondary)" />
-                <input
-                  type="text"
-                  placeholder="Full name"
+          <div className="p-8 space-y-6">
+            {/* Header */}
+            <div className="text-center space-y-3">
+              <div
+                className="inline-flex items-center justify-center w-11 h-11 rounded-xl"
+                style={{ backgroundColor: "var(--primary)" }}
+              >
+                <FileText className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1
+                  className="text-xl font-bold font-mono"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {isSignup ? "Create your account" : "Welcome back"}
+                </h1>
+                <p className="text-xs font-mono mt-1" style={{ color: "var(--text-secondary)" }}>
+                  {isSignup ? "Start writing with" : "Sign in to"}{" "}
+                  <span className="font-semibold" style={{ color: "var(--primary)" }}>
+                    Draftly
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* Fields */}
+            <div className="space-y-3">
+              {isSignup && (
+                <Input
+                  label="Full name"
+                  placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={isAnyLoading}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm outline-none transition-all duration-150 border border-(--border) text-(--text-primary) bg-(--background) focus:border-(--primary) focus:bg-(--canvas) focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="rounded-md font-mono text-sm"
                 />
-              </div>
-            )}
-
-            {/* Email */}
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-(--text-secondary)" />
-              <input
+              )}
+              <Input
+                label="Email address"
                 type="email"
-                placeholder="Enter your email"
+                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isAnyLoading}
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm outline-none transition-all duration-150 border border-(--border) text-(--text-primary) bg-(--background) focus:border-(--primary) focus:bg-(--canvas) focus:shadow-[0_0_0_3px_rgba(37,99,235,0.1)] disabled:opacity-50 disabled:cursor-not-allowed"
+                onKeyDown={(e) => e.key === "Enter" && handleEmail()}
+                className="rounded-md font-mono text-sm"
+              />
+
+              <button
+                onClick={handleEmail}
+                disabled={isAnyLoading || !isEmailReady}
+                className="w-full py-2.5 rounded-md text-sm font-mono font-semibold text-white transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundColor: "var(--primary)" }}
+                onMouseEnter={(e) => {
+                  if (!isAnyLoading && isEmailReady)
+                    (e.currentTarget as HTMLButtonElement).style.opacity = "0.9";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.opacity = "1";
+                }}
+              >
+                {loading.email ? (
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Sending OTP...
+                  </>
+                ) : (
+                  <p className="flex items-center justify-center gap-2">
+                    <span>Continue with Email</span>
+                    <ArrowRight size={12} />
+                  </p>
+                )}
+              </button>
+            </div>
+
+            {/* Divider */}
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px" style={{ backgroundColor: "var(--border)" }} />
+              <span
+                className="text-[10px] font-mono tracking-widest uppercase"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                or
+              </span>
+              <div className="flex-1 h-px" style={{ backgroundColor: "var(--border)" }} />
+            </div>
+
+            {/* OAuth */}
+            <div className="space-y-2.5">
+              <GoogleButton
+                onclick={handleGoogle}
+                loading={loading.google}
+                disabled={isAnyLoading}
+              />
+              <GithubButton
+                onclick={handleGithub}
+                loading={loading.github}
+                disabled={isAnyLoading}
               />
             </div>
 
-            <button
-              onClick={handleEmail}
-              disabled={isAnyLoading || !isEmailReady}
-              className="w-full py-2.5 rounded-lg text-sm font-medium text-white transition-all duration-150 bg-(--primary) hover:bg-(--primary-hover) disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {loading.email ? (
-                <>
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Sending OTP...
-                </>
-              ) : (
-                "Continue with Email"
-              )}
-            </button>
+            {/* Footer */}
+            <p className="text-center text-xs font-mono" style={{ color: "var(--text-secondary)" }}>
+              {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
+              <a
+                href={isSignup ? "/auth/login" : "/auth/signup"}
+                className="font-semibold transition-colors"
+                style={{ color: "var(--primary)" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.8")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
+              >
+                {isSignup ? "Sign in" : "Sign up"}
+              </a>
+            </p>
           </div>
-
-          {/* Divider */}
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-(--border)" />
-            <span className="text-xs font-medium text-(--text-secondary)">OR</span>
-            <div className="flex-1 h-px bg-(--border)" />
-          </div>
-
-          {/* OAuth */}
-          <div className="space-y-3">
-            <GoogleButton onclick={handleGoogle} loading={loading.google} disabled={isAnyLoading} />
-            <GithubButton onclick={handleGithub} loading={loading.github} disabled={isAnyLoading} />
-          </div>
-
-          {/* Footer */}
-          <p className="text-center text-xs text-(--text-secondary)">
-            {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
-            <a
-              href={isSignup ? "/auth/login" : "/auth/signup"}
-              className="font-medium text-(--primary) hover:text-(--primary-hover) transition-colors"
-            >
-              {isSignup ? "Sign in" : "Sign up"}
-            </a>
-          </p>
         </div>
       </div>
 
-      {/* OTP Modal */}
       {showOtpModal && (
         <OtpModal
           email={email}
