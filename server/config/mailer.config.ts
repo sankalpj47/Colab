@@ -1,24 +1,6 @@
-import nodemailer from "nodemailer";
-import { SMTP } from "./constants.config";
-import logger from "./logger.config";
+import { Resend } from "resend";
+import { RESEND_API_KEY } from "./constants.config";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  auth: {
-    user: SMTP.user,
-    pass: SMTP.pass,
-  },
-} as any);
+const resend = new Resend(RESEND_API_KEY);
 
-const verifyEmailSetup = () => {
-  transporter.verify((error) => {
-    if (error) {
-      logger.error("Error in nodemailer transport " + error.message);
-    } else {
-      logger.success("Nodemailer setup successfull");
-    }
-  });
-};
-
-export { transporter, verifyEmailSetup };
+export default resend;

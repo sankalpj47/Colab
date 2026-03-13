@@ -9,7 +9,6 @@ import errorHandlerMiddleware from "./middleware/error.middleware";
 import initWebSocketServer from "./config/websocket.config";
 import cron from "node-cron";
 import documentVersionCleanupWorker from "./worker/versionCleanup.worker";
-import { verifyEmailSetup } from "./config/mailer.config";
 
 const app = express();
 
@@ -25,7 +24,6 @@ app.use(express.json());
 app.use(loggerMiddleware);
 app.use("/api/v1", apiRoutes);
 app.use(errorHandlerMiddleware);
-verifyEmailSetup();
 
 app.get("/health", (_req, res) => {
   return res.status(200).json({ status: "ok" });

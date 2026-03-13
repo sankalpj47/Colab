@@ -1,6 +1,5 @@
-import { SMTP } from "../config/constants.config";
 import logger from "../config/logger.config";
-import { transporter } from "../config/mailer.config";
+import resend from "../config/mailer.config";
 
 interface SendMailOptions {
   to: string;
@@ -9,16 +8,14 @@ interface SendMailOptions {
   text?: string;
 }
 
-export const sendMail = async ({ to, subject, html, text }: SendMailOptions) => {
+export const sendMail = async ({ to, subject, html }: Omit<SendMailOptions, "text">) => {
   try {
-    await transporter.sendMail({
-      from: `"Draftly" <${SMTP.from}>`,
+    await resend.emails.send({
+      from: "Draftly <noreply@shivamkumar.work>",
       to,
       subject,
-      text,
-      html,
+      html: html ?? "",
     });
-
     logger.success("Mail sent successfully");
   } catch (err) {
     logger.error("Error sending mail " + (err instanceof Error ? err.message : String(err)));
