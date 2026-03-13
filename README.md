@@ -1,3 +1,4 @@
+![Banner image](/Banner.png)
 # Draftly
 > A real-time collaborative document editor with role-based access control, rich text editing, and version history.
 
