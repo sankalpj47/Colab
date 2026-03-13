@@ -22,5 +22,6 @@ export const sendMail = async ({ to, subject, html, text }: SendMailOptions) => 
     logger.success("Mail sent successfully");
   } catch (err) {
     logger.error("Error sending mail " + (err instanceof Error ? err.message : String(err)));
+    throw err;
   }
 };
