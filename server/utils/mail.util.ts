@@ -12,7 +12,7 @@ interface SendMailOptions {
 export const sendMail = async ({ to, subject, html, text }: SendMailOptions) => {
   try {
     await transporter.sendMail({
-      from: `"Draftly" <${SMTP.user}>`,
+      from: `"Draftly" <${SMTP.from}>`,
       to,
       subject,
       text,

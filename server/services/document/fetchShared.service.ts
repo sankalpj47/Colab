@@ -8,7 +8,9 @@ type SharedDocumentResult = Doc & {
   role: DocumentUserRole;
 };
 
-const fetchSharedDocumentsService = async (userId: string): Promise<SharedDocumentResult[] | void> => {
+const fetchSharedDocumentsService = async (
+  userId: string
+): Promise<SharedDocumentResult[] | void> => {
   try {
     const documentUsers = await fetchSharedDocuments(userId);
 

@@ -3,7 +3,6 @@ import { Controller } from "../../utils/types/express.types";
 
 const fetchAllDocumentController: Controller = async (req, res, next) => {
   try {
-
     const userId = req.user?.id;
 
     if (!userId) {

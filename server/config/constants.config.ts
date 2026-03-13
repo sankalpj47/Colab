@@ -12,9 +12,10 @@ const ALLOWED_ORIGINS = ["http://localhost:3000", FRONTEND_URL].filter(Boolean) 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const JWT_EXPIRY_TIME: StringValue = (process.env.JWT_EXPIRY_TIME || "7d") as StringValue;
 const SMTP = {
+  from: process.env.EMAIL_FROM,
   user: process.env.EMAIL_USER,
   pass: process.env.EMAIL_PASS,
-  port: process.env.SMTP_PORT,
+  port: Number(process.env.SMTP_PORT),
 };
 
 const REDIS_URL = process.env.REDIS_URL;
