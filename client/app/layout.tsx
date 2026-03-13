@@ -10,9 +10,33 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AuthKit",
+  title: "Draftly — Real-time Collaborative Document Editor",
   description:
-    "Full-stack auth boilerplate — Google, GitHub, and Email OTP. Clone it, configure your keys, ship in minutes.",
+    "Draftly is a real-time collaborative document editor built for teams. Write together, assign roles, track versions, and stay in sync — all in one place.",
+  keywords: [
+    "collaborative document editor",
+    "real-time editing",
+    "team collaboration",
+    "document management",
+    "Yjs",
+    "rich text editor",
+  ],
+  authors: [{ name: "Shivam Kumar" }],
+  openGraph: {
+    title: "Draftly — Real-time Collaborative Document Editor",
+    description:
+      "Write together in real time. Invite your team, assign roles, and watch edits appear live — with full version history and zero data loss.",
+    url: "https://draftly-snowy.vercel.app",
+    siteName: "Draftly",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Draftly — Real-time Collaborative Document Editor",
+    description:
+      "Write together in real time. Invite your team, assign roles, and watch edits appear live.",
+    creator: "@shivamkumardev",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
