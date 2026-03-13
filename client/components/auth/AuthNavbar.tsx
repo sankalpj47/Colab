@@ -10,11 +10,15 @@ export default function AuthNavbar() {
       <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
         {/* Logo */}
         <Link
-          href={"/"}
-          className="flex items-center gap-2 font-semibold text-(--text-primary) text-lg"
+          href="/"
+          className="flex items-center gap-2 font-semibold text-lg font-mono"
+          style={{ color: "var(--text-primary)" }}
         >
-          <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-(--primary)">
-            <FileText className="w-6 h-6 text-white" />
+          <div
+            className="inline-flex items-center justify-center w-8 h-8 rounded-lg"
+            style={{ backgroundColor: "var(--primary)" }}
+          >
+            <FileText className="w-4 h-4 text-white" />
           </div>
           Draftly
         </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Menu, X } from "lucide-react";
+import { ArrowRight, FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ThemeToggle from "../ui/ThemeToggle";
@@ -69,8 +69,8 @@ const Navbar = () => {
           <ThemeToggle />
           <Link
             href="/auth/login"
-            className="text-sm font-mono px-4 py-2 rounded-md transition-colors"
-            style={{ color: "var(--text-secondary)" }}
+            className="text-sm font-mono px-4 py-2 rounded-md transition-colors border"
+            style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLAnchorElement).style.color = "var(--text-primary)")
             }
@@ -82,12 +82,13 @@ const Navbar = () => {
           </Link>
           <Link
             href="/auth/signup"
-            className="text-sm font-mono px-4 py-2 rounded-md transition-all"
+            className="text-sm font-mono px-4 py-2 rounded-md transition-all flex items-center justify-center gap-2"
             style={{ backgroundColor: "var(--primary)", color: "#fff" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.9")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
           >
-            Get started →
+            Get started
+            <ArrowRight size={15} />
           </Link>
         </div>
 
