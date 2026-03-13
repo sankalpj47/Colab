@@ -5,8 +5,16 @@ import { findDocumentUser } from "../../repositories/document/documentUser.repos
 import { getLatestDocumentVersion } from "../../repositories/document/documentVersion.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
 import { moreRecent } from "../../utils/common.util";
+import { Doc } from "../../utils/types/common.types";
 
-const fetchOneDocumentService = async (documentId: string, userId: string) => {
+
+type FetchOneDocumentResult = Omit<Doc, "updatedAt"> & {
+  content: string | null;
+  updatedAt: Date;
+  role: DocumentUserRole | "OWNER";
+};
+
+const fetchOneDocumentService = async (documentId: string, userId: string): Promise<FetchOneDocumentResult | void> => {
   try {
     if (!documentId.trim()) {
       throw new ApiError(400, "Document ID is required");

@@ -4,8 +4,9 @@ import { saveDocumentContent } from "../../repositories/document/documentVersion
 import { findDocumentUser } from "../../repositories/document/documentUser.repository";
 import { canEditDocument } from "../../utils/common.util";
 import { ApiError, handleServerError } from "../../utils/error.utils";
+import { DocVersion } from "../../utils/types/common.types";
 
-const saveDocumentService = async (documentId: string, userId: string, content: string) => {
+const saveDocumentService = async (documentId: string, userId: string, content: string): Promise<DocVersion | void> => {
   try {
     if (!documentId.trim()) {
       throw new ApiError(400, "Document ID is required");

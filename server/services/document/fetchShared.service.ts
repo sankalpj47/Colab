@@ -1,8 +1,14 @@
 import { handleServerError } from "../../utils/error.utils";
 import logger from "../../config/logger.config";
 import { fetchSharedDocuments } from "../../repositories/document/documentUser.repository";
+import { Doc } from "../../utils/types/common.types";
+import { DocumentUserRole } from "@prisma/client";
 
-const fetchSharedDocumentsService = async (userId: string) => {
+type SharedDocumentResult = Doc & {
+  role: DocumentUserRole;
+};
+
+const fetchSharedDocumentsService = async (userId: string): Promise<SharedDocumentResult[] | void> => {
   try {
     const documentUsers = await fetchSharedDocuments(userId);
 
