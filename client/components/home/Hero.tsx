@@ -3,6 +3,7 @@
 import { ArrowRight, ChevronDown, File } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import FakeMenuBar from "./FakeMenuBar";
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
@@ -223,33 +224,10 @@ const Hero = () => {
               </div>
             </div>
 
-            <div
-              className="flex items-center gap-1 mb-5 p-2 rounded-md border"
-              style={{ borderColor: "var(--border)", backgroundColor: "var(--background)" }}
-            >
-              {["B", "I", "U"].map((t) => (
-                <button
-                  key={t}
-                  className="w-7 h-7 rounded text-xs font-mono font-bold flex items-center justify-center"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  {t}
-                </button>
-              ))}
-              <div className="w-px h-4 mx-1" style={{ backgroundColor: "var(--border)" }} />
-              {["H1", "H2", "•"].map((t) => (
-                <button
-                  key={t}
-                  className="px-2 h-7 rounded text-[10px] font-mono flex items-center justify-center"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
+            <FakeMenuBar />
 
             <div
-              className="font-mono text-sm leading-loose space-y-3"
+              className="font-mono text-sm leading-loose space-y-3 mt-2"
               style={{ color: "var(--text-primary)" }}
             >
               <p className="font-bold text-base">Overview</p>

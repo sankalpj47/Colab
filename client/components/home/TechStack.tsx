@@ -14,7 +14,7 @@ const techGroups = [
   },
   {
     label: "Infrastructure",
-    items: ["Supabase", "JWT Auth", "Nodemailer", "node-cron", "Winston", "WebSockets"],
+    items: ["Supabase", "JWT Auth", "Resend", "node-cron", "Winston", "WebSockets"],
     color: "#F59E0B",
   },
 ];

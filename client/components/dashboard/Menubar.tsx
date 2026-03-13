@@ -1,4 +1,3 @@
-// MenuBar.tsx
 "use client";
 
 import type { Editor } from "@tiptap/core";
@@ -45,7 +44,6 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
   if (!editor) return null;
 
   const groups: ToolbarGroup[] = [
-    // Text style
     [
       {
         icon: <Bold className="w-3.5 h-3.5" />,
@@ -70,52 +68,50 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
       },
       {
         icon: <Code className="w-3.5 h-3.5" />,
-        label: "Code",
+        label: "Inline code",
         action: () => editor.chain().focus().toggleCode().run(),
         isActive: editorState.isCode,
         disabled: !editorState.canCode,
       },
     ],
-    // Headings
     [
       {
         icon: <Heading1 className="w-3.5 h-3.5" />,
-        label: "H1",
+        label: "Heading 1",
         action: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
         isActive: editorState.isHeading1,
       },
       {
         icon: <Heading2 className="w-3.5 h-3.5" />,
-        label: "H2",
+        label: "Heading 2",
         action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
         isActive: editorState.isHeading2,
       },
       {
         icon: <Heading3 className="w-3.5 h-3.5" />,
-        label: "H3",
+        label: "Heading 3",
         action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
         isActive: editorState.isHeading3,
       },
       {
         icon: <Heading4 className="w-3.5 h-3.5" />,
-        label: "H4",
+        label: "Heading 4",
         action: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
         isActive: editorState.isHeading4,
       },
       {
         icon: <Heading5 className="w-3.5 h-3.5" />,
-        label: "H5",
+        label: "Heading 5",
         action: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
         isActive: editorState.isHeading5,
       },
       {
         icon: <Heading6 className="w-3.5 h-3.5" />,
-        label: "H6",
+        label: "Heading 6",
         action: () => editor.chain().focus().toggleHeading({ level: 6 }).run(),
         isActive: editorState.isHeading6,
       },
     ],
-    // Blocks
     [
       {
         icon: <Pilcrow className="w-3.5 h-3.5" />,
@@ -158,7 +154,6 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
         action: () => editor.chain().focus().setHardBreak().run(),
       },
     ],
-    // Clear
     [
       {
         icon: <RemoveFormatting className="w-3.5 h-3.5" />,
@@ -171,7 +166,6 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
         action: () => editor.chain().focus().clearNodes().run(),
       },
     ],
-    // History
     [
       {
         icon: <Undo2 className="w-3.5 h-3.5" />,
@@ -190,41 +184,50 @@ export const MenuBar = ({ editor }: { editor: Editor }) => {
 
   return (
     <div
-      className="flex flex-wrap items-center gap-1 px-3 py-2 rounded-md border sticky top-0 z-10"
+      className="sticky top-0 z-10"
       style={{ backgroundColor: "var(--canvas)", borderColor: "var(--border)" }}
     >
-      {groups.map((group, gi) => (
-        <div key={gi} className="flex items-center gap-0.5">
-          {group.map((btn) => (
-            <Tooltip key={btn.label} label={btn.label}>
-              <button
-                onClick={btn.action}
-                disabled={btn.disabled}
-                className="w-7 h-7 flex items-center justify-center rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                style={{
-                  color: btn.isActive ? "#ffffff" : "var(--text-secondary)",
-                  backgroundColor: btn.isActive ? "var(--primary)" : "transparent",
-                }}
-                onMouseEnter={(e) => {
-                  if (!btn.isActive && !btn.disabled)
-                    (e.currentTarget as HTMLElement).style.backgroundColor = "var(--hover)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!btn.isActive)
-                    (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
-                }}
-              >
-                {btn.icon}
-              </button>
-            </Tooltip>
-          ))}
+      <div className="flex items-center gap-0.5 px-3 py-1.5 overflow-x-auto scrollbar-hide">
+        {groups.map((group, gi) => (
+          <div key={gi} className="flex items-center gap-0.5 shrink-0">
+            {group.map((btn) => (
+              <Tooltip key={btn.label} label={btn.label}>
+                <button
+                  onClick={btn.action}
+                  disabled={btn.disabled}
+                  className="w-7 h-7 flex items-center justify-center rounded transition-all duration-100 disabled:opacity-25 disabled:cursor-not-allowed shrink-0"
+                  style={{
+                    color: btn.isActive ? "#ffffff" : "var(--text-secondary)",
+                    backgroundColor: btn.isActive ? "var(--primary)" : "transparent",
+                    boxShadow: btn.isActive ? "0 1px 3px rgba(37,99,235,0.3)" : "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!btn.isActive && !btn.disabled)
+                      (e.currentTarget as HTMLElement).style.backgroundColor = "var(--hover)";
+                    if (!btn.isActive && !btn.disabled)
+                      (e.currentTarget as HTMLElement).style.color = "var(--text-primary)";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!btn.isActive) {
+                      (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
+                      (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                    }
+                  }}
+                >
+                  {btn.icon}
+                </button>
+              </Tooltip>
+            ))}
 
-          {/* Separator */}
-          {gi < groups.length - 1 && (
-            <div className="w-px h-4 mx-1.5" style={{ backgroundColor: "var(--border)" }} />
-          )}
-        </div>
-      ))}
+            {gi < groups.length - 1 && (
+              <div
+                className="w-px h-4 mx-1 shrink-0"
+                style={{ backgroundColor: "var(--border)" }}
+              />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
