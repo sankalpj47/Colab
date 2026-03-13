@@ -25,7 +25,7 @@ app.use(loggerMiddleware);
 app.use("/api/v1", apiRoutes);
 app.use(errorHandlerMiddleware);
 
-app.get("/health", (req, res) => {
+app.get("/health", (_req, res) => {
   return res.status(200).json({ status: "ok" });
 });
 

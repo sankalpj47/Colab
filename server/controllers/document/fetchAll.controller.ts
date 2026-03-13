@@ -3,7 +3,14 @@ import { Controller } from "../../utils/types/express.types";
 
 const fetchAllDocumentController: Controller = async (req, res, next) => {
   try {
-    const documents = await fetchAllDocumentService(req.user.id);
+
+    const userId = req.user?.id;
+
+    if (!userId) {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+      return;
+    }
+    const documents = await fetchAllDocumentService(userId);
 
     res.status(200).json({
       success: true,

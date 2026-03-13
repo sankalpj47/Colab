@@ -1,8 +1,9 @@
 import { findUserById } from "../../repositories/user/user.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
 import logger from "../../config/logger.config";
+import { UserType } from "../../utils/types/common.types";
 
-const fetchProfileService = async (userId: string) => {
+const fetchProfileService = async (userId: string): Promise<UserType | void> => {
   try {
     const user = await findUserById(userId);
     if (!user) {

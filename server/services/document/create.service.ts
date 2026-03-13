@@ -1,7 +1,7 @@
 import logger from "../../config/logger.config";
 import { insertDocument } from "../../repositories/document/document.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
-import { CreateDocumentInput } from "../../utils/types/common.types";
+import { CreateDocumentInput, Doc } from "../../utils/types/common.types";
 
 const validateUserInput = (input: CreateDocumentInput): void => {
   if (!input.title?.trim()) {
@@ -12,7 +12,7 @@ const validateUserInput = (input: CreateDocumentInput): void => {
   }
 };
 
-const createDocumentService = async (input: CreateDocumentInput) => {
+const createDocumentService = async (input: CreateDocumentInput): Promise<Doc | void> => {
   try {
     validateUserInput(input);
     const newDocument = await insertDocument(input);

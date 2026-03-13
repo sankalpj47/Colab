@@ -1,10 +1,12 @@
-import { DocumentUserRole, Prisma } from "@prisma/client";
+import { Document, DocumentUserRole, Prisma, User } from "@prisma/client";
 
 type CreateUserInput = Prisma.UserCreateInput;
 type CreateDocumentInput = Prisma.DocumentUncheckedCreateInput;
 type CreateDocumentUserInput = Prisma.DocumentUserUncheckedCreateInput;
 type UserUpdateInput = Prisma.UserUpdateInput;
 type DocumentUpdateInput = Prisma.DocumentUpdateInput;
+type Doc = Document
+type UserType = User
 
 type DocumentMember = {
   id: string;
@@ -33,4 +35,6 @@ export type {
   DocumentMember,
   UserUpdateInput,
   DocumentUpdateInput,
+  Doc,
+  UserType
 };

@@ -1,6 +1,7 @@
 import { findDocumentById, updateDocument } from "../../repositories/document/document.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
 import logger from "../../config/logger.config";
+import { Doc } from "../../utils/types/common.types";
 
 type UpdateDocumentRequest = {
   title?: string;
@@ -10,7 +11,7 @@ const updateDocumentService = async (
   documentId: string,
   userId: string,
   data: UpdateDocumentRequest
-) => {
+): Promise<Doc | void> => {
   try {
     const document = await findDocumentById(documentId);
     if (!document) {

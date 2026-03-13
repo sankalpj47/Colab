@@ -1,8 +1,9 @@
 import logger from "../../config/logger.config";
 import { findAllDocumentsByUser } from "../../repositories/document/document.repository";
 import { handleServerError } from "../../utils/error.utils";
+import { Doc } from "../../utils/types/common.types";
 
-const fetchAllDocumentService = async (userId: string) => {
+const fetchAllDocumentService = async (userId: string): Promise<Doc[] | void> => {
   try {
     const documents = await findAllDocumentsByUser(userId);
     logger.success(`Fetched all documents successfully`);

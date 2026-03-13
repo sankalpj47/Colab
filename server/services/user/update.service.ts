@@ -1,8 +1,9 @@
 import { findUserById, updateUser } from "../../repositories/user/user.repository";
 import { ApiError, handleServerError } from "../../utils/error.utils";
 import logger from "../../config/logger.config";
+import { UserType } from "../../utils/types/common.types";
 
-const updateProfileService = async (userId: string, name: string) => {
+const updateProfileService = async (userId: string, name: string): Promise<UserType | void> => {
   try {
     const user = await findUserById(userId);
     if (!user) {
