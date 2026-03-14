@@ -17,13 +17,13 @@ import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import FontFamily from "@tiptap/extension-font-family";
-import Image from "@tiptap/extension-image";
 import Table from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
+import ResizableImage from "./editor/ResizableImage.extention";
 
 const DocumentEditor = ({
   documentId,
@@ -74,9 +74,9 @@ const DocumentEditor = ({
           rel: "noopener noreferrer",
         },
       }),
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TextAlign.configure({ types: ["heading", "paragraph", "resizableImage"] }),
       FontFamily,
-      Image.configure({ inline: false, allowBase64: true }),
+      ResizableImage,
       Table.configure({ resizable: true }),
       TableRow,
       TableCell,
@@ -131,31 +131,36 @@ const DocumentEditor = ({
   }, [editor, isReadOnly]);
 
   return (
-  <div className="flex flex-col h-full">
-    {/* Toolbar */}
-    {!isReadOnly ? (
-      editor && <MenuBar editor={editor} />
-    ) : (
-      <div
-        className="px-4 py-2 border-b flex items-center gap-2"
-        style={{ borderColor: "var(--border)", backgroundColor: "var(--canvas)" }}
-      >
-        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--text-secondary)" }} />
-        <span className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>View only</span>
-      </div>
-    )}
+    <div className="flex flex-col h-full">
+      {/* Toolbar */}
+      {!isReadOnly ? (
+        editor && <MenuBar editor={editor} />
+      ) : (
+        <div
+          className="px-4 py-2 border-b flex items-center gap-2"
+          style={{ borderColor: "var(--border)", backgroundColor: "var(--canvas)" }}
+        >
+          <div
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ backgroundColor: "var(--text-secondary)" }}
+          />
+          <span className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>
+            View only
+          </span>
+        </div>
+      )}
 
-    {/* Editor canvas */}
-    <div
-      className="flex-1 px-4 py-12 min-h-[70vh] rounded-b-md"
-      style={{ backgroundColor: "var(--canvas)" }}
-    >
-      <div className="max-w-5xl mx-auto">
-        <EditorContent editor={editor} />
+      {/* Editor canvas */}
+      <div
+        className="flex-1 px-4 py-12 min-h-[70vh] rounded-b-md"
+        style={{ backgroundColor: "var(--canvas)" }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default DocumentEditor;
