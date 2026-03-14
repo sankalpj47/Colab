@@ -131,27 +131,31 @@ const DocumentEditor = ({
   }, [editor, isReadOnly]);
 
   return (
-    <div
-      className="border rounded-md overflow-hidden"
-      style={{ borderColor: "var(--border)", backgroundColor: "var(--canvas)" }}
-    >
-      {/* Toolbar */}
-      {!isReadOnly ? (
-        editor && <MenuBar editor={editor} />
-      ) : (
-        <div className="px-3 py-2 border-b" style={{ borderColor: "var(--border)" }}>
-          <span className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>
-            View only
-          </span>
-        </div>
-      )}
+  <div className="flex flex-col h-full">
+    {/* Toolbar */}
+    {!isReadOnly ? (
+      editor && <MenuBar editor={editor} />
+    ) : (
+      <div
+        className="px-4 py-2 border-b flex items-center gap-2"
+        style={{ borderColor: "var(--border)", backgroundColor: "var(--canvas)" }}
+      >
+        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--text-secondary)" }} />
+        <span className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>View only</span>
+      </div>
+    )}
 
-      {/* Editor content */}
-      <div className="px-8 py-6 min-h-[60vh]">
+    {/* Editor canvas */}
+    <div
+      className="flex-1 px-4 py-12 min-h-[70vh] rounded-b-md"
+      style={{ backgroundColor: "var(--canvas)" }}
+    >
+      <div className="max-w-5xl mx-auto">
         <EditorContent editor={editor} />
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default DocumentEditor;

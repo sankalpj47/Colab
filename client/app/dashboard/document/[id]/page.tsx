@@ -114,7 +114,7 @@ const Page = () => {
       className="min-h-screen font-mono p-10"
       style={{ backgroundColor: "var(--background)", color: "var(--text-primary)" }}
     >
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Top bar */}
         <div className="flex items-center justify-between mb-10">
           <GhostButton label="Back" icon={ArrowLeft} onClick={() => router.back()} />
