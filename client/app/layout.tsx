@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import SessionContext from "@/context/SessionContext";
 import ServerToastProvider from "@/context/ServerToastProvider";
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <ServerToastProvider>{children}</ServerToastProvider>
           </SessionContext>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
