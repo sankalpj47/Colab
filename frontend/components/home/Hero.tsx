@@ -2,7 +2,7 @@
 
 import { ArrowRight, ChevronDown, File } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import FakeMenuBar from "./FakeMenuBar";
 
 const Hero = () => {
@@ -10,6 +10,30 @@ const Hero = () => {
   useEffect(() => {
     setTimeout(() => setMounted(true), 100);
   }, []);
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left; // cursor x inside card
+    const y = e.clientY - rect.top; // cursor y inside card
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const maxTilt = 10; // degrees — increase for a stronger effect
+    const rotateY = ((x - centerX) / centerX) * maxTilt;
+    const rotateX = -((y - centerY) / centerY) * maxTilt;
+
+    setTilt({ rotateX, rotateY });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ rotateX: 0, rotateY: 0 });
+  };
 
   return (
     <section
@@ -94,7 +118,7 @@ const Hero = () => {
           transition: "opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s",
         }}
       >
-        Draftly is a document editor built for collaboration. Invite your team, assign roles, and
+        Colab is a document editor built for collaboration. Invite your team, assign roles, and
         watch edits appear live — with full version history and zero data loss.
       </p>
 
@@ -107,7 +131,7 @@ const Hero = () => {
           transition: "opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s",
         }}
       >
-        <Link
+              <Link
           href="/auth/signup"
           className="flex items-center justify-center gap-2 px-6 py-3 rounded-md font-mono text-sm font-semibold transition-all w-full min-w-fit"
           style={{
@@ -154,14 +178,22 @@ const Hero = () => {
           opacity: mounted ? 1 : 0,
           transform: mounted ? "translateY(0)" : "translateY(40px)",
           transition: "opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s",
+          perspective: "1200px",
         }}
       >
         <div
+          ref={cardRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
           className="rounded-xl border overflow-hidden"
           style={{
             borderColor: "var(--border)",
             backgroundColor: "var(--canvas)",
             boxShadow: "0 24px 64px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+            transform: `rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
+            transformStyle: "preserve-3d",
+            transition: "transform 0.15s ease-out",
+            willChange: "transform",
           }}
         >
           {/* Window chrome */}
@@ -177,7 +209,7 @@ const Hero = () => {
                 className="mx-auto w-48 h-5 rounded-md text-[10px] font-mono flex items-center justify-center"
                 style={{ backgroundColor: "var(--hover)", color: "var(--text-secondary)" }}
               >
-                draftly.app/dashboard/document
+                colab.app/dashboard/document
               </div>
             </div>
             <div className="flex -space-x-2">

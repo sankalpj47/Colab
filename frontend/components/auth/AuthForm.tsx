@@ -53,7 +53,8 @@ const AuthForm = ({ mode }: AuthFormProps) => {
     setLoadingKey("github", false);
   };
 
-  const handleEmail = async () => {
+  const 
+  handleEmail = async () => {
     if (!email.trim()) return;
     if (isSignup && !name.trim()) return;
     setLoadingKey("email", true);
@@ -62,7 +63,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
       success("OTP sent successfully");
       setShowOtpModal(true);
     } catch (err: unknown) {
-      error(getErrorMessage(err));
+      console.log(getErrorMessage(err));
     } finally {
       setLoadingKey("email", false);
     }
@@ -152,7 +153,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
                 <p className="text-xs font-mono mt-1" style={{ color: "var(--text-secondary)" }}>
                   {isSignup ? "Start writing with" : "Sign in to"}{" "}
                   <span className="font-semibold" style={{ color: "var(--primary)" }}>
-                    Draftly
+                    Colab
                   </span>
                 </p>
               </div>

@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Draftly — Real-time Collaborative Document Editor",
+  title: "Colab — Real-time Collaborative Document Editor",
   description:
-    "Draftly is a real-time collaborative document editor built for teams. Write together, assign roles, track versions, and stay in sync — all in one place.",
+    "Colab is a real-time collaborative document editor built for teams. Write together, assign roles, track versions, and stay in sync — all in one place.",
   keywords: [
     "collaborative document editor",
     "real-time editing",
@@ -22,21 +22,14 @@ export const metadata: Metadata = {
     "Yjs",
     "rich text editor",
   ],
-  authors: [{ name: "Shivam Kumar" }],
+  authors: [{ name: "Sankalp Joshi" }],
   openGraph: {
-    title: "Draftly — Real-time Collaborative Document Editor",
+    title: "Colab — Real-time Collaborative Document Editor",
     description:
       "Write together in real time. Invite your team, assign roles, and watch edits appear live — with full version history and zero data loss.",
-    url: "https://draftly-snowy.vercel.app",
-    siteName: "Draftly",
+    url: "https://Colab-snowy.vercel.app",
+    siteName: "Colab",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Draftly — Real-time Collaborative Document Editor",
-    description:
-      "Write together in real time. Invite your team, assign roles, and watch edits appear live.",
-    creator: "@shivamkumardev",
   },
 };
 

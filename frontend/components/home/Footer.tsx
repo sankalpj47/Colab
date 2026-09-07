@@ -19,7 +19,7 @@ const Footer = () => (
             >
               <FileText className="w-4 h-4 text-white" />
             </div>
-            Draftly
+            Colab
           </div>
           <p
             className="font-mono text-xs leading-relaxed"
@@ -53,8 +53,8 @@ const Footer = () => (
             {
               heading: "Project",
               links: [
-                { label: "GitHub", href: "https://github.com/SHIVAM-KUMAR-59" },
-                { label: "README", href: "https://github.com/SHIVAM-KUMAR-59/draftly" },
+                { label: "GitHub", href: "https://github.com/sankalpj47" },
+                { label: "README", href: "https://github.com/sankalpj47/Colab" },
               ],
             },
           ].map((col) => (
@@ -92,17 +92,17 @@ const Footer = () => (
         style={{ borderColor: "var(--border)" }}
       >
         <p className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>
-          © {new Date().getFullYear()} Draftly. All rights reserved.
+          © {new Date().getFullYear()} Colab. All rights reserved.
         </p>
         <p className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>
           Built with ❤️ by{" "}
           <Link
-            href="https://github.com/SHIVAM-KUMAR-59"
+            href="https://github.com/sankalpj47"
             className="underline cursor-pointer"
             style={{ color: "var(--primary)" }}
             target="_blank"
           >
-            Shivam Kumar
+            Sankalp Joshi
           </Link>
         </p>
       </div>

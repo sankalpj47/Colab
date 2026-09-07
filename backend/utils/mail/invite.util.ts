@@ -45,7 +45,7 @@ export const sendInviteEmail = async ({
                       <tr>
                         <td>
                           <div style="display:inline-block;background-color:#2563EB;border-radius:6px;padding:6px 8px;margin-bottom:16px;">
-                            <span style="color:#ffffff;font-size:14px;font-weight:600;font-family:monospace;">✦ draftly</span>
+                            <span style="color:#ffffff;font-size:14px;font-weight:600;font-family:monospace;">✦ Colab</span>
                           </div>
                         </td>
                       </tr>
@@ -93,9 +93,8 @@ export const sendInviteEmail = async ({
                     </table>
 
                     <!-- CTA -->
-                    ${
-                      documentUrl
-                        ? `
+                    ${documentUrl
+      ? `
                     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                       <tr>
                         <td align="center">
@@ -106,8 +105,8 @@ export const sendInviteEmail = async ({
                         </td>
                       </tr>
                     </table>`
-                        : ""
-                    }
+      : ""
+    }
 
                     <p style="margin:0;font-size:13px;color:#A1A1AA;line-height:1.7;font-family:monospace;">
                       If you weren't expecting this invite, you can safely ignore this email.
@@ -119,7 +118,7 @@ export const sendInviteEmail = async ({
                 <tr>
                   <td style="padding:20px 40px;border-top:1px solid #27272A;">
                     <p style="margin:0;font-size:12px;color:#52525B;font-family:monospace;">
-                      © ${new Date().getFullYear()} Draftly. All rights reserved.
+                      © ${new Date().getFullYear()} Colab. All rights reserved.
                     </p>
                   </td>
                 </tr>
@@ -134,7 +133,7 @@ export const sendInviteEmail = async ({
 
   await sendMail({
     to,
-    subject: `You've been invited to "${documentTitle}" on Draftly`,
+    subject: `You've been invited to "${documentTitle}" on Colab`,
     html,
   });
 };
