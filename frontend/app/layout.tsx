@@ -22,12 +22,15 @@ export const metadata: Metadata = {
     "Yjs",
     "rich text editor",
   ],
+    icons: {
+    icon: "/logo.svg",
+  },
   authors: [{ name: "Sankalp Joshi" }],
   openGraph: {
     title: "Colab — Real-time Collaborative Document Editor",
     description:
       "Write together in real time. Invite your team, assign roles, and watch edits appear live — with full version history and zero data loss.",
-    url: "https://Colab-snowy.vercel.app",
+    url: "",
     siteName: "Colab",
     type: "website",
   },

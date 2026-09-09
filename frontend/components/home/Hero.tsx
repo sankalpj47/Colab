@@ -4,6 +4,7 @@ import { ArrowRight, ChevronDown, File } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import FakeMenuBar from "./FakeMenuBar";
+import TextType from "@/components/TextAnimation/TextType";
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
@@ -19,12 +20,12 @@ const Hero = () => {
     if (!card) return;
 
     const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left; // cursor x inside card
-    const y = e.clientY - rect.top; // cursor y inside card
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const maxTilt = 10; // degrees — increase for a stronger effect
+    const maxTilt = 10;
     const rotateY = ((x - centerX) / centerX) * maxTilt;
     const rotateX = -((y - centerY) / centerY) * maxTilt;
 
@@ -34,6 +35,9 @@ const Hero = () => {
   const handleMouseLeave = () => {
     setTilt({ rotateX: 0, rotateY: 0 });
   };
+
+  // Headline hover — glow only, no scale
+  const [headlineHovered, setHeadlineHovered] = useState(false);
 
   return (
     <section
@@ -87,24 +91,43 @@ const Hero = () => {
 
       {/* Headline */}
       <h1
-        className="relative text-center font-mono font-bold leading-tight mb-6 max-w-3xl"
+        onMouseEnter={() => setHeadlineHovered(true)}
+        onMouseLeave={() => setHeadlineHovered(false)}
+        className="relative text-center font-mono font-bold leading-tight mb-6 max-w-3xl cursor-default"
         style={{
           fontSize: "clamp(2.2rem, 6vw, 4rem)",
           color: "var(--text-primary)",
           opacity: mounted ? 1 : 0,
           transform: mounted ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s",
+          transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s, filter 0.4s ease",
+          filter: headlineHovered
+            ? "drop-shadow(0 4px 24px rgba(37,99,235,0.35))"
+            : "drop-shadow(0 0px 0px rgba(37,99,235,0))",
         }}
       >
-        Write together,{" "}
+        <span className="block">Create together,</span>
         <span
+          className="block"
           style={{
             backgroundImage: "linear-gradient(135deg, #2563EB, #60A5FA)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
+            minHeight: "1.2em",
           }}
         >
-          in real time.
+          {mounted && (
+            <TextType
+              text={["edit live.", "stay in sync.", "never miss a change."]}
+              typingSpeed={55}
+              pauseDuration={1500}
+              deletingSpeed={30}
+              showCursor
+              cursorCharacter="|"
+              loop
+              startOnVisible
+              className="inline"
+            />
+          )}
         </span>
       </h1>
 
@@ -131,7 +154,7 @@ const Hero = () => {
           transition: "opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s",
         }}
       >
-              <Link
+        <Link
           href="/auth/signup"
           className="flex items-center justify-center gap-2 px-6 py-3 rounded-md font-mono text-sm font-semibold transition-all w-full min-w-fit"
           style={{

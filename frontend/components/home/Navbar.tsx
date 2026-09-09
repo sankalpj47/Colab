@@ -4,6 +4,7 @@ import { ArrowRight, FileText, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import ThemeToggle from "../ui/ThemeToggle";
+import Image from "next/image";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -37,12 +38,15 @@ const Navbar = () => {
           className="flex items-center gap-2.5 font-mono font-bold text-lg"
           style={{ color: "var(--text-primary)" }}
         >
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: "var(--primary)" }}
-          >
-            {/* <FileText className="w-4 h-4 text-white" /> */}
-          </div>
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+  <Image
+    src="/logo.svg"
+    alt="Logo"
+    width={32}
+    height={32}
+    className="w-8 h-8 object-contain"
+  />
+</div>
           Colab
         </Link>
 

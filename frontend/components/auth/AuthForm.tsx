@@ -9,6 +9,7 @@ import OtpModal from "./OtpModal";
 import Input from "@/components/ui/Input";
 import api, { getErrorMessage } from "@/utils/axios.util";
 import { useToast } from "@/context/ToastContext";
+import Image from "next/image";
 
 type LoadingState = {
   google: boolean;
@@ -138,10 +139,18 @@ const AuthForm = ({ mode }: AuthFormProps) => {
             {/* Header */}
             <div className="text-center space-y-3">
               <div
-                className="inline-flex items-center justify-center w-11 h-11 rounded-xl"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-lg"
                 style={{ backgroundColor: "var(--primary)" }}
               >
-                <FileText className="w-5 h-5 text-white" />
+                <div className="w-8 h-8  flex items-center justify-center">
+  <Image
+    src="/logo.svg"
+    alt="Logo"
+    width={32}
+    height={32}
+    className="w-8 h-8 object-contain"
+  />
+</div>
               </div>
               <div>
                 <h1
