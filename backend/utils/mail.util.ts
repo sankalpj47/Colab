@@ -1,5 +1,6 @@
 import logger from "../config/logger.config";
-import resend from "../config/mailer.config";
+import transporter from "../config/mailer.config";
+import { SMTP_USER } from "../config/constants.config";
 
 interface SendMailOptions {
   to: string;
@@ -10,8 +11,8 @@ interface SendMailOptions {
 
 export const sendMail = async ({ to, subject, html }: Omit<SendMailOptions, "text">) => {
   try {
-    await resend.emails.send({
-      from: "Colab <onboarding@resend.dev>",
+    await transporter.sendMail({
+      from: `"Colab" <${SMTP_USER}>`,
       to,
       subject,
       html: html ?? "",

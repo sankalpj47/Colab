@@ -11,9 +11,13 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(",").map((o) => o.tri
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const JWT_EXPIRY_TIME: StringValue = (process.env.JWT_EXPIRY_TIME || "7d") as StringValue;
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 const REDIS_URL = process.env.REDIS_URL;
+
+const SMTP_HOST = process.env.SMTP_HOST || "smtp.gmail.com";
+const SMTP_PORT = Number(process.env.SMTP_PORT) || 587;
+const SMTP_USER = process.env.SMTP_USER!;
+const SMTP_PASS = process.env.SMTP_PASS!;
 
 export {
   NODE_ENV,
@@ -23,5 +27,8 @@ export {
   JWT_SECRET,
   JWT_EXPIRY_TIME,
   REDIS_URL,
-  RESEND_API_KEY,
+  SMTP_HOST,
+  SMTP_PORT,
+  SMTP_USER,
+  SMTP_PASS,
 };
