@@ -1,7 +1,7 @@
 # Colab
 
 > A real-time collaborative document editor with role-based access control, rich text editing, and version history.
-> 
+>
 
 Full-stack real-time collaborative editor built with **Next.js**, **Express**, **Prisma**, and **Redis**, enabling seamless document editing, team collaboration, and scalable productivity workflows.
 
@@ -32,6 +32,8 @@ PostgreSQL
     - Deploy Frontend to Vercel
     - Configure Production Environment Variables
     - Configure OAuth
+    - Configure CORS
+    - Configure Nodemailer
     - Verify Deployment
 - API Routes
 - Contributing
@@ -134,7 +136,7 @@ colab/
 │   ├── prisma.config.ts             # Prisma configuration
 │   ├── package.json                 # Backend dependencies and scripts
 │   └── tsconfig.json                # TypeScript configuration
-│                       
+│
 └── README.md                        # Project documentation
 ```
 
@@ -169,14 +171,14 @@ cd colab
 ### Backend
 
 ```bash
-cd server
+cd backend
 npm install
 ```
 
 ### Frontend
 
 ```bash
-cd ../client
+cd ../frontend
 npm install
 ```
 
@@ -208,6 +210,8 @@ SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-password
 ```
 
+> Optional (have safe defaults if omitted): `SMTP_HOST` defaults to `smtp.gmail.com`, and `JWT_EXPIRY_TIME` defaults to `7d`. Only set these if you need a non-default value.
+
 ### Production Backend
 
 For the Render deployment, use:
@@ -233,7 +237,7 @@ SMTP_PASS=your-gmail-app-password
 ```
 
 > **Important:** Do not commit `.env` or any secret credentials to GitHub.
-> 
+>
 
 ---
 
@@ -272,7 +276,7 @@ GITHUB_CLIENT_SECRET=your-github-client-secret
 ```
 
 > Use `wss://` instead of `ws://` for the production WebSocket connection because the frontend is served over HTTPS.
-> 
+>
 
 ---
 
@@ -458,6 +462,8 @@ DIRECT_URL=your-supabase-direct-url
 
 REDIS_URL=your-redis-url
 
+ALLOWED_ORIGINS=https://your-colab-frontend.vercel.app
+
 JWT_SECRET=your-production-jwt-secret
 
 NODE_ENV=production
@@ -469,6 +475,8 @@ SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-gmail-app-password
 ```
+
+> `ALLOWED_ORIGINS` is required for the frontend to be able to call the API at all — without it, every request from your Vercel frontend is blocked by CORS. If you also test against the deployed backend from `localhost`, list both origins comma-separated: `https://your-colab-frontend.vercel.app,http://localhost:3000`.
 
 After deployment, Render will provide a backend URL similar to:
 
@@ -548,27 +556,32 @@ Also make sure the production domain is added to any allowed origins or redirect
 
 ## 5. Configure CORS
 
-The backend must allow requests from the deployed Vercel frontend.
+The backend must allow requests from the deployed Vercel frontend. CORS is controlled by **`ALLOWED_ORIGINS`** — not `FRONTEND_URL`. The two variables have separate jobs and are easy to mix up:
 
-Set:
+- **`ALLOWED_ORIGINS`** — a comma-separated whitelist read directly by the `cors()` middleware in `index.ts`. Every origin that will call the API (your deployed frontend, plus `localhost` if you test locally against the deployed backend) must be listed here exactly, including the protocol, with no trailing slash.
+- **`FRONTEND_URL`** — used elsewhere in the backend (e.g. building links inside invitation and OTP emails, and OAuth redirects). Setting this alone does **not** affect CORS.
+
+Set on Render:
 
 ```
+ALLOWED_ORIGINS=https://your-colab-frontend.vercel.app
 FRONTEND_URL=https://your-colab-frontend.vercel.app
 ```
 
-The backend should use this value when configuring CORS.
-
-For local development:
+For local development (`backend/.env`):
 
 ```
+ALLOWED_ORIGINS=http://localhost:3000
 FRONTEND_URL=http://localhost:3000
 ```
 
-For production:
+To allow more than one origin, separate them with a comma and no spaces:
 
 ```
-FRONTEND_URL=https://your-colab-frontend.vercel.app
+ALLOWED_ORIGINS=https://your-colab-frontend.vercel.app,http://localhost:3000
 ```
+
+> After changing `ALLOWED_ORIGINS` on Render, trigger a manual redeploy. Environment variable edits don't always restart the running service automatically, so the old value can keep serving requests until you redeploy.
 
 ---
 
@@ -609,7 +622,7 @@ https://your-colab-frontend.vercel.app
 Open:
 
 ```
-https://your-colab-backend.onrender.com/api/v1/health
+https://your-colab-backend.onrender.com/health
 ```
 
 The health endpoint should return the server status.
@@ -674,11 +687,11 @@ Verify:
 | `PATCH` | Update avatar | `/api/v1/user/profile/image` | Update the user's profile photo |
 | `DELETE` | Delete account | `/api/v1/user/profile` | Permanently delete the user's account and associated data |
 
-## Health — `/api/v1/health`
+## Health — `/health`
 
 | Method | Name | Route | Description |
 | --- | --- | --- | --- |
-| `GET` | Health check | `/api/v1/health` | Returns server status, uptime, memory, and system information |
+| `GET` | Health check | `/health` | Returns server status, uptime, memory, and system information |
 
 ---
 
