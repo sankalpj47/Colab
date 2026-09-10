@@ -1,52 +1,34 @@
 # Colab
-
 > A real-time collaborative document editor with role-based access control, rich text editing, and version history.
->
 
-Full-stack real-time collaborative editor built with **Next.js**, **Express**, **Prisma**, and **Redis**, enabling seamless document editing, team collaboration, and scalable productivity workflows.
+Full-stack real-time collaborative editor built with **Next.js**, **Express**, **Prisma**, and **Redis**, enabling seamless document editing, team collaboration, and scalable productivity workflows. Deployed with **Vercel** (frontend) and **Render** (backend), backed by **Supabase PostgreSQL**.
 
-Colab
-
-Next.js
-
-TypeScript
-
-Prisma
-
-PostgreSQL
+![Colab](https://img.shields.io/badge/Colab-Document%20Editor-2563EB?style=for-the-badge&logo=files&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-Cache-DC382D?style=for-the-badge&logo=redis&logoColor=white)
 
 ---
 
 ## Table of Contents
 
-- Description
-- Features
-- Tech Stack
-- Project Structure
-- Getting Started
-- Environment Variables
-- Supabase Database Setup
-- Local Development
-- Production Deployment
-    - Deploy Backend to Render
-    - Deploy Frontend to Vercel
-    - Configure Production Environment Variables
-    - Configure OAuth
-    - Configure CORS
-    - Configure Nodemailer
-    - Verify Deployment
-- API Routes
-- Contributing
+- [Description](#description)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
+- [API Routes](#api-routes)
+- [Contributing](#contributing)
 
 ---
 
 ## Description
 
-Colab is a full-stack collaborative document editing platform built for teams. It supports real-time multi-user editing powered by **Yjs** and **WebSockets**, rich text formatting via **Tiptap**, and a complete document management system with role-based permissions.
-
-Users can sign in via Google, GitHub, or email OTP, create and manage documents, invite collaborators, and see live cursor presence of other users in real time.
-
-The application is deployed using **Vercel for the frontend** and **Render for the backend**, with **Supabase PostgreSQL** providing the production database and **Nodemailer** handling email delivery.
+Colab is a full-stack collaborative document editing platform built for teams. It supports real-time multi-user editing powered by **Yjs** and **WebSockets**, rich text formatting via **Tiptap**, and a complete document management system with role-based permissions. Users can sign in via Google, GitHub, or email OTP, create and manage documents, invite collaborators, and see live cursor presence of other users in real time.
 
 ---
 
@@ -70,9 +52,8 @@ The application is deployed using **Vercel for the frontend** and **Render for t
 ## Tech Stack
 
 ### Frontend
-
 | Technology | Purpose |
-| --- | --- |
+|---|---|
 | Next.js 15 (App Router) | React framework with SSR and routing |
 | TypeScript | Type safety |
 | Tailwind CSS | Utility-first styling |
@@ -85,9 +66,8 @@ The application is deployed using **Vercel for the frontend** and **Render for t
 | Vercel | Frontend deployment |
 
 ### Backend
-
 | Technology | Purpose |
-| --- | --- |
+|---|---|
 | Express.js | REST API server |
 | TypeScript | Type safety |
 | Prisma | ORM for database access |
@@ -103,11 +83,9 @@ The application is deployed using **Vercel for the frontend** and **Render for t
 ---
 
 ## Project Structure
-
 ```
 colab/
 ├── frontend/                          # Next.js frontend application
-│   ├── .next/                       # Next.js build output and cached files
 │   ├── app/                         # App Router pages, layouts, and route segments
 │   ├── components/                  # Reusable React UI components
 │   ├── config/                      # Client-side configuration files
@@ -116,15 +94,14 @@ colab/
 │   ├── types/                       # Shared TypeScript types/interfaces
 │   ├── utils/                       # Helper utilities
 │   ├── .env.local                   # Local development environment variables
-│   ├── .gitignore                   # Files ignored by Git
 │   ├── next.config.ts               # Next.js configuration
 │   ├── package.json                 # Frontend dependencies and scripts
 │   └── tsconfig.json                # TypeScript configuration
 │
 ├── backend/                          # Express backend application
-│   ├── config/                      # Backend configuration
+│   ├── config/                      # Backend configuration (Prisma, Redis, logger, WebSocket)
 │   ├── controllers/                 # Request handlers
-│   ├── middleware/                  # Authentication and validation middleware
+│   ├── middleware/                  # Auth, logging, and error-handling middleware
 │   ├── prisma/                      # Prisma schema and database configuration
 │   ├── repositories/                # Data access layer
 │   ├── routes/                      # API route definitions
@@ -134,533 +111,154 @@ colab/
 │   ├── .env                         # Backend environment variables
 │   ├── index.ts                     # Express server entry point
 │   ├── prisma.config.ts             # Prisma configuration
-│   ├── package.json                 # Backend dependencies and scripts
-│   └── tsconfig.json                # TypeScript configuration
+│   └── package.json                 # Backend dependencies and scripts
 │
 └── README.md                        # Project documentation
 ```
 
 ---
 
-# Getting Started
+## Getting Started
 
-## Prerequisites
-
-Make sure the following are installed or available:
+### Prerequisites
 
 - Node.js >= 18
-- npm
-- A Supabase project
-- A Redis instance (for eg. Upstash)
-- Google and/or GitHub OAuth application credentials
+- A [Supabase](https://supabase.com) project (PostgreSQL)
+- A Redis instance (local or [Upstash](https://upstash.com))
+- Google and/or GitHub OAuth app credentials
 - An email account for Nodemailer SMTP
 
----
-
-## 1. Clone the repository
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/sankalpj47/colab.git
 cd colab
 ```
 
----
-
-## 2. Install dependencies
-
-### Backend
-
+### 2. Install dependencies
 ```bash
+# backend
 cd backend
 npm install
-```
 
-### Frontend
-
-```bash
+# frontend
 cd ../frontend
 npm install
 ```
 
----
+### 3. Set up environment variables
 
-# Environment Variables
+Create `.env` in `backend/` and `.env.local` in `frontend/` — see [Environment Variables](#environment-variables) below.
 
-Colab uses separate environment variables for the frontend and backend.
-
-## Backend — `backend/.env`
-
-```
-DATABASE_URL=your-supabase-connection-pooling-url
-DIRECT_URL=your-supabase-direct-connection-url
-
-REDIS_URL=redis://localhost:6379
-
-ALLOWED_ORIGINS=http://localhost:3000
-
-JWT_SECRET=your-secret-key
-
-PORT=8000
-NODE_ENV=development
-
-FRONTEND_URL=http://localhost:3000
-
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-```
-
-> Optional (have safe defaults if omitted): `SMTP_HOST` defaults to `smtp.gmail.com`, and `JWT_EXPIRY_TIME` defaults to `7d`. Only set these if you need a non-default value.
-
-### Production Backend
-
-For the Render deployment, use:
-
-```
-DATABASE_URL=your-supabase-pooling-url
-DIRECT_URL=your-supabase-direct-url
-
-REDIS_URL=your-redis-url
-
-ALLOWED_ORIGINS=https://your-colab-frontend.vercel.app
-
-JWT_SECRET=your-production-jwt-secret
-
-PORT=10000
-NODE_ENV=production
-
-FRONTEND_URL=https://your-colab-frontend.vercel.app
-
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-gmail-app-password
-```
-
-> **Important:** Do not commit `.env` or any secret credentials to GitHub.
->
-
----
-
-## Frontend — `frontend/.env.local`
-
-### Local development
-
-```
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-nextauth-secret
-
-NEXT_PUBLIC_BASE_BACKEND_URL=http://localhost:8000/api/v1
-NEXT_PUBLIC_WEBSOCKET_URL=ws://localhost:8000
-
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-GITHUB_CLIENT_ID=your-github-client-id
-GITHUB_CLIENT_SECRET=your-github-client-secret
-```
-
-### Production — Vercel
-
-```
-NEXTAUTH_URL=https://your-colab-frontend.vercel.app
-NEXTAUTH_SECRET=your-nextauth-secret
-
-NEXT_PUBLIC_BASE_BACKEND_URL=https://your-colab-backend.onrender.com/api/v1
-NEXT_PUBLIC_WEBSOCKET_URL=wss://your-colab-backend.onrender.com
-
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-GITHUB_CLIENT_ID=your-github-client-id
-GITHUB_CLIENT_SECRET=your-github-client-secret
-```
-
-> Use `wss://` instead of `ws://` for the production WebSocket connection because the frontend is served over HTTPS.
->
-
----
-
-# Supabase Database Setup
-
-Colab uses **Supabase PostgreSQL** as its production database.
-
-## 1. Create a Supabase project
-
-Create a new project in Supabase and wait for the database to finish provisioning.
-
-## 2. Get the database connection strings
-
-From your Supabase project:
-
-1. Open your project.
-2. Go to **Connect**.
-3. Select **ORMs / Prisma** or PostgreSQL connection details.
-4. Copy the required connection strings.
-5. Add them to `backend/.env`.
-
-You will typically need:
-
-```
-DATABASE_URL=your-pooled-connection-string
-DIRECT_URL=your-direct-connection-string
-```
-
-`DATABASE_URL` is used for normal application database queries, while `DIRECT_URL` is used by Prisma for database migrations.
-
-## 3. Run Prisma migrations
-
-From the `backend` directory:
-
+### 4. Run database migrations
 ```bash
+cd backend
 npx prisma generate
 npx prisma migrate dev
 ```
 
-For production:
-
-```bash
-npx prisma migrate deploy
-npx prisma generate
-```
-
----
-
-# Local Development
-
-## 1. Start Redis
-
-If Redis is installed locally:
-
+### 5. Start Redis
 ```bash
 redis-server
 ```
+Or point `REDIS_URL` at a hosted instance (e.g. Upstash) instead.
 
-Alternatively, use a hosted Redis provider and put its connection string in:
-
-```
-REDIS_URL=your-redis-url
-```
-
----
-
-## 2. Start the backend
-
-From `/backend`:
-
+### 6. Start the development servers
 ```bash
+# backend (from /backend)
+npm run dev
+
+# frontend (from /frontend)
 npm run dev
 ```
 
-The backend will run on:
-
-```
-http://localhost:8000
-```
+The frontend runs at `http://localhost:3000` and the backend at `http://localhost:8000`.
 
 ---
 
-## 3. Start the frontend
+## Environment Variables
 
-From `/frontend`:
+### Backend — `backend/.env`
 
-```bash
-npm run dev
-```
+| Variable | Description | Example |
+|---|---|---|
+| `DATABASE_URL` | Connection pooling URL — used for runtime queries | `postgresql://user:pass@host:5432/colab?pgbouncer=true` |
+| `DIRECT_URL` | Direct connection URL — used by Prisma for migrations | `postgresql://user:pass@host:5432/colab` |
+| `REDIS_URL` | Redis connection string | `redis://localhost:6379` |
+| `ALLOWED_ORIGINS` | **Controls CORS.** Comma-separated list of origins allowed to call the API — must exactly match the frontend's URL(s), no trailing slash | `http://localhost:3000` |
+| `JWT_SECRET` | Secret key for signing JWTs | `your-secret-key` |
+| `PORT` | Port the Express server listens on | `8000` |
+| `NODE_ENV` | Environment | `development` |
+| `FRONTEND_URL` | Base URL used for links inside emails and OAuth redirects — **does not affect CORS** | `http://localhost:3000` |
+| `SMTP_PORT` | SMTP server port | `587` |
+| `SMTP_USER` | SMTP username / email address | `you@gmail.com` |
+| `SMTP_PASS` | SMTP password or app password | `your-app-password` |
+| `SMTP_HOST` *(optional)* | SMTP host — defaults to `smtp.gmail.com` | `smtp.gmail.com` |
+| `JWT_EXPIRY_TIME` *(optional)* | JWT expiry — defaults to `7d` | `7d` |
 
-The frontend will run on:
+> `ALLOWED_ORIGINS` and `FRONTEND_URL` are separate variables with separate jobs — see [Deployment](#deployment) for why this matters in production.
 
-```
-http://localhost:3000
-```
+### Frontend — `frontend/.env.local`
 
----
-
-# Production Deployment
-
-Colab uses the following production architecture:
-
-```
-                    ┌─────────────────────┐
-                    │       Users         │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │       Vercel        │
-                    │  Next.js Frontend   │
-                    └──────────┬──────────┘
-                               │
-                    HTTPS / WebSocket
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │       Render        │
-                    │  Express Backend    │
-                    │   + WebSocket       │
-                    └──────┬───────┬──────┘
-                           │       │
-              ┌────────────┘       └─────────────┐
-              ▼                                  ▼
-     ┌─────────────────┐                 ┌─────────────────┐
-     │    Supabase     │                 │      Redis      │
-     │   PostgreSQL    │                 │ OTP / Caching   │
-     └─────────────────┘                 └─────────────────┘
-
-                    ┌─────────────────┐
-                    │    Nodemailer   │
-                    │   SMTP / Email  │
-                    └─────────────────┘
-```
+| Variable | Description | Example |
+|---|---|---|
+| `NEXTAUTH_URL` | Base URL of the Next.js app | `http://localhost:3000` |
+| `NEXTAUTH_SECRET` | Secret for NextAuth.js | `your-nextauth-secret` |
+| `NEXT_PUBLIC_BASE_BACKEND_URL` | Backend API base URL | `http://localhost:8000/api/v1` |
+| `NEXT_PUBLIC_WEBSOCKET_URL` | WebSocket server URL | `ws://localhost:8000` |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID | `xxx.apps.googleusercontent.com` |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret | `your-google-secret` |
+| `GITHUB_CLIENT_ID` | GitHub OAuth client ID | `your-github-client-id` |
+| `GITHUB_CLIENT_SECRET` | GitHub OAuth client secret | `your-github-secret` |
 
 ---
 
-## 1. Deploy Backend to Render
+## Deployment
 
-Create a new **Web Service** on Render and connect your GitHub repository.
+Colab deploys the frontend to **Vercel** and the backend to **Render**, with **Supabase** as the production database.
 
-### Root directory
+### Backend (Render)
 
-If your repository contains both frontend and backend:
+- Root directory: `backend`
+- Build command: `npm install && npx prisma generate && npx prisma migrate deploy`
+- Start command: `npm start` (or `node dist/index.js`, depending on your build setup)
+- Environment variables to set on Render:
 
-```
-backend
-```
+| Variable | Production value |
+|---|---|
+| `DATABASE_URL` / `DIRECT_URL` | Your Supabase pooling/direct URLs |
+| `REDIS_URL` | Your hosted Redis URL |
+| `ALLOWED_ORIGINS` | `https://your-colab-frontend.vercel.app` — add `,http://localhost:3000` if you also test locally against the deployed backend |
+| `FRONTEND_URL` | `https://your-colab-frontend.vercel.app` |
+| `JWT_SECRET`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Same as local, production values |
+| `NODE_ENV` | `production` |
 
-Set the backend directory as the Render **Root Directory**.
+> **This is the step most likely to break CORS.** If `ALLOWED_ORIGINS` isn't set here (or is stale), every request from the frontend gets blocked. After changing it, trigger a manual redeploy on Render — env var edits don't always restart the running service on their own.
 
-### Build command
+Health check: `GET https://your-colab-backend.onrender.com/health`
 
-Use:
+### Frontend (Vercel)
 
-```bash
-npm install && npx prisma generate && npx prisma migrate deploy
-```
-
-### Start command
-
-Use the start command defined in your backend `package.json`, for example:
-
-```bash
-npm start
-```
-
-or:
-
-```bash
-node dist/index.js
-```
-
-depending on the project's build configuration.
-
-### Add environment variables
-
-In Render → **Environment**, add:
-
-```
-DATABASE_URL=your-supabase-pooling-url
-DIRECT_URL=your-supabase-direct-url
-
-REDIS_URL=your-redis-url
-
-ALLOWED_ORIGINS=https://your-colab-frontend.vercel.app
-
-JWT_SECRET=your-production-jwt-secret
-
-NODE_ENV=production
-PORT=10000
-
-FRONTEND_URL=https://your-colab-frontend.vercel.app
-
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-gmail-app-password
-```
-
-> `ALLOWED_ORIGINS` is required for the frontend to be able to call the API at all — without it, every request from your Vercel frontend is blocked by CORS. If you also test against the deployed backend from `localhost`, list both origins comma-separated: `https://your-colab-frontend.vercel.app,http://localhost:3000`.
-
-After deployment, Render will provide a backend URL similar to:
-
-```
-https://your-colab-backend.onrender.com
-```
+- Root directory: `frontend`
+- Build command: `npm run build`
+- Set `NEXTAUTH_URL`, `NEXT_PUBLIC_BASE_BACKEND_URL` (pointing at the Render URL + `/api/v1`), `NEXT_PUBLIC_WEBSOCKET_URL` (`wss://...`), and the OAuth client vars in **Project → Settings → Environment Variables**, then redeploy.
+- Update Google/GitHub OAuth callback URLs to the deployed Vercel domain.
 
 ---
 
-## 2. Deploy Frontend to Vercel
+## API Routes
 
-Go to Vercel and import the GitHub repository.
-
-If the frontend is inside the `frontend` directory, set:
-
-```
-Root Directory: frontend
-```
-
-Vercel will automatically detect the Next.js application.
-
-### Build command
-
-Usually:
-
-```bash
-npm run build
-```
-
-### Output
-
-Next.js will automatically configure the build output.
-
----
-
-## 3. Configure Production Environment Variables
-
-In Vercel:
-
-**Project → Settings → Environment Variables**
-
-Add:
-
-```
-NEXTAUTH_URL=https://your-colab-frontend.vercel.app
-NEXTAUTH_SECRET=your-nextauth-secret
-
-NEXT_PUBLIC_BASE_BACKEND_URL=https://your-colab-backend.onrender.com/api/v1
-NEXT_PUBLIC_WEBSOCKET_URL=wss://your-colab-backend.onrender.com
-
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-GITHUB_CLIENT_ID=your-github-client-id
-GITHUB_CLIENT_SECRET=your-github-client-secret
-```
-
-Redeploy the frontend after adding or changing environment variables.
-
----
-
-## 4. Configure OAuth
-
-If Google or GitHub authentication is enabled, update the OAuth callback URLs to use the deployed Vercel domain.
-
-For example:
-
-```
-https://your-colab-frontend.vercel.app/...
-```
-
-Make sure the callback URLs configured with Google and GitHub match the routes used by your NextAuth configuration.
-
-Also make sure the production domain is added to any allowed origins or redirect URL configuration.
-
----
-
-## 5. Configure CORS
-
-The backend must allow requests from the deployed Vercel frontend. CORS is controlled by **`ALLOWED_ORIGINS`** — not `FRONTEND_URL`. The two variables have separate jobs and are easy to mix up:
-
-- **`ALLOWED_ORIGINS`** — a comma-separated whitelist read directly by the `cors()` middleware in `index.ts`. Every origin that will call the API (your deployed frontend, plus `localhost` if you test locally against the deployed backend) must be listed here exactly, including the protocol, with no trailing slash.
-- **`FRONTEND_URL`** — used elsewhere in the backend (e.g. building links inside invitation and OTP emails, and OAuth redirects). Setting this alone does **not** affect CORS.
-
-Set on Render:
-
-```
-ALLOWED_ORIGINS=https://your-colab-frontend.vercel.app
-FRONTEND_URL=https://your-colab-frontend.vercel.app
-```
-
-For local development (`backend/.env`):
-
-```
-ALLOWED_ORIGINS=http://localhost:3000
-FRONTEND_URL=http://localhost:3000
-```
-
-To allow more than one origin, separate them with a comma and no spaces:
-
-```
-ALLOWED_ORIGINS=https://your-colab-frontend.vercel.app,http://localhost:3000
-```
-
-> After changing `ALLOWED_ORIGINS` on Render, trigger a manual redeploy. Environment variable edits don't always restart the running service automatically, so the old value can keep serving requests until you redeploy.
-
----
-
-## 6. Configure Nodemailer
-
-Colab uses **Nodemailer** to send OTPs and collaborator invitation emails.
-
-For Gmail SMTP, create an **App Password** for the account used to send emails.
-
-Use:
-
-```
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-gmail-app-password
-```
-
-Do not use your normal Gmail account password.
-
-The same SMTP environment variables can be configured in Render for production.
-
----
-
-## 7. Verify the Deployment
-
-After both services are deployed:
-
-### Frontend
-
-Open:
-
-```
-https://your-colab-frontend.vercel.app
-```
-
-### Backend health check
-
-Open:
-
-```
-https://your-colab-backend.onrender.com/health
-```
-
-The health endpoint should return the server status.
-
-### Test
-
-Verify:
-
-- User registration/login
-- Google/GitHub authentication
-- Email OTP
-- Document creation
-- Document editing
-- Real-time collaboration
-- WebSocket connection
-- Document auto-save
-- Version history
-- Collaborator invitations
-- Role-based permissions
-- Profile updates
-- Email notifications
-
----
-
-# API Routes
-
-## Auth — `/api/v1/auth`
+### Auth — `/api/v1/auth`
 
 | Method | Name | Route | Description |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | `POST` | Register | `/api/v1/auth/register` | Register or sign in a user via OAuth |
 | `POST` | Send OTP | `/api/v1/auth/send-otp` | Send a one-time password to an email address |
 | `POST` | Email auth | `/api/v1/auth/email` | Verify OTP and return a JWT token |
 
-## Documents — `/api/v1/document`
+### Documents — `/api/v1/document`
 
 | Method | Name | Route | Description |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | `GET` | Get all documents | `/api/v1/document` | Fetch all documents owned by the authenticated user |
 | `GET` | Get shared documents | `/api/v1/document/shared` | Fetch all documents shared with the authenticated user |
 | `GET` | Get document | `/api/v1/document/:id` | Fetch a single document with latest version content and user role |
@@ -669,65 +267,60 @@ Verify:
 | `PATCH` | Save content | `/api/v1/document/:id/save` | Save a new Yjs binary snapshot as a document version |
 | `DELETE` | Delete document | `/api/v1/document/:id` | Delete a document and all its versions |
 
-## Collaborators — `/api/v1/document/:id/collaborators`
+### Collaborators — `/api/v1/document/:id/collaborators`
 
 | Method | Name | Route | Description |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | `GET` | Get collaborators | `/api/v1/document/:id/collaborators` | Fetch all collaborators |
 | `POST` | Invite collaborator | `/api/v1/document/:id/invite` | Invite a user by email with a specified role |
 | `PATCH` | Update role | `/api/v1/document/:documentId/collaborators/:documentUserId` | Update a collaborator's role |
 | `DELETE` | Remove collaborator | `/api/v1/document/:id/collaborators/:documentUserId` | Remove a collaborator |
 
-## User — `/api/v1/user`
+### User — `/api/v1/user`
 
 | Method | Name | Route | Description |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | `GET` | Get profile | `/api/v1/user/profile` | Fetch the authenticated user's profile |
-| `PATCH` | Update profile | `/api/v1/user/profile` | Update the authenticated user's name |
+| `PATCH` | Update profile | `/api/v1/user/profile` | Update the user's name |
 | `PATCH` | Update avatar | `/api/v1/user/profile/image` | Update the user's profile photo |
 | `DELETE` | Delete account | `/api/v1/user/profile` | Permanently delete the user's account and associated data |
 
-## Health — `/health`
+### Health — `/health`
 
 | Method | Name | Route | Description |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | `GET` | Health check | `/health` | Returns server status, uptime, memory, and system information |
 
 ---
 
-# Contributing
+## Contributing
 
-Contributions are welcome!
+Contributions are welcome! Here's how to get started:
 
-## 1. Fork the repository
+### 1. Fork the repository
 
-Click the **Fork** button at the top right of the repository.
+Click the **Fork** button at the top right of this page.
 
-## 2. Create a feature branch
-
+### 2. Create a feature branch
 ```bash
 git checkout -b feat/your-feature-name
 ```
 
-## 3. Commit your changes
+### 3. Commit your changes
 
-Follow Conventional Commits:
-
+Follow [Conventional Commits](https://www.conventionalcommits.org/):
 ```bash
 git commit -m "feat: add document search"
 git commit -m "fix: resolve collaborator role sync issue"
 git commit -m "chore: update dependencies"
 ```
 
-## 4. Push and open a Pull Request
-
+### 4. Push and open a Pull Request
 ```bash
 git push origin feat/your-feature-name
 ```
 
-Then open a Pull Request against the `main` branch.
-
-Please include a clear description of what your PR does and why.
+Then open a Pull Request against the `main` branch. Please include a clear description of what your PR does and why.
 
 ### Guidelines
 
@@ -740,4 +333,8 @@ Please include a clear description of what your PR does and why.
 
 ---
 
- Made with ❤️ by [Sankalp Joshi](https://github.com/sankalpj47)
+<div align="center">
+
+Made with ❤️ by [Sankalp Joshi](https://github.com/sankalpj47)
+
+</div>
